@@ -1,5 +1,6 @@
-class Boot extends Phaser.State {
+/* global Phaser */
 
+class Boot extends Phaser.State {
   preload () {
     this.load.image('preload', 'img/preload.png')
   }

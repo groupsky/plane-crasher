@@ -1,3 +1,5 @@
+/* global Phaser */
+
 const Obstacle = require('./Obstacle')
 
 class ObstacleGroup extends Phaser.Group {
@@ -30,8 +32,7 @@ class ObstacleGroup extends Phaser.Group {
   }
 
   checkWorldBounds () {
-    if (!this.topObstacle.inWorld)
-      this.exists = false
+    if (!this.topObstacle.inWorld) { this.exists = false }
   }
 
   update () {

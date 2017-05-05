@@ -1,3 +1,5 @@
+/* global Phaser */
+
 const Boot = require('./states/Boot')
 const Main = require('./states/Main')
 const MainMenu = require('./states/MainMenu')
@@ -18,13 +20,11 @@ class Game extends Phaser.Game {
     this.scale.pageAlignVertically = true
     this.scale.pageAlignHorizontally = true
 
-    this.state.add('Boot', Boot, false);
-    this.state.add('Preload', Preload, false);
-    this.state.add('MainMenu', MainMenu, false);
-    this.state.add('Main', Main, false);
-    this.state.add('GameOver', GameOver, false);
-
-    this.state.start('Boot');
+    this.state.add('Boot', Boot, false)
+    this.state.add('Preload', Preload, false)
+    this.state.add('MainMenu', MainMenu, false)
+    this.state.add('Main', Main, false)
+    this.state.add('GameOver', GameOver, false)
   }
 }
 

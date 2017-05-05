@@ -1,17 +1,18 @@
-class MainMenu extends Phaser.State {
+/* global Phaser */
 
+class MainMenu extends Phaser.State {
   preload () { }
 
   create () {
     let logo = this.add.image(this.world.centerX, 138, 'logo')
-    logo.anchor.set(.5)
+    logo.anchor.set(0.5)
 
     let titleText = this.add.text(this.world.centerX, 300, 'Plane Crasher', {
       font: '65px kenvector_future_thin',
       fill: '#ffffff',
       align: 'center'
     })
-    titleText.anchor.set(.5)
+    titleText.anchor.set(0.5)
     titleText.font = 'kenvector_future_thin'
     titleText.fontSize = 65
 
@@ -20,15 +21,15 @@ class MainMenu extends Phaser.State {
       fill: '#ffffff',
       align: 'center'
     })
-    instructionsText.anchor.set(.5)
+    instructionsText.anchor.set(0.5)
 
-    let best = this.add.text(100, 500, 'best: '+(localStorage.getItem('best')||0), {
+    this.add.text(100, 500, 'best: ' + (window.localStorage.getItem('best') || 0), {
       font: '24px kenvector_future_thin',
       fill: '#ffffff',
       align: 'left'
     })
 
-    let last = this.add.text(this.world.width-100, 500, 'last: '+(localStorage.getItem('score')||0), {
+    this.add.text(this.world.width - 100, 500, 'last: ' + (window.localStorage.getItem('score') || 0), {
       font: '24px kenvector_future_thin',
       fill: '#ffffff',
       align: 'right'
@@ -48,7 +49,7 @@ class MainMenu extends Phaser.State {
 
   render () { }
 
-  shutdown() {
+  shutdown () {
     this.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR)
   }
 

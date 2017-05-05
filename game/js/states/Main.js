@@ -1,9 +1,10 @@
+/* global Phaser */
+
 const Ground = require('../actors/Ground')
 const Plane = require('../actors/Plane')
 const ObstacleGroup = require('../actors/ObstacleGroup')
 
 class Main extends Phaser.State {
-
   preload () { }
 
   create () {
@@ -83,8 +84,8 @@ class Main extends Phaser.State {
     this.obstacleGenerator.timer.stop()
     this.background.stopScroll()
     this.ground.stopScroll()
-    localStorage.setItem('score', this.score)
-    localStorage.setItem('best', Math.max(this.score, localStorage.getItem('best') || 0))
+    window.localStorage.setItem('score', this.score)
+    window.localStorage.setItem('best', Math.max(this.score, window.localStorage.getItem('best') || 0))
     this.game.state.start('MainMenu')
   }
 

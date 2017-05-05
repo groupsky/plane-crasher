@@ -1,12 +1,13 @@
-class Preload extends Phaser.State {
+/* global Phaser */
 
+class Preload extends Phaser.State {
   preload () {
     this.preloadBar = this.game.add.sprite(
       this.world.centerX,
       this.world.centerY,
       'preload')
 
-    this.preloadBar.anchor.set(.5)
+    this.preloadBar.anchor.set(0.5)
 
     this.load.setPreloadSprite(this.preloadBar)
 
@@ -17,7 +18,7 @@ class Preload extends Phaser.State {
 
   create () {
     this.cache.addBitmapFontFromAtlas('font', 'sheet', 'all', 'Font')
-    
+
     // this.state.start('MainMenu')
     this.state.start('Main')
   }
