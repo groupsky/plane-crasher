@@ -51,9 +51,9 @@
 	<SubTexture name="planeBlue1.png" x="330" y="1371" width="88" height="73"/>
 	<SubTexture name="planeBlue2.png" x="372" y="1132" width="88" height="73"/>
 	<SubTexture name="planeBlue3.png" x="222" y="1562" width="88" height="73"/>
-	<SubTexture name="planeGreen1.png" x="114" y="1639" width="88" height="73"/>
-	<SubTexture name="planeGreen2.png" x="216" y="1951" width="88" height="73"/>
-	<SubTexture name="planeGreen3.png" x="222" y="1489" width="88" height="73"/>
+	<SubTexture name="planeGreen1.png" x="115" y="1640" width="88" height="71"/>
+	<SubTexture name="planeGreen2.png" x="217" y="1952" width="88" height="71"/>
+	<SubTexture name="planeGreen3.png" x="223" y="1490" width="88" height="71"/>
 	<SubTexture name="planeRed1.png" x="216" y="1878" width="88" height="73"/>
 	<SubTexture name="planeRed2.png" x="372" y="1059" width="88" height="73"/>
 	<SubTexture name="planeRed3.png" x="372" y="986" width="88" height="73"/>

@@ -3,6 +3,7 @@
 const Ground = require('../actors/Ground')
 const Plane = require('../actors/Plane')
 const ObstacleGroup = require('../actors/ObstacleGroup')
+const EndGame = require('../ui/EndGame')
 
 class Main extends Phaser.State {
   preload () { }
@@ -10,6 +11,7 @@ class Main extends Phaser.State {
   create () {
     this.difficulty = 0
     this.score = 0
+    this.gameover = false
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE)
     this.game.physics.arcade.gravity.y = 1200
@@ -27,7 +29,6 @@ class Main extends Phaser.State {
 
     // plane
     this.plane = new Plane(this.game, this.world.width * 2 / 7, this.world.height / 2, 'planeGreen')
-    this.plane.events.onKilled.add(this.deathHandler, this)
     this.add.existing(this.plane)
 
     this.game.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ])
@@ -55,15 +56,19 @@ class Main extends Phaser.State {
 
   update () {
     this.game.physics.arcade.collide(this.plane, this.ground, this.deathHandler, null, this)
-    this.obstacles.forEach(function (obstacle) {
-      this.checkScore(obstacle)
-      this.game.physics.arcade.collide(this.plane, obstacle, this.deathHandler, null, this)
-    }, this)
-    if (this.plane.world.y < 0) this.deathHandler()
+
+    if (!this.gameover) {
+      this.obstacles.forEach(function (obstacle) {
+        this.checkScore(obstacle)
+        this.game.physics.arcade.collide(this.plane, obstacle, this.deathHandler, null, this)
+      }, this)
+      // if (this.plane.world.y < 0) this.deathHandler()
+    }
   }
 
   render () {
     // this.game.debug.body(this.plane)
+    // this.game.debug.body(this.ground)
     // this.game.debug.body(this.obstacles.getAt(0).topObstacle)
     // this.game.debug.text(`Diff: ${this.difficulty}`, 0, 20)
     // this.game.debug.text(`Score: ${this.score}`, 0, 40)
@@ -71,12 +76,12 @@ class Main extends Phaser.State {
 
   generateObstacles () {
     const obstacleGroup = this.obstacles.getFirstExists(false) || new ObstacleGroup(this.game, this.obstacles, 'rock')
-    obstacleGroup.reset(this.game.width + obstacleGroup.width / 2, 0, this.difficulty++)
+    obstacleGroup.reset(this.game.width, 0, this.difficulty++)
 
     // this.game.add.existing(obstacleGroup)
   }
 
-  deathHandler () {
+  deathHandler (plane, enemy) {
     if (this.gameover) return
     this.gameover = true
     this.plane.kill()
@@ -84,8 +89,17 @@ class Main extends Phaser.State {
     this.obstacleGenerator.timer.stop()
     this.background.stopScroll()
     this.ground.stopScroll()
+
     window.localStorage.setItem('score', this.score)
     window.localStorage.setItem('best', Math.max(this.score, window.localStorage.getItem('best') || 0))
+
+    // this.endgame = new EndGame(this.game)
+    // this.endgame.score = this.score
+    // this.add.existing(this.endgame)
+    // this.endgame.onRetry.add(() => {
+    //   this.game.state.start('Main')
+    // })
+
     this.game.state.start('MainMenu')
   }
 
@@ -93,14 +107,10 @@ class Main extends Phaser.State {
     this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR)
     this.plane.destroy()
     this.obstacles.destroy()
-    this.ground.destroy()
-    this.background.destroy()
   }
 
   startGame () {
-    if (!this.instructionGroup.exists) return
-
-    this.instructionGroup.destroy()
+    if (this.plane.alive || this.gameover) return
 
     this.plane.body.allowGravity = true
     this.plane.alive = true
@@ -108,6 +118,8 @@ class Main extends Phaser.State {
     this.obstacleGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 2.25, this.generateObstacles, this)
     this.obstacleGenerator.timer.start()
     this.generateObstacles()
+
+    this.instructionGroup.destroy()
   }
 
   checkScore (obstacle) {

@@ -28,8 +28,3 @@ time, mark, audio, video {
 body {
     background-color: #000000;
 }
-
-@font-face {
-    font-family: kenvector_future_thin;
-    src: url('../fonts/kenvector_future_thin.ttf')
-}

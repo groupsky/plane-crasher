@@ -1,5 +1,7 @@
 /* global Phaser */
 
+const webFontLoader = require('webfontloader')
+
 class Preload extends Phaser.State {
   preload () {
     this.preloadBar = this.game.add.sprite(
@@ -14,16 +16,30 @@ class Preload extends Phaser.State {
     this.load.image('logo', 'img/logo.png')
     this.load.atlasXML('sheet', 'img/sheet.png', 'img/sheet.xml')
     this.load.xml('Font', 'fonts/font.xml')
+
+    // load web fonts
+    this.webfontsReady = false
+    webFontLoader.load({
+      active: () => {
+        this.webfontsReady = true
+      },
+      custom: {
+        families: [ 'kenvector_future', 'kenvector_future_thin' ],
+        urls: [ '/css/fonts.css' ]
+      }
+    })
   }
 
   create () {
     this.cache.addBitmapFontFromAtlas('font', 'sheet', 'all', 'Font')
-
-    // this.state.start('MainMenu')
-    this.state.start('Main')
   }
 
-  update () { }
+  update () {
+    if (this.webfontsReady) {
+      this.state.start('MainMenu')
+      // this.state.start('Main')
+    }
+  }
 
   render () { }
 }

@@ -7,17 +7,40 @@
   "license": "ISC",
   "standard": {
     "ignore": [
+      "/build/",
       "/game/vendor/"
     ]
   },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  },
   "devDependencies": {
+    "aliasify": "^2.1.0",
+    "envify": "^4.0.0",
     "standard": "*"
   },
   "dependencies": {
-    "browserify": "^14.3.0"
+    "babel-preset-env": "^1.4.0",
+    "babelify": "^7.3.0",
+    "browserify": "^14.3.0",
+    "bulk-require": "^1.0.0",
+    "bulkify": "^1.4.2",
+    "events": "^1.1.1",
+    "inherits": "^2.0.3",
+    "lodash": "^4.17.4",
+    "lz-string": "^1.4.4",
+    "moment": "^2.18.1",
+    "semver": "^5.3.0",
+    "v-tooltip": "^1.1.6",
+    "vue": "^2.3.2",
+    "vueify": "^9.4.1",
+    "webfontloader": "^1.6.27"
   },
   "main": "index.js",
   "scripts": {
+    "build:js": "browserify game/js/index.js > build/bundle.js",
     "pretest": "npm run lint",
     "lint": "standard",
     "test": "echo \"Error: no test specified\" && exit 1"
