@@ -25,7 +25,7 @@ class Preload extends Phaser.State {
       },
       custom: {
         families: [ 'kenvector_future', 'kenvector_future_thin' ],
-        urls: [ '/css/fonts.css' ]
+        urls: [ 'css/fonts.css' ]
       }
     })
   }
