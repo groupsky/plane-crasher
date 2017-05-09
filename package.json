@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "aliasify": "^2.1.0",
+    "budo": "^10.0.3",
     "envify": "^4.0.0",
     "gh-pages": "^0.12.0",
     "standard": "*"
@@ -34,6 +35,7 @@
     "babel-preset-env": "^1.4.0",
     "babelify": "^7.3.0",
     "browserify": "^14.3.0",
+    "browserify-hmr": "^0.3.5",
     "bulk-require": "^1.0.0",
     "bulkify": "^1.4.2",
     "events": "^1.1.1",
@@ -57,7 +59,7 @@
     "build:js": "NODE_ENV=production browserify -g envify --debug -e game/js/index.js | uglifyjs -c -m --screw-ie8 > build/bundle.js",
     "postbuild": "cd build && zip -9 kongregate.zip fontello.* index.js",
     "deploy": "gh-pages -d build -t",
-    "dev": "budo game/js/index.js --live -d public -- -p browserify-hmr -t aliasify",
+    "dev": "budo game/js/index.js --live -d game -s bundle.js -- -p browserify-hmr -t aliasify",
     "pretest": "npm run lint",
     "lint": "standard",
     "test": "echo \"Error: no test specified\" && exit 1"
