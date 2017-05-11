@@ -42,7 +42,7 @@ class Idle {
     }
     this.recordings = new Manager(this)
     this.inventory = {
-      gold: 100000,
+      gold: 0,
       rocket: 0,
       distancePoints: 0,
       obstaclePoints: 0,
