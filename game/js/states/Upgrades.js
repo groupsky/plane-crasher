@@ -1,6 +1,6 @@
 /* global Phaser, SlickUI */
 
-const Button = require('../ui/Button')
+const Button = require('../ui/ButtonFont')
 const TopBar = require('../actors/TopBar')
 
 class Upgrades extends Phaser.State {
@@ -18,59 +18,43 @@ class Upgrades extends Phaser.State {
     })
     title.anchor.set(0.5, 0)
 
-    this.buyBotBtn = new Button(this.game, 120, 200, 'buttonLarge.png')
-    this.buyBotBtn.onInputUp.add(this.buyBot, this)
+    this.buyBotBtn = new Button(this.game, 120, 200, 'buttonLarge.png',
+      'bot ' + this.game.idle.idleEngine.botCost(1), 14)
+    this.add.existing(this.buyBotBtn)
+    this.buyBotBtn.onInputUp.add(() => {
+      this.game.idle.idleEngine.buyBot(1)
+      this.buyBotBtn.text = 'bot ' + this.game.idle.idleEngine.botCost(1)
+    })
 
-    this.buyBotBtnLabel = this.add.text(
-      this.buyBotBtn.position.x + this.buyBotBtn.width / 2,
-      this.buyBotBtn.position.y + this.buyBotBtn.height / 2,
-      'buy bot ' + this.game.idle.idleEngine.botCost(1), {
-        font: '14px kenvector_future',
-        fill: '#000000',
-        align: 'center',
-        boundsAlignH: 'center',
-        boundsAlignV: 'center',
-      })
-    this.buyBotBtnLabel.anchor.set(0.5)
+    this.buyRocketBtn = new Button(this.game, 120, 300, 'buttonLarge.png',
+      'rocket ' + this.game.idle.idleEngine.rocketCost(1), 14)
+    this.add.existing(this.buyRocketBtn)
+    this.buyRocketBtn.onInputUp.add(() => {
+      this.game.idle.idleEngine.buyRocket(1)
+      this.buyRocketBtn.text = 'rocket ' + this.game.idle.idleEngine.rocketCost(1)
+    })
 
-    this.buyRocketBtn = new Button(this.game, 120, 300, 'buttonLarge.png')
-    this.buyRocketBtn.onInputUp.add(this.buyRocket, this)
+    this.buyDistanceBtn = new Button(this.game, 360, 200, 'buttonLarge.png',
+      'dist ' + this.game.idle.idleEngine.distancePointsCost(1), 14)
+    this.add.existing(this.buyDistanceBtn)
+    this.buyDistanceBtn.onInputUp.add(() => {
+      this.game.idle.idleEngine.buyDistancePoints(1)
+      this.buyDistanceBtn.text = 'dist ' + this.game.idle.idleEngine.distancePointsCost(1)
+    })
 
-    this.buyRocketBtnLabel = this.add.text(
-      this.buyRocketBtn.position.x + this.buyRocketBtn.width / 2,
-      this.buyRocketBtn.position.y + this.buyRocketBtn.height / 2,
-      'buy rocket ' + this.game.idle.idleEngine.rocketCost(1), {
-        font: '14px kenvector_future',
-        fill: '#000000',
-        align: 'center',
-        boundsAlignH: 'center',
-        boundsAlignV: 'center',
-      })
-    this.buyRocketBtnLabel.anchor.set(0.5)
+    this.buyObstacleBtn = new Button(this.game, 360, 300, 'buttonLarge.png',
+      'obst ' + this.game.idle.idleEngine.obstaclePointsCost(1), 14)
+    this.add.existing(this.buyObstacleBtn)
+    this.buyObstacleBtn.onInputUp.add(() => {
+      this.game.idle.idleEngine.buyObstaclePoints(1)
+      this.buyObstacleBtn.text = 'obst ' + this.game.idle.idleEngine.obstaclePointsCost(1)
+    })
 
-    this.backBtn = new Button(this.game, 120, 200, 'buttonSmall.png')
+    this.backBtn = new Button(this.game, 120, 200, 'buttonSmall.png', 'back', 14)
+    this.add.existing(this.backBtn)
     this.backBtn.onInputUp.add(() => this.game.state.start('MainMenu'))
     this.backBtn.position.x = this.backBtn.width
     this.backBtn.position.y = this.world.height - this.backBtn.height
-
-    this.backBtnLabel = this.add.text(
-      this.backBtn.position.x + this.backBtn.width / 2,
-      this.backBtn.position.y + this.backBtn.height / 2,
-      'back', {
-        font: '14px kenvector_future',
-        fill: '#000000',
-        align: 'center',
-        boundsAlignH: 'center',
-        boundsAlignV: 'center',
-      })
-    this.backBtnLabel.anchor.set(0.5)
-  }
-
-  buyBot () {
-    this.game.idle.idleEngine.buyBot(1)
-  }
-  buyRocket () {
-    this.game.idle.idleEngine.buyRocket(1)
   }
 
 }

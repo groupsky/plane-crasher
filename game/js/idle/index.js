@@ -8,18 +8,38 @@ class Idle {
     this.defs = {
       bot: {
         label: 'AutoBot',
-        price: 100,
+        price: 10000,
         factor: 10,
       },
       rocket: {
         label: 'Rocket',
         price: 50,
+        factor: 1.03,
+      },
+      distancePoints: {
+        label: 'Distance',
+        price: 10,
+        factor: 1.5,
+        val: 1,
+      },
+      obstaclePoints: {
+        label: 'Obstacle',
+        price: 25,
+        factor: 1.34,
+        val: 1,
       },
     }
     this.recordings = new Manager(this)
     this.inventory = {
-      gold: 100,
-      rocket: 1,
+      gold: 0,
+      rocket: 0,
+      distancePoints: 0,
+      obstaclePoints: 0,
+    }
+    this.stats = {
+      bought: {
+        rocket: 0,
+      }
     }
     this.time = {
       lastUpdate: 0,
@@ -52,11 +72,11 @@ class Idle {
   }
 
   botCost (count) {
-    return Idle.calcCost(this.defs.bot, this.bots.items.length, count)
+    return Math.ceil(Idle.calcCost(this.defs.bot, this.bots.items.length, count))
   }
 
   buyBot (count) {
-    const cost = Idle.calcCost(this.defs.bot, this.bots.items.length, count)
+    const cost = this.botCost(count)
     if (this.inventory.gold < cost) return false
     this.inventory.gold -= cost
     const recording = this.recordings.items[ 0 ]
@@ -64,14 +84,45 @@ class Idle {
   }
   
   rocketCost (count) {
-    return Idle.calcCost(this.defs.rocket, this.inventory.rocket, count)
+    return Math.ceil(Idle.calcCost(this.defs.rocket, this.stats.bought.rocket, count))
   }
 
   buyRocket (count) {
-    const cost = Idle.calcCost(this.defs.rocket, this.inventory.rocket, count)
+    const cost = this.rocketCost(count)
     if (this.inventory.gold < cost) return false
     this.inventory.gold -= cost
     this.inventory.rocket += count
+    this.stats.bought.rocket += count
+  }
+
+  distancePointsCost (count) {
+    return Math.ceil(Idle.calcCost(this.defs.distancePoints, this.inventory.distancePoints, count))
+  }
+
+  buyDistancePoints (count) {
+    const cost = this.distancePointsCost(count)
+    if (this.inventory.gold < cost) return false
+    this.inventory.gold -= cost
+    this.inventory.distancePoints += count
+  }
+  
+  calcDistancePoints () {
+    return this.defs.distancePoints.val * this.inventory.distancePoints
+  }
+
+  obstaclePointsCost (count) {
+    return Math.ceil(Idle.calcCost(this.defs.obstaclePoints, this.inventory.obstaclePoints, count))
+  }
+
+  buyObstaclePoints (count) {
+    const cost = this.obstaclePointsCost(count)
+    if (this.inventory.gold < cost) return false
+    this.inventory.gold -= cost
+    this.inventory.obstaclePoints += count
+  }
+
+  calcObstaclePoints () {
+    return this.defs.obstaclePoints.val * this.inventory.obstaclePoints
   }
 }
 

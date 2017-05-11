@@ -20,6 +20,7 @@ class Main extends Phaser.State {
     this.lastObstacle = +Infinity
     this.obstacleDistance = 500
     this._speed = 0
+    this.distancePoints =  this.game.idle.idleEngine.calcDistancePoints()
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE)
     this.game.physics.arcade.gravity.y = 1200
@@ -93,7 +94,7 @@ class Main extends Phaser.State {
 
       this.distance += -this.ground._scroll.x * this.game.time.physicsElapsed
       this.time += this.game.time.physicsElapsed
-      this.score += 13 * (-this.ground._scroll.x) * this.game.time.physicsElapsed / this.world.width
+      this.score += this.distancePoints * (-this.ground._scroll.x) * this.game.time.physicsElapsed / this.world.width
       this.scoreLabel.setText(Math.floor(this.score).toString())
 
       // this.lastObstacle += this.speed * this.game.time.physicsElapsed
@@ -218,7 +219,7 @@ class Main extends Phaser.State {
     obstacle.hasScored = true
     this.obstaclesPassed++
     this.score++
-    this.score += obstacle.difficulty
+    this.score += obstacle.difficulty * this.game.idle.idleEngine.calcObstaclePoints()
   }
 }
 
