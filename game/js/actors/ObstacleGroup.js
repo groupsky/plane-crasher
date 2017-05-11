@@ -8,7 +8,7 @@ class ObstacleGroup extends Phaser.Group {
 
     this.difficulty = 0
     this.frame = frame
-    this._speed = -200
+    this.speed = -200
 
     this.topObstacle = new Obstacle(this.game, 0, 0, this.frame + 'Down.png')
     this.add(this.topObstacle)
@@ -16,20 +16,14 @@ class ObstacleGroup extends Phaser.Group {
     this.bottomObstacle = new Obstacle(this.game, 0, this.game.height, this.frame + '.png')
     this.add(this.bottomObstacle)
   }
-  
-  get speed () { return this._speed }
-  set speed (value) { 
-    this._speed = value
-    this.setAll('body.velocity.x', this._speed)
-  }
 
   reset (x, y, difficulty, speed) {
     this.difficulty = difficulty
 
     // lim -> 0.5
     const offset = difficulty / (2 * difficulty + 10)
-    
-    if (speed !== undefined) this._speed = speed
+
+    if (speed !== undefined) this.speed = speed
 
     this.topObstacle.reset(0, this.topObstacle.height * offset)
     this.bottomObstacle.reset(0, this.game.height - this.bottomObstacle.height * offset)
@@ -37,7 +31,6 @@ class ObstacleGroup extends Phaser.Group {
     this.x = x
     this.y = y
 
-    this.setAll('body.velocity.x', this._speed)
 
     this.hasScored = false
     this.exists = true
@@ -48,11 +41,12 @@ class ObstacleGroup extends Phaser.Group {
   }
 
   update () {
+    this.x += this.speed * this.game.time.physicsElapsed
     this.checkWorldBounds()
   }
 
   stop () {
-    this.setAll('body.velocity.x', 0)
+    this.speed = 0
   }
 }
 

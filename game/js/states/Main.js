@@ -10,7 +10,7 @@ class Main extends Phaser.State {
 
   create () {
     this.oldFps = this.game.saveCpu.renderOnFPS
-    this.game.saveCpu.renderOnFPS = 60
+    this.game.saveCpu.renderOnFPS = 120
 
     this.difficulty = 0
     this.score = 0
@@ -18,7 +18,7 @@ class Main extends Phaser.State {
     this.time = 0
     this.obstaclesPassed = 0
     this.lastObstacle = +Infinity
-    this.obstacleDistance = 450
+    this.obstacleDistance = 500
     this._speed = 0
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE)
@@ -33,6 +33,15 @@ class Main extends Phaser.State {
     this.add.existing(topBar)
 
     this.obstacles = this.game.add.group()
+
+    this.pipeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 0.1, () => {
+      this.lastObstacle += this.speed * 0.1
+      if (this.lastObstacle >= this.obstacleDistance) {
+        console.log('lastobstacle', this.lastObstacle)
+        this.lastObstacle = 0
+        this.generateObstacles()
+      }
+    })
 
     // ground
     this.ground = new Ground(this.game, 0, this.world.height, this.world.width, this.world.height, 'groundDirt.png')
@@ -85,27 +94,27 @@ class Main extends Phaser.State {
       this.distance += -this.ground._scroll.x * this.game.time.physicsElapsed
       this.time += this.game.time.physicsElapsed
       this.score += 13 * (-this.ground._scroll.x) * this.game.time.physicsElapsed / this.world.width
-      this.scoreLabel.setText(Math.floor(this.score / this.time).toString())
-    }
+      this.scoreLabel.setText(Math.floor(this.score).toString())
 
-    this.lastObstacle += -this.ground._scroll.x * this.game.time.physicsElapsed
-    if (this.lastObstacle >= this.obstacleDistance) {
-      this.lastObstacle = 0
-      this.generateObstacles()
-    }
+      // this.lastObstacle += this.speed * this.game.time.physicsElapsed
+      // if (this.lastObstacle >= this.obstacleDistance) {
+      //   console.log('lastobstacle', this.lastObstacle)
+      //   this.lastObstacle = 0
+      //   this.generateObstacles()
+      // }
 
-    if (this.sceneState === 'turbo') {
-      this.turboTimer -= this.game.time.physicsElapsed
-      if (this.turboTimer <= 0) {
-        this.enterState('play')
+      if (this.sceneState === 'turbo') {
+        this.turboTimer -= this.game.time.physicsElapsed
+        if (this.turboTimer <= 0) {
+          this.enterState('play')
+        }
       }
     }
   }
 
   render () {
     // for (var i in this.obstacles.children) {
-    //   this.game.debug.body(this.obstacles.children[i].topObstacle)
-    //   this.game.debug.body(this.obstacles.children[i].topObstacle)
+    //   this.game.debug.body(this.obstacles.children[ i ].topObstacle)
     // }
   }
 
@@ -135,8 +144,8 @@ class Main extends Phaser.State {
         this.plane.body.allowGravity = true
         this.plane.alive = true
 
+        this.pipeGenerator.timer.start()
         this.speed = 200
-        this.obstacleDistance = 500
 
         if (oldState === 'start') {
           this.instructionGroup.destroy()
@@ -155,6 +164,7 @@ class Main extends Phaser.State {
         this.obstacles.callAll('stop')
         this.background.stopScroll()
         this.ground.stopScroll()
+        this.pipeGenerator.timer.stop()
 
         this.score = Math.floor(this.score)
         this.game.idle.idleEngine.addRecording(this.score, this.time, this.distance, this.obstaclesPassed)
