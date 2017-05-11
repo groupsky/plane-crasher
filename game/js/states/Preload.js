@@ -38,6 +38,7 @@ class Preload extends Phaser.State {
     if (this.webfontsReady) {
       this.state.start('MainMenu')
       // this.state.start('Main')
+      // this.state.start('Strategy')
     }
   }
 

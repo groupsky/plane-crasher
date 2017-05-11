@@ -3,15 +3,22 @@
 const Ground = require('../actors/Ground')
 const Plane = require('../actors/Plane')
 const ObstacleGroup = require('../actors/ObstacleGroup')
-const EndGame = require('../ui/EndGame')
+const TopBar = require('../actors/TopBar')
 
 class Main extends Phaser.State {
   preload () { }
 
   create () {
+    this.oldFps = this.game.saveCpu.renderOnFPS
+    this.game.saveCpu.renderOnFPS = 60
+
     this.difficulty = 0
     this.score = 0
-    this.gameover = false
+    this.distance = 0
+    this.time = 0
+    this.obstaclesPassed = 0
+    this.lastObstacle = 0
+    this.obstacleDistance = 450
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE)
     this.game.physics.arcade.gravity.y = 1200
@@ -20,6 +27,9 @@ class Main extends Phaser.State {
     this.background = this.add.tileSprite(0, 0, this.world.width, this.world.height, 'sheet', 'background.png')
     this.background.scale.setTo(this.world.height / 480)
     this.background.autoScroll(-100, 0)
+
+    const topBar = new TopBar(this.game)
+    this.add.existing(topBar)
 
     this.obstacles = this.game.add.group()
 
@@ -38,6 +48,10 @@ class Main extends Phaser.State {
     this.actionKey.onDown.add(this.plane.jump, this.plane)
     this.input.onDown.add(this.plane.jump, this.plane)
 
+    this.game.input.keyboard.addKeyCapture([ Phaser.Keyboard.ENTER ])
+    this.action2Key = this.input.keyboard.addKey(Phaser.Keyboard.ENTER)
+    this.action2Key.onDown.add(this.turbo, this)
+
     this.instructionGroup = this.add.group()
     this.instructionGroup.add(this.add.sprite(this.world.width / 2, 100, 'sheet', 'textGetReady.png'))
     this.instructionGroup.add(this.add.sprite(this.plane.x - this.plane.width * 1.5, this.plane.y, 'sheet', 'tapRight.png'))
@@ -50,76 +64,136 @@ class Main extends Phaser.State {
     tap.animations.play('default')
     tap.anchor.set(1)
 
-    this.scoreLabel = this.add.bitmapText(this.game.width / 2, 10, 'font', this.score.toString(), 24)
+    this.scoreLabel = this.add.bitmapText(this.game.width * 0.5, 10, 'font', this.score.toString(), 24)
     this.scoreLabel.anchor.set(0.5, 0)
+
+    this.enterState('start')
   }
 
   update () {
+    if (this.sceneState === 'start') return
+
+    this.lastObstacle += -this.ground._scroll.x * this.game.time.physicsElapsed
+    if (this.lastObstacle >= this.obstacleDistance) {
+      this.lastObstacle = 0
+      this.generateObstacles()
+    }
+
+    if (this.sceneState === 'turbo') {
+      this.turboTimer -= this.game.time.physicsElapsed
+      if (this.turboTimer <= 0) {
+        this.enterState('play')
+      }
+    }
+
     this.game.physics.arcade.collide(this.plane, this.ground, this.deathHandler, null, this)
 
-    if (!this.gameover) {
+    if (this.sceneState !== 'end') {
       this.obstacles.forEach(function (obstacle) {
         this.checkScore(obstacle)
         this.game.physics.arcade.collide(this.plane, obstacle, this.deathHandler, null, this)
       }, this)
-      // if (this.plane.world.y < 0) this.deathHandler()
+
+      this.distance += -this.ground._scroll.x * this.game.time.physicsElapsed
+      this.time += this.game.time.physicsElapsed
+      this.score += 13 * (-this.ground._scroll.x) * this.game.time.physicsElapsed / this.world.width
+      this.scoreLabel.setText(Math.floor(this.score / this.time).toString())
     }
   }
 
   render () {
-    // this.game.debug.body(this.plane)
-    // this.game.debug.body(this.ground)
-    // this.game.debug.body(this.obstacles.getAt(0).topObstacle)
-    // this.game.debug.text(`Diff: ${this.difficulty}`, 0, 20)
-    // this.game.debug.text(`Score: ${this.score}`, 0, 40)
+  }
+
+  get speed () { return this._speed }
+
+  set speed (value) {
+    if (this._speed === value) return
+    this._speed = value
+    this.background.autoScroll(-this._speed * 0.5, 0)
+    this.ground.autoScroll(-this._speed, 0)
+    this.obstacles.forEach((obstacle) => { obstacle.speed = -this._speed })
+  }
+
+  enterState (newState) {
+    console.log(this.sceneState + ' => ' + newState)
+    if (this.sceneState === newState) return
+    const oldState = this.sceneState
+    this.sceneState = newState
+
+    switch (newState) {
+      case 'start':
+        this.speed = 200
+        this.plane.body.allowGravity = false
+        this.plane.alive = false
+        break
+      case 'play':
+        this.plane.body.allowGravity = true
+        this.plane.alive = true
+
+        this.speed = 200
+        this.obstacleDistance = 500
+
+        if (oldState === 'start') {
+          this.instructionGroup.destroy()
+        }
+        break
+      case 'turbo':
+        if (oldState !== 'play') return
+
+        this.speed = 1000
+
+        this.turboTimer = 1.5
+
+        break
+      case 'end':
+        this.plane.kill()
+        this.obstacles.callAll('stop')
+        this.background.stopScroll()
+        this.ground.stopScroll()
+
+        this.score = Math.floor(this.score)
+        this.game.idle.idleEngine.addRecording(this.score, this.time, this.distance, this.obstaclesPassed)
+        this.game.idle.idleEngine.inventory.gold += this.score
+
+        this.game.state.start('MainMenu')
+        break
+    }
+
   }
 
   generateObstacles () {
-    const obstacleGroup = this.obstacles.getFirstExists(false) || new ObstacleGroup(this.game, this.obstacles, 'rock')
-    obstacleGroup.reset(this.game.width, 0, this.difficulty++)
+    if (this.sceneState === 'start') return
 
-    // this.game.add.existing(obstacleGroup)
+    let obstacleGroup = this.obstacles.getFirstExists(false)
+    if (!obstacleGroup) {
+      obstacleGroup = new ObstacleGroup(this.game, this.obstacles, 'rock')
+    }
+    obstacleGroup.reset(this.game.width, 0, this.difficulty++, -this._speed)
   }
 
   deathHandler (plane, enemy) {
-    if (this.gameover) return
-    this.gameover = true
-    this.plane.kill()
-    this.obstacles.callAll('stop')
-    this.obstacleGenerator.timer.stop()
-    this.background.stopScroll()
-    this.ground.stopScroll()
-
-    window.localStorage.setItem('score', this.score)
-    window.localStorage.setItem('best', Math.max(this.score, window.localStorage.getItem('best') || 0))
-
-    // this.endgame = new EndGame(this.game)
-    // this.endgame.score = this.score
-    // this.add.existing(this.endgame)
-    // this.endgame.onRetry.add(() => {
-    //   this.game.state.start('Main')
-    // })
-
-    this.game.state.start('MainMenu')
+    this.enterState('end')
   }
 
   shutdown () {
     this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR)
+    this.game.input.keyboard.removeKey(Phaser.Keyboard.ENTER)
     this.plane.destroy()
     this.obstacles.destroy()
+
+    this.game.saveCpu.renderOnFPS = this.oldFps
   }
 
   startGame () {
-    if (this.plane.alive || this.gameover) return
+    this.enterState('play')
+  }
 
-    this.plane.body.allowGravity = true
-    this.plane.alive = true
+  turbo () {
+    if (this.sceneState !== 'play') return
+    if (this.game.idle.idleEngine.inventory.rocket <= 0) return
 
-    this.obstacleGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 2.25, this.generateObstacles, this)
-    this.obstacleGenerator.timer.start()
-    this.generateObstacles()
-
-    this.instructionGroup.destroy()
+    this.game.idle.idleEngine.inventory.rocket--
+    this.enterState('turbo')
   }
 
   checkScore (obstacle) {
@@ -127,8 +201,9 @@ class Main extends Phaser.State {
     if (obstacle.hasScored) return
     if (obstacle.topObstacle.world.x > this.plane.world.x) return
     obstacle.hasScored = true
+    this.obstaclesPassed++
     this.score++
-    this.scoreLabel.setText(this.score.toString())
+    this.score += obstacle.difficulty
   }
 }
 

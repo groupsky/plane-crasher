@@ -5,7 +5,6 @@ class Ground extends Phaser.TileSprite {
     super(game, x, y, width, 71, 'sheet', frame)
 
     this.anchor.setTo(0, 1)
-    this.autoScroll(-200, 0)
 
     this.game.physics.arcade.enableBody(this)
     this.body.allowGravity = false

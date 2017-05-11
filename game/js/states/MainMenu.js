@@ -1,14 +1,18 @@
-/* global Phaser */
+/* global Phaser, SlickUI */
 
 const Button = require('../ui/Button')
 const Plane = require('../actors/Plane')
+const TopBar = require('../actors/TopBar')
 
 class MainMenu extends Phaser.State {
   preload () { }
 
   create () {
+    const topBar = new TopBar(this.game)
+    this.add.existing(topBar)
+
     // scrolling background
-    this.background = this.add.tileSprite(0, 0, this.world.width, this.world.height / 3, 'sheet', 'background.png')
+    this.background = this.add.tileSprite(0, 40, this.world.width, this.world.height / 3, 'sheet', 'background.png')
     this.background.scale.setTo(this.world.height / 480)
     this.background.autoScroll(-100, 0)
 
@@ -22,22 +26,20 @@ class MainMenu extends Phaser.State {
     let titleText = this.add.text(this.world.centerX, 300, 'Plane Crasher', {
       font: '65px kenvector_future_thin',
       fill: '#ffffff',
-      align: 'center'
+      align: 'center',
+      boundsAlignH: 'center',
+      boundsAlignV: 'top',
     })
     titleText.anchor.set(0.5)
     titleText.font = 'kenvector_future_thin'
     titleText.fontSize = 65
 
-    this.add.text(100, 500, 'best: ' + (window.localStorage.getItem('best') || 0), {
+    const lastLabel = this.add.text(this.world.width - 100, 500, 'last: ' + ((this.game.idle.idleEngine.recordings.items[0] || {}).score || 0), {
       font: '24px kenvector_future_thin',
       fill: '#ffffff',
-      align: 'left'
-    })
-
-    const lastLabel = this.add.text(this.world.width - 100, 500, 'last: ' + (window.localStorage.getItem('score') || 0), {
-      font: '24px kenvector_future_thin',
-      fill: '#ffffff',
-      align: 'right'
+      align: 'right',
+      boundsAlignH: 'right',
+      boundsAlignV: 'top',
     })
     lastLabel.position.x -= lastLabel.width
 
@@ -53,14 +55,26 @@ class MainMenu extends Phaser.State {
     this.startBtn.onInputUp.add(this.startGame, this)
 
     this.startBtnLabel = this.add.text(this.world.centerX, 400, 'play', {
-      font: '32px kenvector_future',
+      font: '28px kenvector_future',
       fill: '#000000',
-      align: 'center'
+      align: 'center',
+      boundsAlignH: 'center',
+      boundsAlignV: 'center',
     })
     this.startBtnLabel.anchor.set(0.5)
-  }
 
-  update () { }
+    this.upgradesBtn = new Button(this.game, this.world.centerX, 500, 'buttonLarge.png')
+    this.upgradesBtn.onInputUp.add(() => this.game.state.start('Upgrades'))
+
+    this.upgradesBtnLabel = this.add.text(this.world.centerX, 500, 'upgrade', {
+      font: '28px kenvector_future',
+      fill: '#000000',
+      align: 'center',
+      boundsAlignH: 'center',
+      boundsAlignV: 'center',
+    })
+    this.upgradesBtnLabel.anchor.set(0.5)
+  }
 
   render () { }
 
