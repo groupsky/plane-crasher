@@ -28,13 +28,26 @@ class Idle {
         factor: 1.34,
         val: 1,
       },
+      jumpPrecision: {
+        label: 'Jump',
+        price: 100,
+        factor: 1.75,
+      },
+      speed: {
+        label: 'Speed',
+        price: 250,
+        factor: 1.65,
+        val: 0.1,
+      },
     }
     this.recordings = new Manager(this)
     this.inventory = {
-      gold: 0,
+      gold: 100000,
       rocket: 0,
       distancePoints: 0,
       obstaclePoints: 0,
+      jumpPrecision: 0,
+      speed: 0,
     }
     this.stats = {
       bought: {
@@ -82,7 +95,7 @@ class Idle {
     const recording = this.recordings.items[ 0 ]
     this.bots.add(Bot, recording.score, recording.time)
   }
-  
+
   rocketCost (count) {
     return Math.ceil(Idle.calcCost(this.defs.rocket, this.stats.bought.rocket, count))
   }
@@ -105,7 +118,7 @@ class Idle {
     this.inventory.gold -= cost
     this.inventory.distancePoints += count
   }
-  
+
   calcDistancePoints () {
     return this.defs.distancePoints.val * this.inventory.distancePoints
   }
@@ -123,6 +136,36 @@ class Idle {
 
   calcObstaclePoints () {
     return this.defs.obstaclePoints.val * this.inventory.obstaclePoints
+  }
+
+  jumpPrecisionCost (count) {
+    return Math.ceil(Idle.calcCost(this.defs.jumpPrecision, this.inventory.jumpPrecision, count))
+  }
+
+  buyJumpPrecision (count) {
+    const cost = this.jumpPrecisionCost(count)
+    if (this.inventory.gold < cost) return false
+    this.inventory.gold -= cost
+    this.inventory.jumpPrecision += count
+  }
+
+  calcJumpPrecision () {
+    return (this.inventory.jumpPrecision + 100) / (2 * this.inventory.jumpPrecision + 100)
+  }
+
+  speedCost (count) {
+    return Math.ceil(Idle.calcCost(this.defs.speed, this.inventory.speed, count))
+  }
+
+  buySpeed (count) {
+    const cost = this.speedCost(count)
+    if (this.inventory.gold < cost) return false
+    this.inventory.gold -= cost
+    this.inventory.speed += count
+  }
+
+  calcSpeed () {
+    return 1 + this.inventory.speed * this.defs.speed.val
   }
 }
 

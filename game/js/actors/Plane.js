@@ -23,7 +23,7 @@ class Plane extends Phaser.Sprite {
   jump () {
     if (!this.alive) return
 
-    this.body.velocity.y = -600
+    this.body.velocity.y = -600 * this.game.idle.idleEngine.calcJumpPrecision()
 
     this.game.add.tween(this).to({ angle: -60 }, 100).start()
   }

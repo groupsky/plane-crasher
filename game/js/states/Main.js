@@ -20,7 +20,7 @@ class Main extends Phaser.State {
     this.lastObstacle = +Infinity
     this.obstacleDistance = 500
     this._speed = 0
-    this.distancePoints =  this.game.idle.idleEngine.calcDistancePoints()
+    this.distancePoints = this.game.idle.idleEngine.calcDistancePoints()
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE)
     this.game.physics.arcade.gravity.y = 1200
@@ -28,7 +28,6 @@ class Main extends Phaser.State {
     // scrolling background
     this.background = this.add.tileSprite(0, 0, this.world.width, this.world.height, 'sheet', 'background.png')
     this.background.scale.setTo(this.world.height / 480)
-    this.background.autoScroll(-100, 0)
 
     const topBar = new TopBar(this.game)
     this.add.existing(topBar)
@@ -122,6 +121,7 @@ class Main extends Phaser.State {
   get speed () { return this._speed }
 
   set speed (value) {
+    value = value * this.game.idle.idleEngine.calcSpeed()
     if (this._speed === value) return
     this._speed = value
     this.background.autoScroll(-this._speed * 0.5, 0)

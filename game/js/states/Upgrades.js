@@ -50,6 +50,22 @@ class Upgrades extends Phaser.State {
       this.buyObstacleBtn.text = 'obst ' + this.game.idle.idleEngine.obstaclePointsCost(1)
     })
 
+    this.buyJumpBtn = new Button(this.game, 600, 200, 'buttonLarge.png',
+      'jump ' + this.game.idle.idleEngine.jumpPrecisionCost(1), 14)
+    this.add.existing(this.buyJumpBtn)
+    this.buyJumpBtn.onInputUp.add(() => {
+      this.game.idle.idleEngine.buyJumpPrecision(1)
+      this.buyJumpBtn.text = 'jump ' + this.game.idle.idleEngine.jumpPrecisionCost(1)
+    })
+
+    this.buySpeedBtn = new Button(this.game, 600, 300, 'buttonLarge.png',
+      'speed ' + this.game.idle.idleEngine.speedCost(1), 14)
+    this.add.existing(this.buySpeedBtn)
+    this.buySpeedBtn.onInputUp.add(() => {
+      this.game.idle.idleEngine.buySpeed(1)
+      this.buySpeedBtn.text = 'speed ' + this.game.idle.idleEngine.speedCost(1)
+    })
+
     this.backBtn = new Button(this.game, 120, 200, 'buttonSmall.png', 'back', 14)
     this.add.existing(this.backBtn)
     this.backBtn.onInputUp.add(() => this.game.state.start('MainMenu'))
