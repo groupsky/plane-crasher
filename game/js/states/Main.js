@@ -17,8 +17,9 @@ class Main extends Phaser.State {
     this.distance = 0
     this.time = 0
     this.obstaclesPassed = 0
-    this.lastObstacle = 0
+    this.lastObstacle = +Infinity
     this.obstacleDistance = 450
+    this._speed = 0
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE)
     this.game.physics.arcade.gravity.y = 1200
@@ -73,19 +74,6 @@ class Main extends Phaser.State {
   update () {
     if (this.sceneState === 'start') return
 
-    this.lastObstacle += -this.ground._scroll.x * this.game.time.physicsElapsed
-    if (this.lastObstacle >= this.obstacleDistance) {
-      this.lastObstacle = 0
-      this.generateObstacles()
-    }
-
-    if (this.sceneState === 'turbo') {
-      this.turboTimer -= this.game.time.physicsElapsed
-      if (this.turboTimer <= 0) {
-        this.enterState('play')
-      }
-    }
-
     this.game.physics.arcade.collide(this.plane, this.ground, this.deathHandler, null, this)
 
     if (this.sceneState !== 'end') {
@@ -99,9 +87,26 @@ class Main extends Phaser.State {
       this.score += 13 * (-this.ground._scroll.x) * this.game.time.physicsElapsed / this.world.width
       this.scoreLabel.setText(Math.floor(this.score / this.time).toString())
     }
+
+    this.lastObstacle += -this.ground._scroll.x * this.game.time.physicsElapsed
+    if (this.lastObstacle >= this.obstacleDistance) {
+      this.lastObstacle = 0
+      this.generateObstacles()
+    }
+
+    if (this.sceneState === 'turbo') {
+      this.turboTimer -= this.game.time.physicsElapsed
+      if (this.turboTimer <= 0) {
+        this.enterState('play')
+      }
+    }
   }
 
   render () {
+    // for (var i in this.obstacles.children) {
+    //   this.game.debug.body(this.obstacles.children[i].topObstacle)
+    //   this.game.debug.body(this.obstacles.children[i].topObstacle)
+    // }
   }
 
   get speed () { return this._speed }
