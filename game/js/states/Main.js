@@ -4,6 +4,7 @@ const Ground = require('../actors/Ground')
 const Plane = require('../actors/Plane')
 const ObstacleGroup = require('../actors/ObstacleGroup')
 const TopBar = require('../actors/TopBar')
+const EndGame = require('../actors/EndGame')
 
 class Main extends Phaser.State {
   preload () { }
@@ -81,7 +82,7 @@ class Main extends Phaser.State {
   }
 
   update () {
-    if (this.sceneState === 'start') return
+    if (['start', 'end'].includes(this.sceneState)) return
 
     this.game.physics.arcade.collide(this.plane, this.ground, this.deathHandler, null, this)
 
@@ -161,6 +162,9 @@ class Main extends Phaser.State {
 
         break
       case 'end':
+        this.plane.body.allowGravity = false
+        this.plane.alive = false
+
         this.plane.kill()
         this.obstacles.callAll('stop')
         this.background.stopScroll()
@@ -171,7 +175,11 @@ class Main extends Phaser.State {
         this.game.idle.idleEngine.addRecording(this.score, this.time, this.distance, this.obstaclesPassed)
         this.game.idle.idleEngine.inventory.gold += this.score
 
-        this.game.state.start('MainMenu')
+        this.endgame = new EndGame(this.game, null, this.world.centerX, this.world.centerY)
+        this.endgame.show(this.score, this.time, this.distance, this.obstaclesPassed)
+        this.game.add.existing(this.endgame)
+
+        // this.game.state.start('MainMenu')
         break
     }
 
@@ -196,6 +204,7 @@ class Main extends Phaser.State {
     this.game.input.keyboard.removeKey(Phaser.Keyboard.ENTER)
     this.plane.destroy()
     this.obstacles.destroy()
+    this.endgame.destroy()
 
     this.game.saveCpu.renderOnFPS = this.oldFps
   }
