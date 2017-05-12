@@ -23,7 +23,7 @@ class MainMenu extends Phaser.State {
     this.add.tween(this.logo).to({ angle: 20 }, 1000, Phaser.Easing.Linear.NONE, true, 0, 1000, true)
     this.add.existing(this.logo)
 
-    let titleText = this.add.text(this.world.centerX, 300, 'Plane Crasher', {
+    let titleText = this.add.text(this.world.centerX, 325, 'Crashy Plane BETA', {
       font: '65px kenvector_future_thin',
       fill: '#ffffff',
       align: 'center',
@@ -51,10 +51,10 @@ class MainMenu extends Phaser.State {
 
     // this.startBtn = this.game.add.button(this.world.centerX, 400, 'sheet', this.startGame, this, 'buttonSmall.png')
     // this.startBtn.anchor.set(0.5)
-    this.startBtn = new Button(this.game, this.world.centerX, 400, 'buttonSmall.png')
+    this.startBtn = new Button(this.game, this.world.centerX, 410, 'buttonSmall.png')
     this.startBtn.onInputUp.add(this.startGame, this)
 
-    this.startBtnLabel = this.add.text(this.world.centerX, 400, 'play', {
+    this.startBtnLabel = this.add.text(this.world.centerX, 410, 'play', {
       font: '28px kenvector_future',
       fill: '#000000',
       align: 'center',
@@ -63,10 +63,10 @@ class MainMenu extends Phaser.State {
     })
     this.startBtnLabel.anchor.set(0.5)
 
-    this.upgradesBtn = new Button(this.game, this.world.centerX, 500, 'buttonLarge.png')
+    this.upgradesBtn = new Button(this.game, this.world.centerX, 520, 'buttonLarge.png')
     this.upgradesBtn.onInputUp.add(() => this.game.state.start('Upgrades'))
 
-    this.upgradesBtnLabel = this.add.text(this.world.centerX, 500, 'upgrade', {
+    this.upgradesBtnLabel = this.add.text(this.world.centerX, 520, 'upgrade', {
       font: '28px kenvector_future',
       fill: '#000000',
       align: 'center',
