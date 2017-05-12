@@ -20,18 +20,19 @@ class Idle {
         label: 'Distance',
         price: 10,
         factor: 1.5,
-        val: 1,
+        val: 0.2,
       },
       obstaclePoints: {
         label: 'Obstacle',
         price: 25,
-        factor: 1.34,
-        val: 1,
+        factor: 1.78,
+        val: 0.05,
       },
       jumpPrecision: {
         label: 'Jump',
         price: 100,
-        factor: 1.75,
+        factor: 2,
+        val: 50,
       },
       speed: {
         label: 'Speed',
@@ -150,7 +151,7 @@ class Idle {
   }
 
   calcJumpPrecision () {
-    return (this.inventory.jumpPrecision + 100) / (2 * this.inventory.jumpPrecision + 100)
+    return (this.inventory.jumpPrecision + this.defs.jumpPrecision.val) / (2 * this.inventory.jumpPrecision + this.defs.jumpPrecision.val)
   }
 
   speedCost (count) {
