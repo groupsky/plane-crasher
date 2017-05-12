@@ -16,11 +16,17 @@ class EndGame extends Phaser.Group {
     const gameover = this.create(0, -200, 'sheet', 'textGameOver.png')
     gameover.anchor.set(0.5)
 
-    const obstaclesText = this.createLbl(-100, -80, 'Obst:')
-    this.obstaclesLabel = this.createDLbl(100, -80)
+    const timeText = this.createLbl(-100, -160, 'Time:')
+    this.timeLabel = this.createDLbl(100, -160)
 
-    const distanceText = this.createLbl(-100, -40, 'Dist:')
-    this.distanceLabel = this.createDLbl(100, -40)
+    const obstaclesNoText = this.createLbl(-100, -120, '# Obst:')
+    this.obstaclesNoLabel = this.createDLbl(100, -120)
+
+    const obstaclesText = this.createLbl(-100, -60, 'Obst:')
+    this.obstaclesLabel = this.createDLbl(100, -60)
+
+    const distanceText = this.createLbl(-100, -20, 'Dist:')
+    this.distanceLabel = this.createDLbl(100, -20)
 
     // const timeText = this.createLbl(-100, -10, 'Time:')
     // this.timeLabel = this.createDLbl(100, -10)
@@ -58,17 +64,23 @@ class EndGame extends Phaser.Group {
 
   show (score, time, distance, obstacles) {
     const numbers = {
+      time: 0,
+      obstacleCount: 0,
       obstacles: 0,
       distance: 0,
       score: 0,
     }
     const scoreTween = this.game.add.tween(numbers).to({
+      time: time,
+      obstacleCount: obstacles,
       obstacles: Math.round(score - Math.round(distance * this.game.idle.idleEngine.calcDistancePoints() / this.game.width)),
       distance: Math.round(distance * this.game.idle.idleEngine.calcDistancePoints() / this.game.width),
       score: score,
     }, 500)
 
     scoreTween.onUpdateCallback(() => {
+      this.timeLabel.text = '' + Math.round(numbers.time)
+      this.obstaclesNoLabel.text = '' + Math.round(numbers.obstacleCount)
       this.obstaclesLabel.text = '' + Math.round(numbers.obstacles)
       this.distanceLabel.text = '' + Math.round(numbers.distance)
       this.scoreLabel.text = '' + Math.round(numbers.score)
