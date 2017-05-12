@@ -41,6 +41,8 @@ class Main extends Phaser.State {
         console.log('lastobstacle', this.lastObstacle)
         this.lastObstacle = 0
         this.generateObstacles()
+        const dist = (450 * this.obstaclesPassed + 5) / (this.obstaclesPassed + 5)
+        this.obstacleDistance = this.game.rnd.integerInRange(500 - dist, 500 + dist * 0.5)
       }
     })
 
@@ -82,7 +84,7 @@ class Main extends Phaser.State {
   }
 
   update () {
-    if (['start', 'end'].includes(this.sceneState)) return
+    if ([ 'start', 'end' ].includes(this.sceneState)) return
 
     this.game.physics.arcade.collide(this.plane, this.ground, this.deathHandler, null, this)
 
