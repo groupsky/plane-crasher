@@ -74,6 +74,19 @@ class MainMenu extends Phaser.State {
       boundsAlignV: 'center',
     })
     this.upgradesBtnLabel.anchor.set(0.5)
+
+    const fullBtn = new Button(this.game, this.world.width, this.world.height, 'buttonSmall.png')
+    fullBtn.onInputUp.add(() => {
+      if (this.game.scale.isFullScreen) {
+        this.game.scale.stopFullScreen()
+      } else {
+        this.game.scale.startFullScreen(false)
+      }
+    })
+    fullBtn.scale.set(0.25)
+    fullBtn.x -= fullBtn.width - 8
+    fullBtn.y -= fullBtn.height - 8
+    fullBtn.text = 'f'
   }
 
   render () { }
