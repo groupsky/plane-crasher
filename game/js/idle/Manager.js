@@ -1,10 +1,33 @@
 class Manager {
-  constructor (game, parent) {
+  constructor (game, parent, constructor) {
     this.game = game
     this.items = []
+    this._constructor = constructor
+  }
+
+  init (state) {
+    for (let i = state.length; i--;) {
+      let args = state[ i ]
+      if (Array.isArray(args)) {
+        args.unshift(undefined)
+      } else {
+        args = [ undefined, args ]
+      }
+      this.add.apply(this, args)
+    }
+  }
+
+  save () {
+    const res = []
+    for (let i = this.items.length; i--;) {
+      res.push(this.items[ i ].save())
+    }
+    return res
   }
 
   add (item) {
+    if (item === undefined) item = this._constructor
+
     if (typeof item === 'function') {
       //noinspection Eslint
       item = new item(this.game, this)

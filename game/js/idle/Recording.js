@@ -10,11 +10,20 @@ class Recording extends Item {
     this.obstacles = 0
   }
 
-  init (score, time, distance, obstacles) {
-    this.score = score
-    this.time = time
-    this.distance = distance
-    this.obstacles = obstacles
+  init (state) {
+    this.score = state.score
+    this.time = state.time
+    this.distance = state.distance
+    this.obstacles = state.obstacles
+  }
+
+  save () {
+    return {
+      score: this.score,
+      time: this.time,
+      distance: this.distance,
+      obstacles: this.obstacles
+    }
   }
 }
 

@@ -1,14 +1,15 @@
 const Manager = require('./Manager')
 const Bot = require('./Bot')
 const Recording = require('./Recording')
+const clone = require('../utils').clone
 
 class Idle {
   constructor () {
-    this.bots = new Manager(this)
+    this.bots = new Manager(this, null, Bot)
     this.defs = {
       bot: {
         label: 'AutoBot',
-        price: 10000,
+        price: 100,
         factor: 10,
       },
       rocket: {
@@ -41,7 +42,7 @@ class Idle {
         val: 0.1,
       },
     }
-    this.recordings = new Manager(this)
+    this.recordings = new Manager(this, null, Recording)
     this.inventory = {
       gold: 0,
       rocket: 0,
@@ -53,11 +54,33 @@ class Idle {
     this.stats = {
       bought: {
         rocket: 0,
-      }
+      },
+      best: {
+        score: 0,
+        time: 0,
+      },
     }
     this.time = {
       lastUpdate: 0,
       realElapsed: 0,
+    }
+  }
+
+  init (state) {
+    this.bots.init(state.bots)
+    this.recordings.init(state.recordings)
+    this.inventory = clone(state.inventory)
+    this.stats = clone(state.stats)
+    this.time = clone(state.time)
+  }
+
+  save () {
+    return {
+      bots: this.bots.save(),
+      recordings: this.recordings.save(),
+      inventory: clone(this.inventory),
+      stats: clone(this.stats),
+      time: clone(this.time),
     }
   }
 
@@ -76,8 +99,12 @@ class Idle {
   }
 
   addRecording (score, time, distance, obstacles) {
+    if (this.stats.best.score < score) {
+      this.stats.best.score = score
+      this.stats.best.time = time
+    }
     this.recordings.removeAll()
-    this.recordings.add(Recording, score, time, distance, obstacles)
+    this.recordings.add(Recording, {score: score, time: time, distance: distance, obstacles: obstacles})
   }
 
   static calcCost (def, have, want) {
@@ -93,8 +120,7 @@ class Idle {
     const cost = this.botCost(count)
     if (this.inventory.gold < cost) return false
     this.inventory.gold -= cost
-    const recording = this.recordings.items[ 0 ]
-    this.bots.add(Bot, recording.score, recording.time)
+    this.bots.add(Bot, { profit: this.stats.best.score, interval: this.stats.best.time * 10000 })
   }
 
   rocketCost (count) {

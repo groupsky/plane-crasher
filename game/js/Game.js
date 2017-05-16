@@ -12,7 +12,7 @@ class Game extends Phaser.Game {
   constructor () {
     super(800, 600, Phaser.AUTO)
 
-    this.idle = this.plugins.add(IdlePlugin.configure())
+    this.idle = this.plugins.add(IdlePlugin.configure(), 'crashyplane')
     this.saveCpu = this.plugins.add(Phaser.Plugin.SaveCPU)
     this.saveCpu.renderOnFPS = 10
 

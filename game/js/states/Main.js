@@ -176,6 +176,7 @@ class Main extends Phaser.State {
         this.score = Math.floor(this.score)
         this.game.idle.idleEngine.addRecording(this.score, this.time, this.distance, this.obstaclesPassed)
         this.game.idle.idleEngine.inventory.gold += this.score
+        this.game.idle.save()
 
         this.endgame = new EndGame(this.game, null, this.world.centerX, this.world.centerY)
         this.endgame.show(this.score, this.time, this.distance, this.obstaclesPassed)
