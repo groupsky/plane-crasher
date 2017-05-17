@@ -22,7 +22,7 @@ class IdleGains extends Panel {
       }, this)
     this.label.anchor.set(0.5)
 
-    this.continueBtn = new Button(this.game, 0, 100, 'buttonLarge.png', 'Continue', 28, this)
+    this.continueBtn = new Button(this.game, 0, 100, 'buttonLarge', 'Continue', 28, this)
     this.onContinue = this.continueBtn.onInputUp
   }
 }
