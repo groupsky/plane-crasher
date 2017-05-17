@@ -31,7 +31,6 @@ class Main extends Phaser.State {
     this.background.scale.setTo(this.world.height / 480)
 
     const topBar = new TopBar(this.game)
-    this.add.existing(topBar)
 
     this.obstacles = this.game.add.group()
 
@@ -81,6 +80,8 @@ class Main extends Phaser.State {
     this.scoreLabel.anchor.set(0.5, 0)
 
     this.enterState('start')
+    this.add.existing(topBar)
+    this.world.bringToTop(topBar)
   }
 
   update () {
