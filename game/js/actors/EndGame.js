@@ -62,7 +62,7 @@ class EndGame extends Phaser.Group {
     return label
   }
 
-  show (score, time, distance, obstacles) {
+  show (score, stats, coefs) {
     const numbers = {
       time: 0,
       obstacleCount: 0,
@@ -71,19 +71,19 @@ class EndGame extends Phaser.Group {
       score: 0,
     }
     const scoreTween = this.game.add.tween(numbers).to({
-      time: time,
-      obstacleCount: obstacles,
-      obstacles: Math.round(score - Math.round(distance * this.game.idle.idleEngine.calcDistancePoints() / this.game.width)),
-      distance: Math.round(distance * this.game.idle.idleEngine.calcDistancePoints() / this.game.width),
-      score: score,
+      time: stats.time,
+      obstacleCount: stats.obstacles,
+      obstacles: score.obstacles,
+      distance: score.distance,
+      score: score.total,
     }, 500)
 
     scoreTween.onUpdateCallback(() => {
-      this.timeLabel.text = '' + Math.round(numbers.time)
-      this.obstaclesNoLabel.text = '' + Math.round(numbers.obstacleCount)
-      this.obstaclesLabel.text = '' + Math.round(numbers.obstacles)
-      this.distanceLabel.text = '' + Math.round(numbers.distance)
-      this.scoreLabel.text = '' + Math.round(numbers.score)
+      this.timeLabel.text = '' + Math.floor(numbers.time)
+      this.obstaclesNoLabel.text = '' + Math.floor(numbers.obstacleCount)
+      this.obstaclesLabel.text = '' + Math.floor(numbers.obstacles)
+      this.distanceLabel.text = '' + Math.floor(numbers.distance)
+      this.scoreLabel.text = '' + Math.floor(numbers.score)
     })
 
     scoreTween.start()

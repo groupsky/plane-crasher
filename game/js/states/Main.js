@@ -13,15 +13,28 @@ class Main extends Phaser.State {
     this.oldFps = this.game.saveCpu.renderOnFPS
     this.game.saveCpu.renderOnFPS = 120
 
-    this.difficulty = 0
-    this.score = 0
-    this.distance = 0
-    this.time = 0
-    this.obstaclesPassed = 0
+    this.score = {
+      distance: 0,
+      obstacles: 0,
+      total: 0
+    }
+    this.stats = {
+      distance: 0,
+      time: 0,
+      obstacles: 0,
+      turbo: 0,
+      turboTime: 0
+    }
+    this.coefs = {
+      difficulty: 0,
+      distance: this.game.idle.idleEngine.calcDistancePoints(),
+      obstacleDistance: 500,
+      speed: this.game.idle.idleEngine.calcSpeed(),
+      obstacle: this.game.idle.idleEngine.calcObstaclePoints(),
+      turboDuration: 1.5
+    }
     this.lastObstacle = +Infinity
-    this.obstacleDistance = 500
     this._speed = 0
-    this.distancePoints = this.game.idle.idleEngine.calcDistancePoints()
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE)
     this.game.physics.arcade.gravity.y = 1200
@@ -34,16 +47,7 @@ class Main extends Phaser.State {
 
     this.obstacles = this.game.add.group()
 
-    this.pipeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 0.1, () => {
-      this.lastObstacle += this.speed * 0.1
-      if (this.lastObstacle >= this.obstacleDistance) {
-        console.log('lastobstacle', this.lastObstacle)
-        this.lastObstacle = 0
-        this.generateObstacles()
-        const dist = (450 * this.obstaclesPassed + 5) / (this.obstaclesPassed + 5)
-        this.obstacleDistance = this.game.rnd.integerInRange(500 - dist, 500 + dist * 0.5)
-      }
-    })
+    this.pipeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 0.1, this.testForObstacleGenerator, this)
 
     // ground
     this.ground = new Ground(this.game, 0, this.world.height, this.world.width, this.world.height, 'groundDirt')
@@ -59,7 +63,7 @@ class Main extends Phaser.State {
     this.actionKey.onDown.add(this.plane.jump, this.plane)
     this.background.inputEnabled = true
     this.background.events.onInputDown.addOnce(this.startGame, this)
-    this.background.events.onInputDown.add(() => this.plane.jump() )
+    this.background.events.onInputDown.add(() => this.plane.jump())
 
     this.game.input.keyboard.addKeyCapture([ Phaser.Keyboard.ENTER ])
     this.action2Key = this.input.keyboard.addKey(Phaser.Keyboard.ENTER)
@@ -81,7 +85,7 @@ class Main extends Phaser.State {
     tap.animations.play('default')
     tap.anchor.set(1)
 
-    this.scoreLabel = this.add.bitmapText(this.game.width * 0.5, 10, 'font', this.score.toString(), 24)
+    this.scoreLabel = this.add.bitmapText(this.game.width * 0.5, 10, 'font', '0', 24)
     this.scoreLabel.anchor.set(0.5, 0)
 
     this.enterState('start')
@@ -93,30 +97,25 @@ class Main extends Phaser.State {
     if ([ 'start', 'end' ].includes(this.sceneState)) return
 
     this.game.physics.arcade.collide(this.plane, this.ground, this.deathHandler, null, this)
+    this.obstacles.forEach(function (obstacle) {
+      this.checkScore(obstacle)
+      this.game.physics.arcade.collide(this.plane, obstacle, this.deathHandler, null, this)
+    }, this)
 
-    if (this.sceneState !== 'end') {
-      this.obstacles.forEach(function (obstacle) {
-        this.checkScore(obstacle)
-        this.game.physics.arcade.collide(this.plane, obstacle, this.deathHandler, null, this)
-      }, this)
+    this.stats.time += this.game.time.physicsElapsed
+    const distance = this.speed * this.game.time.physicsElapsed
+    this.lastObstacle += distance
+    this.stats.distance += distance
+    this.score.distance = this.stats.distance * this.coefs.distance / this.world.width
+    this.score.total = Math.floor(this.score.distance) + Math.floor(this.score.obstacles)
 
-      this.distance += -this.ground._scroll.x * this.game.time.physicsElapsed
-      this.time += this.game.time.physicsElapsed
-      this.score += this.distancePoints * (-this.ground._scroll.x) * this.game.time.physicsElapsed / this.world.width
-      this.scoreLabel.setText(Math.floor(this.score).toString())
+    this.scoreLabel.setText('' + this.score.total)
 
-      // this.lastObstacle += this.speed * this.game.time.physicsElapsed
-      // if (this.lastObstacle >= this.obstacleDistance) {
-      //   console.log('lastobstacle', this.lastObstacle)
-      //   this.lastObstacle = 0
-      //   this.generateObstacles()
-      // }
-
-      if (this.sceneState === 'turbo') {
-        this.turboTimer -= this.game.time.physicsElapsed
-        if (this.turboTimer <= 0) {
-          this.enterState('play')
-        }
+    if (this.sceneState === 'turbo') {
+      this.stats.turboTime += this.game.time.physicsElapsed
+      this.turboTimer -= this.game.time.physicsElapsed
+      if (this.turboTimer <= 0) {
+        this.enterState('play')
       }
     }
   }
@@ -130,7 +129,7 @@ class Main extends Phaser.State {
   get speed () { return this._speed }
 
   set speed (value) {
-    value = value * this.game.idle.idleEngine.calcSpeed()
+    value = value * this.coefs.speed
     if (this._speed === value) return
     this._speed = value
     this.background.autoScroll(-this._speed * 0.5, 0)
@@ -139,7 +138,6 @@ class Main extends Phaser.State {
   }
 
   enterState (newState) {
-    console.log(this.sceneState + ' => ' + newState)
     if (this.sceneState === newState) return
     const oldState = this.sceneState
     this.sceneState = newState
@@ -164,10 +162,11 @@ class Main extends Phaser.State {
         break
       case 'turbo':
         if (oldState !== 'play') return
+        this.stats.turbo++
         this.plane.playTurbo()
         this.speed = 1000
 
-        this.turboTimer = 1.5
+        this.turboTimer = this.coefs.turboDuration
 
         break
       case 'end':
@@ -180,19 +179,23 @@ class Main extends Phaser.State {
         this.ground.stopScroll()
         this.pipeGenerator.timer.stop()
 
-        this.score = Math.floor(this.score)
-        this.game.idle.idleEngine.addRecording(this.score, this.time, this.distance, this.obstaclesPassed)
-        this.game.idle.idleEngine.inventory.gold += this.score
+        this.game.idle.idleEngine.addRecording(this.score.total, this.stats.time, this.stats.distance, this.stats.obstacles)
+        this.game.idle.idleEngine.inventory.gold += this.score.total
         this.game.idle.save()
 
         this.endgame = new EndGame(this.game, null, this.world.centerX, this.world.centerY)
-        this.endgame.show(this.score, this.time, this.distance, this.obstaclesPassed)
+        this.endgame.show(this.score, this.stats, this.coefs)
         this.game.add.existing(this.endgame)
-
-        // this.game.state.start('MainMenu')
         break
     }
+  }
 
+  testForObstacleGenerator () {
+    if (this.lastObstacle < this.coefs.obstacleDistance) return
+    this.lastObstacle = 0
+    this.generateObstacles()
+    const dist = (450 * this.stats.obstacles + 5) / (this.stats.obstacles + 5)
+    this.coefs.obstacleDistance = this.game.rnd.integerInRange(500 - dist, 500 + dist * 0.5)
   }
 
   generateObstacles () {
@@ -202,7 +205,7 @@ class Main extends Phaser.State {
     if (!obstacleGroup) {
       obstacleGroup = new ObstacleGroup(this.game, this.obstacles, 'rock')
     }
-    obstacleGroup.reset(this.game.width, 0, this.difficulty++, -this._speed)
+    obstacleGroup.reset(this.game.width, 0, this.coefs.difficulty++, -this._speed)
   }
 
   deathHandler (plane, enemy) {
@@ -236,9 +239,8 @@ class Main extends Phaser.State {
     if (obstacle.hasScored) return
     if (obstacle.topObstacle.world.x > this.plane.world.x) return
     obstacle.hasScored = true
-    this.obstaclesPassed++
-    this.score++
-    this.score += obstacle.difficulty * this.game.idle.idleEngine.calcObstaclePoints()
+    this.stats.obstacles++
+    this.score.obstacles += 1 + obstacle.difficulty * this.coefs.obstacle
   }
 }
 
