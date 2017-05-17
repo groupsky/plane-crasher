@@ -9,11 +9,11 @@ class EndGame extends Phaser.Group {
     this.x = x
     this.y = y
 
-    const background = this.create(0, 0, 'sheet', 'UIbg.png')
+    const background = this.create(0, 0, 'sheet', 'UIbg')
     background.anchor.set(0.5)
     background.scale.set(1.5)
 
-    const gameover = this.create(0, -200, 'sheet', 'textGameOver.png')
+    const gameover = this.create(0, -200, 'sheet', 'textGameOver')
     gameover.anchor.set(0.5)
 
     const timeText = this.createLbl(-100, -160, 'Time:')
@@ -34,11 +34,11 @@ class EndGame extends Phaser.Group {
     const scoreText = this.createLbl(-100, 20, 'Score:', 24)
     this.scoreLabel = this.createDLbl(100, 20, 24)
 
-    const retryBtn = new Button(this.game, -100, 125, 'buttonSmall.png', 'retry', 24)
+    const retryBtn = new Button(this.game, -100, 125, 'buttonSmall', 'retry', 24)
     this.add(retryBtn)
     retryBtn.onInputUp.add(() => this.game.state.start('Main'))
 
-    const menuBtn = new Button(this.game, 100, 125, 'buttonSmall.png', 'menu', 24)
+    const menuBtn = new Button(this.game, 100, 125, 'buttonSmall', 'menu', 24)
     this.add(menuBtn)
     menuBtn.onInputUp.add(() => this.game.state.start('MainMenu'))
   }

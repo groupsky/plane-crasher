@@ -15,6 +15,7 @@ class Preload extends Phaser.State {
 
     this.load.image('logo', 'img/logo.png')
     this.load.atlasXML('sheet', 'img/sheet.png', 'img/sheet.xml')
+    this.load.atlasXML('sheet_old', 'img/sheet_old.png', 'img/sheet_old.xml')
     this.load.xml('Font', 'fonts/font.xml')
 
     // load web fonts
@@ -31,7 +32,7 @@ class Preload extends Phaser.State {
   }
 
   create () {
-    this.cache.addBitmapFontFromAtlas('font', 'sheet', 'all', 'Font')
+    this.cache.addBitmapFontFromAtlas('font', 'sheet_old', 'all', 'Font')
   }
 
   update () {

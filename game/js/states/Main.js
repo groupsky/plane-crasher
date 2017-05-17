@@ -27,7 +27,7 @@ class Main extends Phaser.State {
     this.game.physics.arcade.gravity.y = 1200
 
     // scrolling background
-    this.background = this.add.tileSprite(0, 0, this.world.width, this.world.height, 'sheet', 'background.png')
+    this.background = this.add.tileSprite(0, 0, this.world.width, this.world.height, 'sheet', 'background')
     this.background.scale.setTo(this.world.height / 480)
 
     const topBar = new TopBar(this.game)
@@ -47,7 +47,7 @@ class Main extends Phaser.State {
     })
 
     // ground
-    this.ground = new Ground(this.game, 0, this.world.height, this.world.width, this.world.height, 'groundDirt.png')
+    this.ground = new Ground(this.game, 0, this.world.height, this.world.width, this.world.height, 'groundDirt')
     this.add.existing(this.ground)
 
     // plane
@@ -66,14 +66,14 @@ class Main extends Phaser.State {
     this.action2Key.onDown.add(this.turbo, this)
 
     this.instructionGroup = this.add.group()
-    this.instructionGroup.add(this.add.sprite(this.world.width / 2, 100, 'sheet', 'textGetReady.png'))
-    this.instructionGroup.add(this.add.sprite(this.plane.x - this.plane.width * 1.5, this.plane.y, 'sheet', 'tapRight.png'))
-    this.instructionGroup.add(this.add.sprite(this.plane.x + this.plane.width * 1.5, this.plane.y, 'sheet', 'tapLeft.png'))
+    this.instructionGroup.add(this.add.sprite(this.world.width / 2, 100, 'sheet', 'textGetReady'))
+    this.instructionGroup.add(this.add.sprite(this.plane.x - this.plane.width * 1.5, this.plane.y, 'sheet', 'tapRight'))
+    this.instructionGroup.add(this.add.sprite(this.plane.x + this.plane.width * 1.5, this.plane.y, 'sheet', 'tapLeft'))
     const tap = this.add.sprite(this.plane.x + this.plane.width, this.plane.y + this.plane.height * 2, 'sheet')
     this.instructionGroup.add(tap)
     this.instructionGroup.setAll('anchor.x', 0.5)
     this.instructionGroup.setAll('anchor.y', 0.5)
-    tap.animations.add('default', [ 'tap.png', 'tapTick.png' ], 3, true)
+    tap.animations.add('default', [ 'tap', 'tapTick' ], 3, true)
     tap.animations.play('default')
     tap.anchor.set(1)
 
@@ -117,7 +117,7 @@ class Main extends Phaser.State {
 
   render () {
     // for (var i in this.obstacles.children) {
-    //   this.game.debug.body(this.obstacles.children[ i ].topObstacle)
+      // this.game.debug.body(this.obstacles.children[ i ].topObstacle)
     // }
   }
 
@@ -147,6 +147,7 @@ class Main extends Phaser.State {
       case 'play':
         this.plane.body.allowGravity = true
         this.plane.alive = true
+        this.plane.playDefault()
 
         this.pipeGenerator.timer.start()
         this.speed = 200
@@ -157,7 +158,7 @@ class Main extends Phaser.State {
         break
       case 'turbo':
         if (oldState !== 'play') return
-
+        this.plane.playTurbo()
         this.speed = 1000
 
         this.turboTimer = 1.5

@@ -6,7 +6,8 @@ class Plane extends Phaser.Sprite {
 
     this.anchor.setTo(0.5, 0.5)
 
-    this.animations.add('default', Phaser.Animation.generateFrameNames(frame, 1, 3, '.png'), 30, true)
+    this.animations.add('default', Phaser.Animation.generateFrameNames(frame, 1, 3, ''), 30, true)
+    this.animations.add('turbo', Phaser.Animation.generateFrameNames(frame+'Nitro', 1, 3, ''), 30, true)
     this.animations.play('default')
 
     this.name = 'bird'
@@ -15,7 +16,7 @@ class Plane extends Phaser.Sprite {
     this.game.physics.arcade.enableBody(this)
     this.body.allowGravity = false
     this.body.collideWorldBounds = true
-    this.body.setSize(this.width - 10, this.height - 10, 5, 5)
+    this.body.setSize(78, 63, 5, 5)
 
     this.events.onKilled.add(this.onKilled, this)
   }
@@ -43,6 +44,19 @@ class Plane extends Phaser.Sprite {
     this.visible = true
     this.animations.stop()
   }
+
+  playTurbo () {
+    this.body.setSize(78, 63, 70, 14) // 88, this.body.y)
+    this.animations.play('turbo')
+    
+  }
+
+  playDefault () {
+    this.body.setSize(78, 63, 5, 5)
+    this.animations.play('default')
+  }  
+
+
 }
 
 module.exports = Plane

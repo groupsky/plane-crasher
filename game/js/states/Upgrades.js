@@ -18,7 +18,7 @@ class Upgrades extends Phaser.State {
     })
     title.anchor.set(0.5, 0)
 
-    this.buyBotBtn = new Button(this.game, 120, 200, 'buttonLarge.png',
+    this.buyBotBtn = new Button(this.game, 120, 200, 'buttonLarge',
       'bot ' + this.game.idle.idleEngine.botCost(1), 14)
     this.add.existing(this.buyBotBtn)
     this.buyBotBtn.onInputUp.add(() => {
@@ -26,7 +26,7 @@ class Upgrades extends Phaser.State {
       this.buyBotBtn.text = 'bot ' + this.game.idle.idleEngine.botCost(1)
     })
 
-    this.buyRocketBtn = new Button(this.game, 120, 300, 'buttonLarge.png',
+    this.buyRocketBtn = new Button(this.game, 120, 300, 'buttonLarge',
       'rocket ' + this.game.idle.idleEngine.rocketCost(1), 14)
     this.add.existing(this.buyRocketBtn)
     this.buyRocketBtn.onInputUp.add(() => {
@@ -34,7 +34,7 @@ class Upgrades extends Phaser.State {
       this.buyRocketBtn.text = 'rocket ' + this.game.idle.idleEngine.rocketCost(1)
     })
 
-    this.buyDistanceBtn = new Button(this.game, 360, 200, 'buttonLarge.png',
+    this.buyDistanceBtn = new Button(this.game, 360, 200, 'buttonLarge',
       'dist ' + this.game.idle.idleEngine.distancePointsCost(1), 14)
     this.add.existing(this.buyDistanceBtn)
     this.buyDistanceBtn.onInputUp.add(() => {
@@ -42,7 +42,7 @@ class Upgrades extends Phaser.State {
       this.buyDistanceBtn.text = 'dist ' + this.game.idle.idleEngine.distancePointsCost(1)
     })
 
-    this.buyObstacleBtn = new Button(this.game, 360, 300, 'buttonLarge.png',
+    this.buyObstacleBtn = new Button(this.game, 360, 300, 'buttonLarge',
       'obst ' + this.game.idle.idleEngine.obstaclePointsCost(1), 14)
     this.add.existing(this.buyObstacleBtn)
     this.buyObstacleBtn.onInputUp.add(() => {
@@ -50,7 +50,7 @@ class Upgrades extends Phaser.State {
       this.buyObstacleBtn.text = 'obst ' + this.game.idle.idleEngine.obstaclePointsCost(1)
     })
 
-    this.buyJumpBtn = new Button(this.game, 600, 200, 'buttonLarge.png',
+    this.buyJumpBtn = new Button(this.game, 600, 200, 'buttonLarge',
       'jump ' + this.game.idle.idleEngine.jumpPrecisionCost(1), 14)
     this.add.existing(this.buyJumpBtn)
     this.buyJumpBtn.onInputUp.add(() => {
@@ -58,7 +58,7 @@ class Upgrades extends Phaser.State {
       this.buyJumpBtn.text = 'jump ' + this.game.idle.idleEngine.jumpPrecisionCost(1)
     })
 
-    this.buySpeedBtn = new Button(this.game, 600, 300, 'buttonLarge.png',
+    this.buySpeedBtn = new Button(this.game, 600, 300, 'buttonLarge',
       'speed ' + this.game.idle.idleEngine.speedCost(1), 14)
     this.add.existing(this.buySpeedBtn)
     this.buySpeedBtn.onInputUp.add(() => {
@@ -66,7 +66,7 @@ class Upgrades extends Phaser.State {
       this.buySpeedBtn.text = 'speed ' + this.game.idle.idleEngine.speedCost(1)
     })
 
-    this.backBtn = new Button(this.game, 120, 200, 'buttonSmall.png', 'back', 14)
+    this.backBtn = new Button(this.game, 120, 200, 'buttonSmall', 'back', 14)
     this.add.existing(this.backBtn)
     this.backBtn.onInputUp.add(() => this.game.state.start('MainMenu'))
     this.backBtn.position.x = this.backBtn.width

@@ -10,10 +10,10 @@ class ObstacleGroup extends Phaser.Group {
     this.frame = frame
     this.speed = -200
 
-    this.topObstacle = new Obstacle(this.game, 0, 0, this.frame + 'Down.png')
+    this.topObstacle = new Obstacle(this.game, 0, 0, this.frame + 'Down')
     this.add(this.topObstacle)
 
-    this.bottomObstacle = new Obstacle(this.game, 0, this.game.height, this.frame + '.png')
+    this.bottomObstacle = new Obstacle(this.game, 0, this.game.height, this.frame + '')
     this.add(this.bottomObstacle)
   }
 

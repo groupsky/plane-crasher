@@ -12,7 +12,7 @@ class TopBar extends Phaser.Group {
       boundsAlignH: 'right',
       boundsAlignV: 'top',
     }, this)
-    const goldIcon = this.game.add.sprite(this.game.width - 8, this.goldLabel.position.y + this.goldLabel.height * 0.5, 'sheet', 'medalGold.png', this)
+    const goldIcon = this.game.add.sprite(this.game.width - 8, this.goldLabel.position.y + this.goldLabel.height * 0.5, 'sheet', 'medalGold', this)
     goldIcon.anchor.set(1, 0.5)
     goldIcon.scale.set(this.goldLabel.height / goldIcon.height)
 
@@ -23,7 +23,7 @@ class TopBar extends Phaser.Group {
       boundsAlignH: 'right',
       boundsAlignV: 'top',
     }, this)
-    const rocketsIcon = this.game.add.sprite(this.game.width - 116, this.rocketsLabel.position.y + this.rocketsLabel.height * 0.5, 'sheet', 'medalBronze.png', this)
+    const rocketsIcon = this.game.add.sprite(this.game.width - 116, this.rocketsLabel.position.y + this.rocketsLabel.height * 0.5, 'sheet', 'medalBronze', this)
     rocketsIcon.anchor.set(0.5)
     rocketsIcon.scale.set(this.rocketsLabel.height / rocketsIcon.height)
   }

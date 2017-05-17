@@ -12,7 +12,7 @@ class MainMenu extends Phaser.State {
     this.add.existing(topBar)
 
     // scrolling background
-    this.background = this.add.tileSprite(0, 40, this.world.width, this.world.height / 3, 'sheet', 'background.png')
+    this.background = this.add.tileSprite(0, 40, this.world.width, this.world.height / 3, 'sheet', 'background')
     this.background.scale.setTo(this.world.height / 480)
     this.background.autoScroll(-100, 0)
 
@@ -49,9 +49,9 @@ class MainMenu extends Phaser.State {
     // this.input.onTap.add(this.startGame, this)
     // this.input.onDown.add(this.startGame, this)
 
-    // this.startBtn = this.game.add.button(this.world.centerX, 400, 'sheet', this.startGame, this, 'buttonSmall.png')
+    // this.startBtn = this.game.add.button(this.world.centerX, 400, 'sheet', this.startGame, this, 'buttonSmall')
     // this.startBtn.anchor.set(0.5)
-    this.startBtn = new Button(this.game, this.world.centerX, 410, 'buttonSmall.png')
+    this.startBtn = new Button(this.game, this.world.centerX, 410, 'buttonSmall')
     this.startBtn.onInputUp.add(this.startGame, this)
 
     this.startBtnLabel = this.add.text(this.world.centerX, 410, 'play', {
@@ -63,7 +63,7 @@ class MainMenu extends Phaser.State {
     })
     this.startBtnLabel.anchor.set(0.5)
 
-    this.upgradesBtn = new Button(this.game, this.world.centerX, 520, 'buttonLarge.png')
+    this.upgradesBtn = new Button(this.game, this.world.centerX, 520, 'buttonLarge')
     this.upgradesBtn.onInputUp.add(() => this.game.state.start('Upgrades'))
 
     this.upgradesBtnLabel = this.add.text(this.world.centerX, 520, 'upgrade', {
@@ -75,7 +75,7 @@ class MainMenu extends Phaser.State {
     })
     this.upgradesBtnLabel.anchor.set(0.5)
 
-    const fullBtn = new Button(this.game, this.world.width, this.world.height, 'buttonSmall.png')
+    const fullBtn = new Button(this.game, this.world.width, this.world.height, 'buttonSmall')
     fullBtn.onInputUp.add(() => {
       if (this.game.scale.isFullScreen) {
         this.game.scale.stopFullScreen()
