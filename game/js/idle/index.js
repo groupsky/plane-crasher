@@ -1,14 +1,17 @@
 const Manager = require('./Manager')
 const Bot = require('./Bot')
 const Recording = require('./Recording')
+const clone = require('../utils').clone
+const moment = require('moment')
+const subtract = require('../utils').subtract
 
 class Idle {
   constructor () {
-    this.bots = new Manager(this)
+    this.bots = new Manager(this, null, Bot)
     this.defs = {
       bot: {
         label: 'AutoBot',
-        price: 10000,
+        price: 100,
         factor: 10,
       },
       rocket: {
@@ -41,7 +44,7 @@ class Idle {
         val: 0.1,
       },
     }
-    this.recordings = new Manager(this)
+    this.recordings = new Manager(this, null, Recording)
     this.inventory = {
       gold: 0,
       rocket: 0,
@@ -50,14 +53,42 @@ class Idle {
       jumpPrecision: 0,
       speed: 0,
     }
+    this.idleGain = false
+    this.recordIdleGain = false
     this.stats = {
       bought: {
         rocket: 0,
-      }
+      },
+      best: {
+        score: 0,
+        time: 0,
+      },
     }
     this.time = {
       lastUpdate: 0,
       realElapsed: 0,
+      idleElapsed: 0,
+    }
+  }
+
+  init (state) {
+    this.bots.init(state.bots)
+    this.recordings.init(state.recordings)
+    this.inventory = clone(state.inventory)
+    this.stats = clone(state.stats)
+    this.time = clone(state.time)
+
+    console.log('idle time', moment.duration(new Date().getTime() - this.time.lastUpdate).humanize())
+    this.recordIdleGain = true
+  }
+
+  save () {
+    return {
+      bots: this.bots.save(),
+      recordings: this.recordings.save(),
+      inventory: clone(this.inventory),
+      stats: clone(this.stats),
+      time: clone(this.time),
     }
   }
 
@@ -72,12 +103,23 @@ class Idle {
     this.time.realElapsed = now - this.time.lastUpdate
     this.time.lastUpdate = now
 
-    this.bots.update()
+    if (this.recordIdleGain) {
+      this.recordIdleGain = false
+      this.time.idleElapsed = this.time.realElapsed
+      const old = clone(this.inventory)
+      this.bots.update()
+      this.idleGain = subtract(this.inventory, old)
+      console.log('idle gains', this.idleGain)
+    }
   }
 
   addRecording (score, time, distance, obstacles) {
+    if (this.stats.best.score < score) {
+      this.stats.best.score = score
+      this.stats.best.time = time
+    }
     this.recordings.removeAll()
-    this.recordings.add(Recording, score, time, distance, obstacles)
+    this.recordings.add(Recording, {score: score, time: time, distance: distance, obstacles: obstacles})
   }
 
   static calcCost (def, have, want) {
@@ -93,8 +135,7 @@ class Idle {
     const cost = this.botCost(count)
     if (this.inventory.gold < cost) return false
     this.inventory.gold -= cost
-    const recording = this.recordings.items[ 0 ]
-    this.bots.add(Bot, recording.score, recording.time)
+    this.bots.add(Bot, { profit: this.stats.best.score, interval: this.stats.best.time * 10000 })
   }
 
   rocketCost (count) {

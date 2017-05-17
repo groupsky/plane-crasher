@@ -9,9 +9,13 @@ class Bot extends Item {
     this._timer = 0
   }
 
-  init (profit, interval) {
-    this.profit = profit
-    this.interval = interval
+  init (state) {
+    this.profit = state.profit
+    this.interval = state.interval
+  }
+  
+  save () {
+    return {profit: this.profit, interval: this.interval}
   }
 
   update () {

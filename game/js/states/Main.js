@@ -31,7 +31,6 @@ class Main extends Phaser.State {
     this.background.scale.setTo(this.world.height / 480)
 
     const topBar = new TopBar(this.game)
-    this.add.existing(topBar)
 
     this.obstacles = this.game.add.group()
 
@@ -81,6 +80,8 @@ class Main extends Phaser.State {
     this.scoreLabel.anchor.set(0.5, 0)
 
     this.enterState('start')
+    this.add.existing(topBar)
+    this.world.bringToTop(topBar)
   }
 
   update () {
@@ -177,6 +178,7 @@ class Main extends Phaser.State {
         this.score = Math.floor(this.score)
         this.game.idle.idleEngine.addRecording(this.score, this.time, this.distance, this.obstaclesPassed)
         this.game.idle.idleEngine.inventory.gold += this.score
+        this.game.idle.save()
 
         this.endgame = new EndGame(this.game, null, this.world.centerX, this.world.centerY)
         this.endgame.show(this.score, this.time, this.distance, this.obstaclesPassed)
