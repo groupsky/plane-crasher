@@ -12,9 +12,9 @@ class TopBar extends Phaser.Group {
       boundsAlignH: 'right',
       boundsAlignV: 'top',
     }, this)
-    const goldIcon = this.game.add.sprite(this.game.width - 8, this.goldLabel.position.y + this.goldLabel.height * 0.5, 'sheet', 'medalGold', this)
+    const goldIcon = this.game.add.sprite(this.game.width - 8, this.goldLabel.position.y + this.goldLabel.height * 0.5, 'sheet', 'coin', this)
     goldIcon.anchor.set(1, 0.5)
-    goldIcon.scale.set(this.goldLabel.height / goldIcon.height)
+    goldIcon.scale.set(this.goldLabel.height / goldIcon.height*0.8)
 
     this.rocketsLabel = this.game.add.text(this.game.width - 108, 8, '0', {
       font: '24px kenvector_future_thin',
@@ -23,9 +23,9 @@ class TopBar extends Phaser.Group {
       boundsAlignH: 'right',
       boundsAlignV: 'top',
     }, this)
-    const rocketsIcon = this.game.add.sprite(this.game.width - 116, this.rocketsLabel.position.y + this.rocketsLabel.height * 0.5, 'sheet', 'medalBronze', this)
+    const rocketsIcon = this.game.add.sprite(this.game.width - 130, this.rocketsLabel.position.y + this.rocketsLabel.height * 0.5, 'sheet', 'rocket', this)
     rocketsIcon.anchor.set(0.5)
-    rocketsIcon.scale.set(this.rocketsLabel.height / rocketsIcon.height)
+    rocketsIcon.scale.set(this.rocketsLabel.height / rocketsIcon.height * 0.8)
   }
 
   update () {
