@@ -2,15 +2,14 @@
 
 class Panel extends Phaser.Group {
 
-  constructor (game, x, y, frame) {
-    super(game)
+  constructor (game, parent, x, y, frame) {
+    super(game, parent, 'panel')
 
     this.background = this.create(0, 0, 'sheet', frame || 'UIbg.png')
-    this.width = this.background.width
-    this.height = this.background.height
+    this.background.anchor.set(0.5)
 
-    this.x = x - this.width / 2
-    this.y = y - this.height / 2
+    this.x = x
+    this.y = y
   }
 
 }

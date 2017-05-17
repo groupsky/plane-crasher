@@ -3,6 +3,7 @@
 const Button = require('../ui/ButtonFont')
 const Plane = require('../actors/Plane')
 const TopBar = require('../actors/TopBar')
+const IdleGains = require('../actors/IdleGains')
 
 class MainMenu extends Phaser.State {
   preload () { }
@@ -60,6 +61,19 @@ class MainMenu extends Phaser.State {
     fullBtn.scale.set(0.15, 0.25)
     fullBtn.x -= fullBtn.width - 8
     fullBtn.y -= fullBtn.height - 8
+
+    if (this.game.idle.idleEngine.idleGain) {
+      this.startBtn.visible = false
+      this.upgradesBtn.visible = false
+      this.idleGains = new IdleGains(this.game, undefined, this.world.centerX, this.world.centerY)
+      this.add.existing(this.idleGains)
+      this.idleGains.onContinue.add(() => {
+        this.idleGains.destroy()
+        this.startBtn.visible = true
+        this.upgradesBtn.visible = true
+        this.game.idle.idleEngine.idleGain = false
+      })
+    }
   }
 
   render () { }

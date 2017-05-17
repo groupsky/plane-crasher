@@ -26,6 +26,8 @@ class IdlePlugin extends Phaser.Plugin {
       } catch (e) {
         console.error('unable to restore save', e)
       }
+    } else {
+      console.log('no state')
     }
     this._lastSave = new Date().getTime()
 
@@ -35,8 +37,14 @@ class IdlePlugin extends Phaser.Plugin {
   restoreSave (saveState) {
     saveState = LZstring.decompressFromBase64(saveState)
     saveState = JSON.parse(saveState)
-    if (!saveState) return
-    if (!saveState.version) return
+    if (!saveState) {
+      console.warn('empty save state')
+      return
+    }
+    if (!saveState.version) {
+      console.warn('no version in save')
+      return
+    }
 
     var saveVersion = semver(saveState.version)
     var gameVersion = semver(pkg.version)

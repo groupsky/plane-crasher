@@ -2,6 +2,8 @@ const Manager = require('./Manager')
 const Bot = require('./Bot')
 const Recording = require('./Recording')
 const clone = require('../utils').clone
+const moment = require('moment')
+const subtract = require('../utils').subtract
 
 class Idle {
   constructor () {
@@ -51,6 +53,8 @@ class Idle {
       jumpPrecision: 0,
       speed: 0,
     }
+    this.idleGain = false
+    this.recordIdleGain = false
     this.stats = {
       bought: {
         rocket: 0,
@@ -63,6 +67,7 @@ class Idle {
     this.time = {
       lastUpdate: 0,
       realElapsed: 0,
+      idleElapsed: 0,
     }
   }
 
@@ -72,6 +77,9 @@ class Idle {
     this.inventory = clone(state.inventory)
     this.stats = clone(state.stats)
     this.time = clone(state.time)
+
+    console.log('idle time', moment.duration(new Date().getTime() - this.time.lastUpdate).humanize())
+    this.recordIdleGain = true
   }
 
   save () {
@@ -95,7 +103,14 @@ class Idle {
     this.time.realElapsed = now - this.time.lastUpdate
     this.time.lastUpdate = now
 
-    this.bots.update()
+    if (this.recordIdleGain) {
+      this.recordIdleGain = false
+      this.time.idleElapsed = this.time.realElapsed
+      const old = clone(this.inventory)
+      this.bots.update()
+      this.idleGain = subtract(this.inventory, old)
+      console.log('idle gains', this.idleGain)
+    }
   }
 
   addRecording (score, time, distance, obstacles) {
