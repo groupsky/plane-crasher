@@ -22,7 +22,6 @@ class Main extends Phaser.State {
     this.obstacleDistance = 500
     this._speed = 0
     this.distancePoints = this.game.idle.idleEngine.calcDistancePoints()
-    this.isTurbo = false
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE)
     this.game.physics.arcade.gravity.y = 1200
@@ -58,18 +57,17 @@ class Main extends Phaser.State {
     this.actionKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     this.actionKey.onDown.addOnce(this.startGame, this)
     this.actionKey.onDown.add(this.plane.jump, this.plane)
-    this.input.onUp.addOnce(this.startGame, this)
-    this.input.onUp.add(() => this.isTurbo || this.plane.jump())
+    this.background.inputEnabled = true
+    this.background.events.onInputDown.addOnce(this.startGame, this)
+    this.background.events.onInputDown.add(() => this.plane.jump() )
 
     this.game.input.keyboard.addKeyCapture([ Phaser.Keyboard.ENTER ])
     this.action2Key = this.input.keyboard.addKey(Phaser.Keyboard.ENTER)
     this.action2Key.onDown.add(this.turbo, this)
-    this.turboBtn = this.game.add.button(10, this.world.height - 10, 'sheet', this.turbo, this, 'medalBronze', 'medalBronze', 'medalBronze', 'medalBronze')
+    this.turboBtn = this.game.add.button(10, this.world.height - 10, 'sheet', this.turbo, this, 'rocket', 'rocket', 'rocket', 'rocket')
     this.turboBtn.useHandCursor = true
     this.turboBtn.anchor.set(0, 1)
     this.turboBtn.scale.set(0.5)
-    this.turboBtn.onInputDown.add(() => this.isTurbo = true)
-    this.turboBtn.onInputUp.add(() => this.isTurbo = false)
 
     this.instructionGroup = this.add.group()
     this.instructionGroup.add(this.add.sprite(this.world.width / 2, 100, 'sheet', 'textGetReady'))
