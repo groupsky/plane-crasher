@@ -55,10 +55,10 @@ class IdlePlugin extends Phaser.Plugin {
       return
     }
     // if we couldn't migrate to same minor - trash it
-    if (saveVersion.minor !== gameVersion.minor) {
-      console.warn('Save game cannot be used!')
-      return
-    }
+    // if (saveVersion.minor !== gameVersion.minor) {
+    //   console.warn('Save game cannot be used!')
+    //   return
+    // }
 
     this.idleEngine.init(saveState.gameState)
   }
