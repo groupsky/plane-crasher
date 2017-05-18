@@ -6,8 +6,8 @@ class TopBar extends Phaser.Group {
     super(game, parent)
 
     this.goldLabel = this.game.add.text(this.game.width - 8, 8, '0', {
-      font: '24px kenvector_future_thin',
-      fill: '#ffffff',
+      font: '18px kenvector_future_thin',
+      fill: '#333',
       align: 'right',
       boundsAlignH: 'right',
       boundsAlignV: 'top',
@@ -17,8 +17,8 @@ class TopBar extends Phaser.Group {
     goldIcon.scale.set(this.goldLabel.height / goldIcon.height*0.8)
 
     this.rocketsLabel = this.game.add.text(this.game.width - 108, 8, '0', {
-      font: '24px kenvector_future_thin',
-      fill: '#ffffff',
+      font: '18px kenvector_future_thin',
+      fill: '#333',
       align: 'right',
       boundsAlignH: 'right',
       boundsAlignV: 'top',
