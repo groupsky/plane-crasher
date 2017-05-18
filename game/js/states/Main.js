@@ -10,8 +10,10 @@ class Main extends Phaser.State {
   preload () { }
 
   create () {
-    this.oldFps = this.game.saveCpu.renderOnFPS
-    this.game.saveCpu.renderOnFPS = 120
+    if (this.game.saveCpu) {
+      this.oldFps = this.game.saveCpu.renderOnFPS
+      this.game.saveCpu.renderOnFPS = 120
+    }
 
     this.score = {
       distance: 0,
@@ -68,7 +70,7 @@ class Main extends Phaser.State {
     this.game.input.keyboard.addKeyCapture([ Phaser.Keyboard.ENTER ])
     this.action2Key = this.input.keyboard.addKey(Phaser.Keyboard.ENTER)
     this.action2Key.onDown.add(this.turbo, this)
-    this.turboBtn = this.game.add.button(10, this.world.height - 10, 'sheet', this.turbo, this, 'rocket', 'rocket', 'rocket', 'rocket')
+    this.turboBtn = this.game.add.button(10, this.world.height - 10, 'sheet', this.turbo, this, 'buttonSmall', 'buttonSmall', 'buttonSmall', 'buttonSmall')
     this.turboBtn.useHandCursor = true
     this.turboBtn.anchor.set(0, 1)
     this.turboBtn.scale.set(0.5)
@@ -86,6 +88,13 @@ class Main extends Phaser.State {
     tap.anchor.set(1)
 
     this.scoreLabel = this.add.bitmapText(this.game.width * 0.5, 10, 'font', '0', 24)
+    // this.scoreLabel = this.add.text(this.game.width * 0.5, 10, '0', {
+    //   font: '24px kenvector_future_thin',
+    //   fill: '#ffffff',
+    //   align: 'center',
+    //   boundsAlignH: 'center',
+    //   boundsAlignV: 'top',
+    // })
     this.scoreLabel.anchor.set(0.5, 0)
 
     this.enterState('start')
@@ -94,7 +103,7 @@ class Main extends Phaser.State {
   }
 
   update () {
-    if ([ 'start', 'end' ].includes(this.sceneState)) return
+    if ([ 'start', 'end' ].indexOf(this.sceneState) !== -1) return
 
     this.game.physics.arcade.collide(this.plane, this.ground, this.deathHandler, null, this)
     this.obstacles.forEach(function (obstacle) {
@@ -183,6 +192,9 @@ class Main extends Phaser.State {
         this.game.idle.idleEngine.inventory.gold += this.score.total
         this.game.idle.save()
 
+        // this.game.state.start('MainMenu')
+        // return
+
         this.endgame = new EndGame(this.game, null, this.world.centerX, this.world.centerY)
         this.endgame.show(this.score, this.stats, this.coefs)
         this.game.add.existing(this.endgame)
@@ -217,9 +229,11 @@ class Main extends Phaser.State {
     this.game.input.keyboard.removeKey(Phaser.Keyboard.ENTER)
     this.plane.destroy()
     this.obstacles.destroy()
-    this.endgame.destroy()
+    if (this.endgame)    this.endgame.destroy()
 
-    this.game.saveCpu.renderOnFPS = this.oldFps
+    if (this.game.saveCpu) {
+      this.game.saveCpu.renderOnFPS = this.oldFps
+    }
   }
 
   startGame () {

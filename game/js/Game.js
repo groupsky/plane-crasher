@@ -10,11 +10,40 @@ const Upgrades = require('./states/Upgrades')
 
 class Game extends Phaser.Game {
   constructor () {
-    super(800, 600, Phaser.AUTO)
+    let engine = Phaser.AUTO
+
+    if (window.Cocoon) {
+      if (window.Cocoon.nativeAvailable()) {
+        console.log('cocoon native available, webgl', window.Cocoon.Utils.isWebGLEnabled())
+        engine = Phaser.CANVAS
+        if (window.Cocoon.Utils.isWebGLEnabled()) {
+          window.Cocoon.Utils.setWebGLEnabled(false)
+        }
+      } else {
+        console.log('no native')
+      }
+    } else {
+      console.log('no cocoon')
+    }
+
+    const scale = 480 / window.innerHeight
+    console.log('scaling at', scale)
+
+    super({
+      width: window.innerWidth * scale,
+      height: window.innerHeight * scale,
+      renderer: engine,
+      antialias: false,
+      enableDebug: process.env.NODE_ENV !== 'production'
+    })
+
+    this.isBrowser = !window.Cocoon || !window.Cocoon.nativeAvailable()
 
     this.idle = this.plugins.add(IdlePlugin.configure(), 'crashyplane')
-    this.saveCpu = this.plugins.add(Phaser.Plugin.SaveCPU)
-    this.saveCpu.renderOnFPS = 10
+    if (this.isBrowser) {
+      this.saveCpu = this.plugins.add(Phaser.Plugin.SaveCPU)
+      this.saveCpu.renderOnFPS = 15
+    }
 
     this.stage.backgroundColor = 0x000000
 

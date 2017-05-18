@@ -7,7 +7,7 @@ class Plane extends Phaser.Sprite {
     this.anchor.setTo(0.5, 0.5)
 
     this.animations.add('default', Phaser.Animation.generateFrameNames(frame, 1, 3, ''), 30, true)
-    this.animations.add('turbo', Phaser.Animation.generateFrameNames(frame+'Nitro', 1, 3, ''), 30, true)
+    this.animations.add('turbo', Phaser.Animation.generateFrameNames(frame + 'Nitro', 1, 3, ''), 30, true)
     this.animations.play('default')
 
     this.name = 'bird'
@@ -48,15 +48,12 @@ class Plane extends Phaser.Sprite {
   playTurbo () {
     this.body.setSize(78, 63, 70, 14) // 88, this.body.y)
     this.animations.play('turbo')
-    
   }
 
   playDefault () {
     this.body.setSize(78, 63, 5, 5)
     this.animations.play('default')
-  }  
-
-
+  }
 }
 
 module.exports = Plane

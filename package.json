@@ -57,6 +57,7 @@
     "build": "npm run build:static && npm run build:js",
     "build:static": "cp-cli public build",
     "build:js": "NODE_ENV=production browserify -g envify --debug -e game/js/index.js | uglifyjs -c -m --screw-ie8 > build/bundle.js",
+    "build:js:debug": "NODE_ENV=debug browserify -g envify --debug -e game/js/index.js > build/bundle.js",
     "postbuild": "cd build && zip -9 kongregate.zip fontello.* index.js",
     "deploy": "gh-pages -d build -t",
     "dev": "budo game/js/index.js --live -d game -s bundle.js -- -p browserify-hmr -t aliasify",
