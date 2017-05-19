@@ -41,6 +41,8 @@ class EndGame extends Phaser.Group {
     const menuBtn = new Button(this.game, 100, 125, 'buttonSmall', 'menu', 24)
     this.add(menuBtn)
     menuBtn.onInputUp.add(() => this.game.state.start('MainMenu'))
+
+    this.vals = {}
   }
 
   createLbl (x, y, text, size) {
@@ -63,30 +65,34 @@ class EndGame extends Phaser.Group {
   }
 
   show (score, stats, coefs) {
-    const numbers = {
+    this.vals = {
       time: 0,
       obstacleCount: 0,
       obstacles: 0,
       distance: 0,
       score: 0,
     }
-    const scoreTween = this.game.add.tween(numbers).to({
-      time: stats.time,
-      obstacleCount: stats.obstacles,
-      obstacles: score.obstacles,
-      distance: score.distance,
-      score: score.total,
-    }, 500)
+    const vals = {
+      time: Math.floor(stats.time),
+      obstacleCount: Math.floor(stats.obstacles),
+      obstacles: Math.floor(score.obstacles),
+      distance: Math.floor(score.distance),
+      score: Math.floor(score.total),
+    }
+    const scoreTween = this.game.add.tween(this.vals).to(vals, 500)
 
-    scoreTween.onUpdateCallback(() => {
-      this.timeLabel.text = '' + Math.floor(numbers.time)
-      this.obstaclesNoLabel.text = '' + Math.floor(numbers.obstacleCount)
-      this.obstaclesLabel.text = '' + Math.floor(numbers.obstacles)
-      this.distanceLabel.text = '' + Math.floor(numbers.distance)
-      this.scoreLabel.text = '' + Math.floor(numbers.score)
-    })
+    scoreTween.onUpdateCallback(this.updateLabels, this)
+    scoreTween.onComplete.add(this.updateLabels, this)
 
     scoreTween.start()
+  }
+
+  updateLabels () {
+    this.timeLabel.text = '' + Math.floor(this.vals.time)
+    this.obstaclesNoLabel.text = '' + Math.floor(this.vals.obstacleCount)
+    this.obstaclesLabel.text = '' + Math.floor(this.vals.obstacles)
+    this.distanceLabel.text = '' + Math.floor(this.vals.distance)
+    this.scoreLabel.text = '' + Math.floor(this.vals.score)
   }
 }
 
