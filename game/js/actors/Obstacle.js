@@ -10,7 +10,7 @@ class Obstacle extends Phaser.Sprite {
     this.body.allowGravity = false
     this.body.immovable = true
 
-    this.body.setSize(18, this.height, this.width / 2, 0)
+    this.body.setSize(18, this.height, this.width / 2 - 3.5, 0)
   }
 }
 
