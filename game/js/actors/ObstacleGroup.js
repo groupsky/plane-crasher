@@ -20,8 +20,8 @@ class ObstacleGroup extends Phaser.Group {
   reset (x, y, difficulty, speed) {
     this.difficulty = difficulty
 
-    // lim -> 0.5
-    const offset = difficulty / (2 * difficulty + 10)
+    // lim -> 0.75
+    const offset = 5.6 * difficulty / (9 * difficulty + 50) - 0.25
 
     if (speed !== undefined) this.speed = speed
 
@@ -30,7 +30,6 @@ class ObstacleGroup extends Phaser.Group {
 
     this.x = x
     this.y = y
-
 
     this.hasScored = false
     this.exists = true
