@@ -11,34 +11,31 @@ class EndGame extends Phaser.Group {
 
     const background = this.create(0, 0, 'sheet', 'UIbg')
     background.anchor.set(0.5)
-    background.scale.set(1.5)
+    background.scale.set(1.25, 1.15)
 
-    const gameover = this.create(0, -200, 'sheet', 'textGameOver')
+    const gameover = this.create(0, -160, 'sheet', 'textGameOver')
     gameover.anchor.set(0.5)
 
-    const timeText = this.createLbl(-100, -160, 'Time:')
-    this.timeLabel = this.createDLbl(100, -160)
+    const timeText = this.createLbl(-100, -120, 'Time:')
+    this.timeLabel = this.createDLbl(100, -120)
 
-    const obstaclesNoText = this.createLbl(-100, -120, '# Obst:')
-    this.obstaclesNoLabel = this.createDLbl(100, -120)
+    const obstaclesNoText = this.createLbl(-100, -90, '# Obst:')
+    this.obstaclesNoLabel = this.createDLbl(100, -90)
 
-    const obstaclesText = this.createLbl(-100, -60, 'Obst:')
-    this.obstaclesLabel = this.createDLbl(100, -60)
+    const obstaclesText = this.createLbl(-100, -45, 'Obst:')
+    this.obstaclesLabel = this.createDLbl(100, -45)
 
-    const distanceText = this.createLbl(-100, -20, 'Dist:')
-    this.distanceLabel = this.createDLbl(100, -20)
-
-    // const timeText = this.createLbl(-100, -10, 'Time:')
-    // this.timeLabel = this.createDLbl(100, -10)
+    const distanceText = this.createLbl(-100, -12.5, 'Dist:')
+    this.distanceLabel = this.createDLbl(100, -15)
 
     const scoreText = this.createLbl(-100, 20, 'Score:', 24)
-    this.scoreLabel = this.createDLbl(100, 20, 24)
+    this.scoreLabel = this.createDLbl(100, 15, 24)
 
-    const retryBtn = new Button(this.game, -100, 125, 'buttonSmall', 'retry', 24)
+    const retryBtn = new Button(this.game, -75, 100, 'buttonSmall', 'retry', 24)
     this.add(retryBtn)
     retryBtn.onInputUp.add(() => this.game.state.start('Main'))
 
-    const menuBtn = new Button(this.game, 100, 125, 'buttonSmall', 'menu', 24)
+    const menuBtn = new Button(this.game, 75, 100, 'buttonSmall', 'menu', 24)
     this.add(menuBtn)
     menuBtn.onInputUp.add(() => this.game.state.start('MainMenu'))
 
