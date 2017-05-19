@@ -28,7 +28,7 @@ class Main extends Phaser.State {
       turboTime: 0
     }
     this.coefs = {
-      difficulty: 0,
+      difficulty: 1,
       distance: this.game.idle.idleEngine.calcDistancePoints(),
       obstacleDistance: 500,
       speed: this.game.idle.idleEngine.calcSpeed(),
@@ -97,6 +97,10 @@ class Main extends Phaser.State {
     // })
     this.scoreLabel.anchor.set(0.5, 0)
 
+    for (let i = 0; i < 10; i++) {
+      new ObstacleGroup(this.game, this.obstacles, 'rock').exists = false
+    }
+
     this.enterState('start')
     this.add.existing(topBar)
     this.world.bringToTop(topBar)
@@ -106,10 +110,10 @@ class Main extends Phaser.State {
     if ([ 'start', 'end' ].indexOf(this.sceneState) !== -1) return
 
     this.game.physics.arcade.collide(this.plane, this.ground, this.deathHandler, null, this)
-    this.obstacles.forEach(function (obstacle) {
-      this.checkScore(obstacle)
-      this.game.physics.arcade.collide(this.plane, obstacle, this.deathHandler, null, this)
-    }, this)
+    for (let i = this.obstacles.children.length; i--;) {
+      this.checkScore(this.obstacles.children[ i ])
+      this.game.physics.arcade.collide(this.plane, this.obstacles.children[ i ], this.deathHandler, null, this)
+    }
 
     this.stats.time += this.game.time.physicsElapsed
     const distance = this.speed * this.game.time.physicsElapsed
@@ -131,8 +135,10 @@ class Main extends Phaser.State {
 
   render () {
     // for (var i in this.obstacles.children) {
-    // this.game.debug.body(this.obstacles.children[ i ].topObstacle)
+    //   this.game.debug.body(this.obstacles.children[ i ].topObstacle)
+    //   break
     // }
+    // this.game.debug.body(this.plane)
   }
 
   get speed () { return this._speed }
@@ -203,6 +209,7 @@ class Main extends Phaser.State {
   }
 
   testForObstacleGenerator () {
+    if ([ 'start', 'end' ].indexOf(this.sceneState) !== -1) return
     if (this.lastObstacle < this.coefs.obstacleDistance) return
     this.lastObstacle = 0
     this.generateObstacles()
