@@ -25,7 +25,8 @@ class Main extends Phaser.State {
       time: 0,
       obstacles: 0,
       turbo: 0,
-      turboTime: 0
+      turboTime: 0,
+      jumps: 0,
     }
     this.coefs = {
       difficulty: 1,
@@ -33,7 +34,7 @@ class Main extends Phaser.State {
       obstacleDistance: 500,
       speed: this.game.idle.idleEngine.calcSpeed(),
       obstacle: this.game.idle.idleEngine.calcObstaclePoints(),
-      turboDuration: 1.5
+      turboDuration: 0.125
     }
     this.lastObstacle = +Infinity
     this._speed = 0
@@ -62,10 +63,10 @@ class Main extends Phaser.State {
     this.game.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ])
     this.actionKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     this.actionKey.onDown.addOnce(this.startGame, this)
-    this.actionKey.onDown.add(this.plane.jump, this.plane)
+    this.actionKey.onDown.add(this.jump, this)
     this.background.inputEnabled = true
     this.background.events.onInputDown.addOnce(this.startGame, this)
-    this.background.events.onInputDown.add(() => this.plane.jump())
+    this.background.events.onInputDown.add(this.jump, this)
 
     this.game.input.keyboard.addKeyCapture([ Phaser.Keyboard.ENTER ])
     this.action2Key = this.input.keyboard.addKey(Phaser.Keyboard.ENTER)
@@ -194,8 +195,7 @@ class Main extends Phaser.State {
         this.ground.stopScroll()
         this.pipeGenerator.timer.stop()
 
-        this.game.idle.idleEngine.addRecording(this.score.total, this.stats.time, this.stats.distance, this.stats.obstacles)
-        this.game.idle.idleEngine.inventory.gold += this.score.total
+        this.game.idle.idleEngine.recordPlay(this.score, this.stats, this.coefs)
         this.game.idle.save()
 
         // this.game.state.start('MainMenu')
@@ -253,6 +253,13 @@ class Main extends Phaser.State {
 
     this.game.idle.idleEngine.inventory.rocket--
     this.enterState('turbo')
+  }
+  
+  jump () {
+    if ([ 'start', 'end' ].indexOf(this.sceneState) !== -1) return
+    
+    this.stats.jumps++
+    this.plane.jump()
   }
 
   checkScore (obstacle) {
