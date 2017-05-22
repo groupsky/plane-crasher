@@ -6,13 +6,13 @@ const TopBar = require('../actors/TopBar')
 
 class Stats extends Phaser.State {
   create () {
-    const topBar = new TopBar(this.game)
-    topBar.title = 'Statistics'
-    topBar.backEnabled = true
-
     // scrolling background
     this.background = this.add.tileSprite(0, 0, this.world.width, this.world.height, 'sheet', 'background')
     this.background.autoScroll(-100, 0)
+
+    const topBar = new TopBar(this.game)
+    topBar.title = 'Statistics'
+    topBar.backEnabled = true
 
     const panelLeft = this.add.image(16, topBar.height + 16, 'sheet', 'UIbg')
     panelLeft.height = this.world.height - 32 - topBar.height

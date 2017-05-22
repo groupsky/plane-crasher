@@ -8,29 +8,28 @@ class TopBar extends Phaser.Group {
 
     this._height = 48
 
-    this._background = this.game.add.graphics(0,0, this)
+    this._background = this.game.add.graphics(0, 0, this)
     this._background.beginFill(0xFFFFFF)
-    this._background.drawRect(0,0, this.game.world.width, this._height)
+    this._background.drawRect(0, 0, this.game.world.width, this._height)
     this._background.endFill()
     this._background.alpha = 0.3
     this.add(this._background)
 
     this._title = this.game.add.text(this.game.world.centerX, 8, '', {
       font: '32px kenvector_future',
-      fill: '#ffffff',
+      fill: '#333',
       align: 'center',
       boundsAlignH: 'center',
-      boundsAlignV: 'center',
+      boundsAlignV: 'top',
     })
     this._title.anchor.set(0.5, 0)
 
-    this._backBtn = new Button(this.game, 0, 0, 'buttonSmall', 'back', 14, this)    
+    this._backBtn = new Button(this.game, 0, 0, 'buttonSmall', 'back', 14, this)
     this._backBtn.scale.set(0.6)
-    this._backBtn.position.x = this._backBtn.width/2
-    this._backBtn.position.y = this._backBtn.height/2
+    this._backBtn.position.x = this._backBtn.width / 2
+    this._backBtn.position.y = this._backBtn.height / 2
     this._backBtn.visible = false
     this._backBtn.onInputUp.add(() => this.game.state.start('MainMenu'))
-
 
     this.goldLabel = this.game.add.text(this.game.width - 8, 15, '0', {
       font: '18px kenvector_future_thin',
@@ -41,7 +40,7 @@ class TopBar extends Phaser.Group {
     }, this)
     const goldIcon = this.game.add.sprite(this.game.width - 8, this.goldLabel.position.y + this.goldLabel.height * 0.5, 'sheet', 'coin', this)
     goldIcon.anchor.set(1, 0.5)
-    goldIcon.scale.set(this.goldLabel.height / goldIcon.height*0.8)
+    goldIcon.scale.set(this.goldLabel.height / goldIcon.height * 0.8)
 
     this.rocketsLabel = this.game.add.text(this.game.width - 108, 15, '0', {
       font: '18px kenvector_future_thin',
@@ -62,11 +61,11 @@ class TopBar extends Phaser.Group {
     this.rocketsLabel.position.x = this.game.width - this.rocketsLabel.width - 108 - 24 - 4
   }
 
-  set title(title) {
-    this._title.text = title 
+  set title (title) {
+    this._title.text = title
   }
 
-  set backEnabled(enabled) {
+  set backEnabled (enabled) {
     this._backBtn.visible = enabled
   }
 
