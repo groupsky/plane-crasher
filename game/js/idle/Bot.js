@@ -18,6 +18,10 @@ class Bot extends Item {
     return { profit: this.profit, interval: this.interval }
   }
 
+  get progress () { return (this._timer % this.interval) / this.interval }
+
+  get remaining () { return this.interval * (1 - this.progress) }
+
   update () {
     this._timer += this.game.time.realElapsed
 

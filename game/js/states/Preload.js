@@ -15,6 +15,12 @@ class Preload extends Phaser.State {
 
     this.load.image('logo', 'img/logo.png')
     this.load.atlas('sheet', 'img/sheet.png', 'img/sheet.json')
+    this.load.image('barShadowLeft', 'img/barHorizontal_shadow_left.png')
+    this.load.image('barShadowMid', 'img/barHorizontal_shadow_mid.png')
+    this.load.image('barShadowRight', 'img/barHorizontal_shadow_right.png')
+    this.load.image('barBlueLeft', 'img/barHorizontal_blue_left.png')
+    this.load.image('barBlueMid', 'img/barHorizontal_blue_mid.png')
+    this.load.image('barBlueRight', 'img/barHorizontal_blue_right.png')
 
     // load web fonts
     this.webfontsReady = false
