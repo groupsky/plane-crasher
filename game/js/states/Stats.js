@@ -49,11 +49,11 @@ class Stats extends Phaser.State {
     totalsTitle.anchor.set(0.5, 0)
     this.add.text(panelLeft.x + 16, panelLeft.y + 2 + totalsTitle.height, [
       'plays: ' + Math.floor(stats.totals.plays),
-      'total time: ' + moment.duration(stats.totals.stats.time).humanize(),
+      'total time: ' + moment.duration(stats.totals.stats.time * 1000).humanize(),
       'obstacles: ' + Math.floor(stats.totals.stats.obstacles),
       'distance: ' + Math.floor(stats.totals.stats.distance) + 'm',
       'turbo used: ' + Math.floor(stats.totals.stats.turbo),
-      'turbo time:' + moment.duration(stats.totals.stats.turboTime).humanize(),
+      'turbo time:' + moment.duration(stats.totals.stats.turboTime * 1000).humanize(),
       'jumps: ' + Math.floor(stats.totals.stats.jumps),
       '',
       'obstacle score: ' + Math.floor(stats.totals.scores.obstacles),
@@ -67,14 +67,9 @@ class Stats extends Phaser.State {
 
     const highscoreTitle = this.add.text(panelRightTop.x + panelRightTop.width * 0.5, panelRightTop.y + 8, 'Highscore', titleStyle)
     highscoreTitle.anchor.set(0.5, 0)
-    // this.add.text(panelRightTop.x + 16, panelRightTop.y + 12 + highscoreTitle.height,
-    //   [ 'Bots: ' + Math.floor(idle.bots.items.length) ].concat(idle.bots.items.map((bot, idx) => {
-    //     return 'bot' + (idx + 1) + ': ' + bot.profit + ' / ' + moment.duration(bot.interval).humanize()
-    //   })).join('\n'), statStyle
-    // )
     this.add.text(panelRightTop.x + 16, panelRightTop.y + 12 + highscoreTitle.height, [
       'score: ' + Math.floor(stats.best.score),
-      'time: ' + moment.duration(stats.best.time).humanize(),
+      'time: ' + moment.duration(stats.best.time * 1000).humanize(),
       'distance: ' + Math.floor(stats.best.distance),
       'obstacles: ' + Math.floor(stats.best.obstacles)
     ].join('\n'), statStyle)

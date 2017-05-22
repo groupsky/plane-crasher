@@ -8,6 +8,7 @@ const Preload = require('./states/Preload')
 const GameOver = require('./states/GameOver')
 const Upgrades = require('./states/Upgrades')
 const Stats = require('./states/Stats')
+const Bots = require('./states/Bots')
 
 class Game extends Phaser.Game {
   constructor () {
@@ -63,6 +64,7 @@ class Game extends Phaser.Game {
     this.state.add('GameOver', GameOver, false)
     this.state.add('Upgrades', Upgrades, false)
     this.state.add('Stats', Stats, false)
+    this.state.add('Bots', Bots, false)
   }
 }
 
