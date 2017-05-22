@@ -42,11 +42,17 @@ class MainMenu extends Phaser.State {
     })
     lastLabel.position.x -= lastLabel.width
 
-    this.startBtn = new Button(this.game, this.world.centerX, 300, 'buttonLarge', 'Play', 28)
+    this.startBtn = new Button(this.game, this.world.width / 4, 300, 'buttonLarge', 'Play', 28)
     this.startBtn.onInputUp.add(this.startGame, this)
 
-    this.upgradesBtn = new Button(this.game, this.world.centerX, 400, 'buttonLarge', 'Upgrade', 28)
+    this.upgradesBtn = new Button(this.game, this.world.width / 4, 400, 'buttonLarge', 'Upgrade', 28)
     this.upgradesBtn.onInputUp.add(() => this.game.state.start('Upgrades'))
+
+    this.botsBtn = new Button(this.game, this.world.width * 3 / 4, 300, 'buttonLarge', 'Bots', 28)
+    this.botsBtn.onInputUp.add(() => this.game.state.start('Bots'))
+
+    this.statsBtn = new Button(this.game, this.world.width * 3 / 4, 400, 'buttonLarge', 'Stats', 28)
+    this.statsBtn.onInputUp.add(() => this.game.state.start('Stats'))
 
     if (this.game.isBrowser) {
       const fullBtn = new Button(this.game, this.world.width, this.world.height, 'buttonSmall', 'F', 40)
@@ -65,6 +71,8 @@ class MainMenu extends Phaser.State {
     if (this.game.idle.idleEngine.idleGain) {
       this.startBtn.visible = false
       this.upgradesBtn.visible = false
+      this.botsBtn.visible = false
+      this.statsBtn.visible = false
       this.idleGains = new IdleGains(this.game, undefined, this.world.centerX, this.world.centerY)
       this.add.existing(this.idleGains)
       this.idleGains.onContinue.add(() => {
@@ -72,6 +80,8 @@ class MainMenu extends Phaser.State {
         this.startBtn.visible = true
         this.upgradesBtn.visible = true
         this.game.idle.idleEngine.idleGain = false
+        this.botsBtn.visible = true
+        this.statsBtn.visible = true
       })
     }
 

@@ -13,17 +13,23 @@ class Bot extends Item {
     this.profit = state.profit
     this.interval = state.interval
   }
-  
+
   save () {
-    return {profit: this.profit, interval: this.interval}
+    return { profit: this.profit, interval: this.interval }
   }
 
   update () {
     this._timer += this.game.time.realElapsed
 
-    this.game.inventory.gold += Math.floor(this._timer / this.interval) * this.profit
+    const profit = Math.floor(this._timer / this.interval) * this.profit
+    if (profit <= 0) return
+
+    this.game.inventory.gold += profit
+    this.game.stats.totals.gold.bots += profit
 
     this._timer %= this.interval
+
+    this.game.save()
   }
 
 }

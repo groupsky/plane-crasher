@@ -1,7 +1,6 @@
 const Manager = require('./Manager')
 const Bot = require('./Bot')
 const clone = require('../utils').clone
-const moment = require('moment')
 const subtract = require('../utils').subtract
 const merge = require('lodash/merge')
 
@@ -64,6 +63,8 @@ class Idle {
       best: {
         score: 0,
         time: 0,
+        distance: 0,
+        obstacles: 0,
       },
       last: {
         scores: {
@@ -82,6 +83,10 @@ class Idle {
       },
       totals: {
         plays: 0,
+        gold: {
+          earned: 0,
+          bots: 0,
+        },
         scores: {
           distance: 0,
           obstacles: 0,
@@ -147,6 +152,7 @@ class Idle {
 
   recordPlay (scores, stats, coefs) {
     this.inventory.gold += scores.total
+    this.stats.totals.gold.earned += scores.total
 
     this.stats.last = {
       scores: scores,
@@ -168,6 +174,8 @@ class Idle {
       this.stats.best.score = scores.total
       this.stats.best.time = stats.time
     }
+    if (this.stats.best.distance < stats.distance) this.stats.best.distance = stats.distance
+    if (this.stats.best.obstacles < stats.obstacles) this.stats.best.obstacles = stats.obstacles
   }
 
   static calcCost (def, have, want) {

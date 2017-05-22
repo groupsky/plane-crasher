@@ -14,6 +14,7 @@ class IdlePlugin extends Phaser.Plugin {
 
     this.savekey = 'save'
     this.save = debounce(() => this.saveNow(), 250)
+    this._isReset = false
   }
 
   init (key) {
@@ -64,6 +65,7 @@ class IdlePlugin extends Phaser.Plugin {
   }
 
   saveNow () {
+    if (this._isReset) return
     var saveState = LZstring.compressToBase64(JSON.stringify({
       version: pkg.version,
       gameState: this.idleEngine.save()
@@ -81,6 +83,12 @@ class IdlePlugin extends Phaser.Plugin {
     if (new Date().getTime() - this._lastSave > 60000) {
       this.saveNow()
     }
+  }
+
+  reset () {
+    this._isReset = true
+    delete window.localStorage[ this.savekey ]
+    window.location.reload()
   }
 
   destroy () {
