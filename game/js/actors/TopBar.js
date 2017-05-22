@@ -15,11 +15,12 @@ class TopBar extends Phaser.Group {
     })
     this._title.anchor.set(0.5, 0)
 
-    this._backBtn = new Button(this.game, 0, 0, 'buttonSmall', 'back', 14, this)
-    this._backBtn.onInputUp.add(() => this.game.state.start('MainMenu'))
-    this._backBtn.position.x = this._backBtn.width/2 + 30
-    this._backBtn.position.y = this._backBtn.height/2 + 10
+    this._backBtn = new Button(this.game, 0, 0, 'buttonSmall', 'back', 14, this)    
+    this._backBtn.scale.set(0.4)
+    this._backBtn.position.x = this._backBtn.width/2
+    this._backBtn.position.y = this._backBtn.height/2
     this._backBtn.visible = false
+    this._backBtn.onInputUp.add(() => this.game.state.start('MainMenu'))
 
 
     this.goldLabel = this.game.add.text(this.game.width - 8, 8, '0', {
@@ -43,6 +44,13 @@ class TopBar extends Phaser.Group {
     const rocketsIcon = this.game.add.sprite(this.game.width - 130, this.rocketsLabel.position.y + this.rocketsLabel.height * 0.5, 'sheet', 'rocket', this)
     rocketsIcon.anchor.set(0.5)
     rocketsIcon.scale.set(this.rocketsLabel.height / rocketsIcon.height * 0.8)
+
+    this._background = this.game.add.graphics(0,0, this)
+    this._background.beginFill(0xFFFFFF)
+    this._background.drawRect(0,0, this.width, this.height)
+    this._background.endFill()
+    this._background.alpha = 0.3
+    this.add(this._background)
   }
 
   update () {
