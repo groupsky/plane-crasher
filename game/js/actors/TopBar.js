@@ -13,6 +13,7 @@ class TopBar extends Phaser.Group {
     this._background.drawRect(0, 0, this.game.world.width, this._height)
     this._background.endFill()
     this._background.alpha = 0.3
+    this._background.visible = false
     this.add(this._background)
 
     this._title = this.game.add.text(this.game.world.centerX, 8, '', {
@@ -63,6 +64,7 @@ class TopBar extends Phaser.Group {
 
   set title (title) {
     this._title.text = title
+    this._background.visible = true
   }
 
   set backEnabled (enabled) {
