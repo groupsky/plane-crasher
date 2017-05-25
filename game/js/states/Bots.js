@@ -60,6 +60,7 @@ class Bots extends Phaser.Stage {
       botInfo.upBtn.onInputUp.add(() => {
         idle.upBot(botInfo.bot)
         botInfo.upgradeable = botInfo.bot.profit < Math.floor(stats.best.score)
+        botInfo.reset()
       })
       botInfo.upgradeable = botInfo.bot.profit < Math.floor(stats.best.score)
       this.add.existing(botInfo)
