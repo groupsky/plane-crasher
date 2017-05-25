@@ -19,6 +19,8 @@ class Plane extends Phaser.Sprite {
     this.body.setSize(78, 63, 5, 5)
 
     this.events.onKilled.add(this.onKilled, this)
+
+    this.jumpSound = this.game.add.audio('jump')
   }
 
   jump () {
@@ -27,6 +29,7 @@ class Plane extends Phaser.Sprite {
     this.body.velocity.y = -600 * this.game.idle.idleEngine.calcJumpPrecision()
 
     this.game.add.tween(this).to({ angle: -60 }, 100).start()
+    this.jumpSound.play()
   }
 
   update () {
