@@ -45,6 +45,10 @@ class BotInfo extends Phaser.Group {
     this.y = y
   }
 
+  reset () {
+    this.profitLabel.text = formatNumber(this.bot.profit, formatNumber.gold)
+  }
+
   set upgradeable (value) {
     value = !!value
     if (this.upBtn.visible === value) return
