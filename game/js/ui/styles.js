@@ -10,7 +10,8 @@ module.exports = {
    * standard style for buttons
    */
   btnLarge: {
-    frame: 'buttonLarge',
+    frame: 'green',
+    sheet: 'ui',
     bitmap: true,
     font: 'kenvector',
     size: 28,

@@ -7,8 +7,10 @@ class Button extends Phaser.Group {
     super(game, parent, 'button')
 
     const frame = (style && style.frame) || 'buttonLarge'
+    const sheet = (style && style.sheet) || 'sheet'
+    const customButton = frame.startsWith('button')
 
-    this.background = this.game.add.button(0, 0, 'sheet', null, null, frame, frame, frame, frame, this)
+    this.background = this.game.add.button(0, 0, sheet, null, null, frame + (customButton ? '': '_button04'), frame + (customButton ? '' : '_button02'), frame + (customButton ? '' : '_button05'), frame + (customButton ? '' : '_button04'), this)
     this.background.anchor.set(0.5)
 
     if (style.size === undefined) style.size = this.background.height / 2
@@ -19,7 +21,10 @@ class Button extends Phaser.Group {
     this.x = x
     this.y = y
 
+    this.clickSound = this.game.add.audio('click')
+
     this.onInputUp = this.background.onInputUp
+    this.background.onInputDown.add(this.playSound, this)
   }
 
   get text () {
@@ -28,6 +33,10 @@ class Button extends Phaser.Group {
 
   set text (value) {
     this.label.text = value
+  }
+
+  playSound () {
+    this.clickSound.play()
   }
 }
 
