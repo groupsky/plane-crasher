@@ -6,43 +6,38 @@ class UpgradePanel extends Phaser.Group {
   constructor (game, x, y, parent) {
     super(game, parent, 'upgradePanel')
 
-    // this.background = this.create(0, 0, 'sheet', 'UIbg')
-    // this.background.anchor.set(0.5)
     this.x = x
     this.y = y
     this.panelWidth = this.game.world.centerX - 27
     this.panelHeight = 120
 
 	
-    this.background = this.game.add.graphics(0,0, this)
-    this.background.beginFill(0xFFFFFF)
-    this.background.drawRect(0,0, this.panelWidth, this.panelHeight)
-    this.background.endFill()
-    this.background.alpha = 0.7
-    this.add(this.background)
+    this.background = this.game.add.image(0,0, 'sheet', 'UIbg', this)
+    this.background.width = this.panelWidth
+    this.background.height = this.panelHeight
 
     this.buyBtn = new Button(this.game, 100, 35, 'buttonSmall', '', 32)
-	  this.buyBtn.scale.set(0.7)
+	  this.buyBtn.scale.set(0.8)
     this.add(this.buyBtn)
     this.buyBtn.position.x = this.panelWidth - 10 - this.buyBtn.width / 2
     this.buyBtn.position.y = this.buyBtn.height / 2 + 10
 
-    this._title = this.game.add.text(50, 10, '', {
+    this._title = this.game.add.text(10, 10, '', {
       font: '32px kenvector_future',
-      fill: '#00FF00',
+      fill: '#333',
       align: 'center',
       boundsAlignH: 'center',
       boundsAlignV: 'center',
     })
     this.add(this._title)
 
-    this._icon = this.game.add.image(10, 10, 'sheet', '', this)
-  	this._icon.scale.set(0.3)
-  	this.add(this._icon);
+   //  this._icon = this.game.add.image(10, 10, 'sheet', '', this)
+  	// this._icon.scale.set(0.3)
+  	// this.add(this._icon);
 
-    this._description = this.game.add.text(10, 50, '', {
-      font: '16px',
-      fill: '#00FF00',
+    this._description = this.game.add.text(10, 45, '', {
+      font: '16px italic',
+      fill: '#333',
       align: 'left',
       boundsAlignH: 'center',
       boundsAlignV: 'center',
@@ -52,7 +47,7 @@ class UpgradePanel extends Phaser.Group {
   }
 
   set icon(frame) {
-  	this._icon.frameName = frame
+  	// this._icon.frameName = frame
   }
 
   set description(description) {

@@ -18,7 +18,7 @@ class Upgrades extends Phaser.State {
 
     this.buyBotPanel = new UpgradePanel(this.game, 18, 66)
     this.add.existing(this.buyBotPanel)
-    this.buyBotPanel.icon = 'rocket'
+    // this.buyBotPanel.icon = 'robot'
     this.buyBotPanel.description = 'Continuously generate gold \nbased on your best score at the moment \nof purchase'
     this.buyBotPanel.price = this.game.idle.idleEngine.botCost(1)
     this.buyBotPanel.title = 'Bot'
@@ -29,7 +29,7 @@ class Upgrades extends Phaser.State {
 
     this.buyRocketPanel = new UpgradePanel(this.game, this.world.centerX + 9, 66)
     this.add.existing(this.buyRocketPanel)
-    this.buyRocketPanel.icon = 'rocket'
+    // this.buyRocketPanel.icon = 'rocket'
     this.buyRocketPanel.description = 'This is sample description for the \nrocket upgrade separated \non 3 lines'
     this.buyRocketPanel.price = this.game.idle.idleEngine.rocketCost(1)
     this.buyRocketPanel.title = "Rocket"
@@ -40,7 +40,7 @@ class Upgrades extends Phaser.State {
 
     this.buyDistancePanel = new UpgradePanel(this.game, 18, 204)
     this.add.existing(this.buyDistancePanel)
-    this.buyDistancePanel.icon = 'rocket'
+    // this.buyDistancePanel.icon = 'rocket'
     this.buyDistancePanel.description = 'This is sample description for the \ndistance upgrade separated \non 3 lines'
     this.buyDistancePanel.price = this.game.idle.idleEngine.distancePointsCost(1)
     this.buyDistancePanel.title = "Distance"
@@ -52,7 +52,7 @@ class Upgrades extends Phaser.State {
 
     this.buyObstaclePanel = new UpgradePanel(this.game, this.world.centerX + 9, 204)
     this.add.existing(this.buyObstaclePanel)
-    this.buyObstaclePanel.icon = 'rocket'
+    // this.buyObstaclePanel.icon = 'rocket'
     this.buyObstaclePanel.description = 'This is sample description for the \nobstacle upgrade separated \non 3 lines'
     this.buyObstaclePanel.price = this.game.idle.idleEngine.obstaclePointsCost(1)
     this.buyObstaclePanel.title = "Obstacle"
@@ -63,7 +63,7 @@ class Upgrades extends Phaser.State {
 
     this.buyJumpPanel = new UpgradePanel(this.game, 18, 342)
     this.add.existing(this.buyJumpPanel)
-    this.buyJumpPanel.icon = 'rocket'
+    // this.buyJumpPanel.icon = 'rocket'
     this.buyJumpPanel.description = 'This is sample description for the \njump upgrade separated \non 3 lines'
     this.buyJumpPanel.price = this.game.idle.idleEngine.jumpPrecisionCost(1)
     this.buyJumpPanel.title = "Jump"
@@ -74,7 +74,7 @@ class Upgrades extends Phaser.State {
 
     this.buySpeedPanel = new UpgradePanel(this.game, this.world.centerX + 9, 342)
     this.add.existing(this.buySpeedPanel)
-    this.buySpeedPanel.icon = 'rocket'
+    // this.buySpeedPanel.icon = 'speed'
     this.buySpeedPanel.description = 'This is sample description for the \nspeed upgrade separated \non 3 lines'
     this.buySpeedPanel.price = this.game.idle.idleEngine.speedCost(1)
     this.buySpeedPanel.title = "Speed"
