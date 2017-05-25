@@ -1,6 +1,5 @@
 /* global Phaser, SlickUI */
 
-const Button = require('../ui/ButtonFont')
 const TopBar = require('../actors/TopBar')
 const UpgradePanel = require('../ui/UpgradePanel')
 

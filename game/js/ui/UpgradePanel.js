@@ -1,9 +1,10 @@
 /* global Phaser */
-const Button = require('../ui/ButtonFont')
+const Button = require('./Button')
 const formatNumber = require('../utils').formatNumber
+const Label = require('./Label')
+const styles = require('./styles')
 
 class UpgradePanel extends Phaser.Group {
-
   constructor (game, x, y, parent) {
     super(game, parent, 'upgradePanel')
 
@@ -16,34 +17,13 @@ class UpgradePanel extends Phaser.Group {
     this.background.width = this.panelWidth
     this.background.height = this.panelHeight
 
-    this.buyBtn = new Button(this.game, 100, 35, 'buttonSmall', '', 28)
+    this.buyBtn = new Button(this.game, 100, 35, '', styles.btnUpgrade, this)
     this.buyBtn.scale.set(0.8)
-    this.add(this.buyBtn)
     this.buyBtn.position.x = this.panelWidth - 10 - this.buyBtn.width / 2
     this.buyBtn.position.y = this.buyBtn.height / 2 + 10
 
-    this._title = this.game.add.text(10, 10, '', {
-      font: '32px kenvector_future',
-      fill: '#333',
-      align: 'center',
-      boundsAlignH: 'center',
-      boundsAlignV: 'center',
-    })
-    this.add(this._title)
-
-    //  this._icon = this.game.add.image(10, 10, 'sheet', '', this)
-    // this._icon.scale.set(0.3)
-    // this.add(this._icon);
-
-    this._description = this.game.add.text(10, 45, '', {
-      font: '16px italic',
-      fill: '#333',
-      align: 'left',
-      boundsAlignH: 'center',
-      boundsAlignV: 'center',
-    })
-    this.add(this._description)
-
+    this._title = new Label(this.game, 10, 10, '', styles.upgradeTitle, this)
+    this._description = new Label(this.game, 10, 45, '', styles.upgradeDesc, this)
   }
 
   set icon (frame) {

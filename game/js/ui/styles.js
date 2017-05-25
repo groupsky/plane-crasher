@@ -138,4 +138,37 @@ module.exports = {
     font: 'font',
     align: 'right',
   },
+  /**
+   * used for upgrade button in upgrades
+   */
+  btnUpgrade: {
+    frame: 'buttonSmall',
+    size: 28,
+    bitmap: true,
+    font: 'kenvector',
+  },
+  /**
+   * used for upgrade title
+   */
+  upgradeTitle: {
+    size: 32,
+    bitmap: true,
+    font: 'kenvector',
+    fill: '#333',
+    align: 'center',
+    boundsAlignH: 'center',
+    boundsAlignV: 'center',
+  },
+  /**
+   * used for upgrade description
+   */
+  upgradeDesc: {
+    size: 16,
+    bitmap: false,
+    font: 'italic',
+    fill: '#333',
+    align: 'left',
+    boundsAlignH: 'left',
+    boundsAlignV: 'top',
+  },
 }
