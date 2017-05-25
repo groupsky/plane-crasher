@@ -1,9 +1,10 @@
 /* global Phaser, SlickUI */
 
-const Button = require('../ui/ButtonFont')
+const Button = require('../ui/Button')
 const Plane = require('../actors/Plane')
 const TopBar = require('../actors/TopBar')
 const IdleGains = require('../actors/IdleGains')
+const styles = require('../ui/styles')
 
 class MainMenu extends Phaser.State {
   preload () { }
@@ -33,29 +34,20 @@ class MainMenu extends Phaser.State {
     titleText.font = 'kenvector_future_thin'
     titleText.fontSize = 65
 
-    const lastLabel = this.add.text(this.world.width - 100, 500, 'best: ' + (this.game.idle.idleEngine.stats.best.score), {
-      font: '24px kenvector_future_thin',
-      fill: '#ffffff',
-      align: 'right',
-      boundsAlignH: 'right',
-      boundsAlignV: 'top',
-    })
-    lastLabel.position.x -= lastLabel.width
-
-    this.startBtn = new Button(this.game, this.world.width / 4, 300, 'buttonLarge', 'Play', 28)
+    this.startBtn = new Button(this.game, this.world.width / 4, 300, 'Play', styles.btnLarge)
     this.startBtn.onInputUp.add(this.startGame, this)
 
-    this.upgradesBtn = new Button(this.game, this.world.width / 4, 400, 'buttonLarge', 'Upgrade', 28)
+    this.upgradesBtn = new Button(this.game, this.world.width / 4, 400, 'Upgrade', styles.btnLarge)
     this.upgradesBtn.onInputUp.add(() => this.game.state.start('Upgrades'))
 
-    this.botsBtn = new Button(this.game, this.world.width * 3 / 4, 300, 'buttonLarge', 'Bots', 28)
+    this.botsBtn = new Button(this.game, this.world.width * 3 / 4, 300, 'Bots', styles.btnLarge)
     this.botsBtn.onInputUp.add(() => this.game.state.start('Bots'))
 
-    this.statsBtn = new Button(this.game, this.world.width * 3 / 4, 400, 'buttonLarge', 'Stats', 28)
+    this.statsBtn = new Button(this.game, this.world.width * 3 / 4, 400, 'Stats', styles.btnLarge)
     this.statsBtn.onInputUp.add(() => this.game.state.start('Stats'))
 
     if (this.game.isBrowser) {
-      const fullBtn = new Button(this.game, this.world.width, this.world.height, 'buttonSmall', 'F', 40)
+      const fullBtn = new (require('../ui/ButtonFont'))(this.game, this.world.width, this.world.height, 'buttonSmall', 'F', 40)
       fullBtn.onInputUp.add(() => {
         if (this.game.scale.isFullScreen) {
           this.game.scale.stopFullScreen()

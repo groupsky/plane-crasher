@@ -1,6 +1,7 @@
 /* global Phaser */
 
-const ButtonFont = require('../ui/ButtonFont')
+const styles = require('../ui/styles')
+const Button = require('../ui/Button')
 const BotInfo = require('../ui/BotInfo')
 const TopBar = require('../actors/TopBar')
 const formatNumber = require('../utils').formatNumber
@@ -82,7 +83,10 @@ class Bots extends Phaser.Stage {
       'Bots are automated units that\noperate a plane earning the same',
       'gold as you, but 10 times slower.'
     ].join('\n'), statSmStyle)
-    this.buyBtn = new ButtonFont(this.game, panelRightBottom.x + panelRightBottom.width * 0.5, (panelRightBottom.y + panelRightBottom.height + buyBotLabel.y + buyBotLabel.height) * 0.5 - 4, 'buttonLarge', formatNumber(idle.botCost(1), formatNumber.gold), 14)
+    this.buyBtn = new Button(this.game, panelRightBottom.x + panelRightBottom.width * 0.5,
+      (panelRightBottom.y + panelRightBottom.height + buyBotLabel.y + buyBotLabel.height) * 0.5 - 4,
+      formatNumber(idle.botCost(1), formatNumber.gold),
+      styles.btnLarge)
     this.buyBtn.onInputUp.add(() => idle.buyBot(1))
 
     this.add.existing(topBar)

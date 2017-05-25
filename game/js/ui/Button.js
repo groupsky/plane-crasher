@@ -1,19 +1,19 @@
 /* global Phaser */
 
+const Label = require('./Label')
+
 class Button extends Phaser.Group {
-  constructor (game, x, y, frame, text, size) {
-    super(game)
+  constructor (game, x, y, text, style, parent) {
+    super(game, parent, 'button')
 
-    frame = frame || 'buttonLarge'
+    const frame = (style && style.frame) || 'buttonLarge'
 
-    this.background = this.game.add.button(0, 0, 'sheet', null, null, frame, frame, frame, frame)
+    this.background = this.game.add.button(0, 0, 'sheet', null, null, frame, frame, frame, frame, this)
     this.background.anchor.set(0.5)
-    this.add(this.background)
 
-    if (size === undefined) size = this.background.height / 2
+    if (style.size === undefined) style.size = this.background.height / 2
 
-    this.label = this.game.add.bitmapText(0, 0, 'font', text, size, this)
-    this.label.align = 'center'
+    this.label = new Label(this.game, 0, 0, text, style, this)
     this.label.anchor.set(0.5)
 
     this.x = x

@@ -57,7 +57,7 @@ class TopBar extends Phaser.Group {
   }
 
   update () {
-    this.goldLabel.text = formatNumber(this.game.idle.idleEngine.inventory.gold, formatNumber.gold)
+    this.goldLabel.text = formatNumber(this.game.idle.idleEngine.inventory.gold)
     this.goldLabel.position.x = this.game.width - this.goldLabel.width - 8 - 24 - 4
     this.rocketsLabel.text = this.game.idle.idleEngine.inventory.rocket.toString()
     this.rocketsLabel.position.x = this.game.width - this.rocketsLabel.width - 108 - 24 - 4
