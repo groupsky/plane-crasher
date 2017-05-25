@@ -75,6 +75,9 @@ module.exports = {
     boundsAlignH: 'center',
     boundsAlignV: 'top',
   },
+  /**
+   * used for profit/remaining labels on bot info
+   */
   botInfoLabel: {
     size: 12,
     bitmap: true,
@@ -83,5 +86,56 @@ module.exports = {
     align: 'center',
     boundsAlignH: 'center',
     boundsAlignV: 'top',
+  },
+  /**
+   * used in end-game buttons
+   */
+  btnEndGame: {
+    size: 24,
+    font: 'font',
+    bitmap: true,
+    frame: 'buttonSmall',
+  },
+  /**
+   * endgame normal label
+   */
+  endGameLabel: {
+    size: 18,
+    bitmap: true,
+    font: 'kenvector',
+    color: '#ccc',
+    align: 'left',
+    boundsAlignH: 'left',
+    boundsAlignV: 'top',
+  },
+  /**
+   * endgame normal label
+   */
+  endGameLabelXl: {
+    size: 24,
+    bitmap: true,
+    font: 'kenvector',
+    color: '#ccc',
+    align: 'left',
+    boundsAlignH: 'left',
+    boundsAlignV: 'top',
+  },
+  /**
+   * endgame normal value
+   */
+  endGameValue: {
+    size: 18,
+    bitmap: true,
+    font: 'font',
+    align: 'left',
+  },
+  /**
+   * endgame normal label
+   */
+  endGameValueXl: {
+    size: 24,
+    bitmap: true,
+    font: 'font',
+    align: 'right',
   },
 }

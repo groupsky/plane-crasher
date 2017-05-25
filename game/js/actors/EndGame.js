@@ -1,6 +1,8 @@
 /* global Phaser */
 
 const Button = require('../ui/Button')
+const Label = require('../ui/Label')
+const styles = require('../ui/styles')
 
 class EndGame extends Phaser.Group {
   constructor (game, parent, x, y) {
@@ -31,31 +33,23 @@ class EndGame extends Phaser.Group {
     const scoreText = this.createLbl(-100, 20, 'Score:', 24)
     this.scoreLabel = this.createDLbl(100, 15, 24)
 
-    const retryBtn = new Button(this.game, -75, 100, 'buttonSmall', 'retry', 24)
+    const retryBtn = new Button(this.game, -75, 100, 'retry', styles.btnEndGame)
     this.add(retryBtn)
     retryBtn.onInputUp.add(() => this.game.state.start('Main'))
 
-    const menuBtn = new Button(this.game, 75, 100, 'buttonSmall', 'menu', 24)
+    const menuBtn = new Button(this.game, 75, 100, 'menu', styles.btnEndGame)
     this.add(menuBtn)
     menuBtn.onInputUp.add(() => this.game.state.start('MainMenu'))
 
     this.vals = {}
   }
 
-  createLbl (x, y, text, size) {
-    const label = this.game.add.text(x, y, text || '', {
-      font: (size || 18) + 'px kenvector_future',
-      fill: '#000000',
-      align: 'left',
-      boundsAlignH: 'left',
-      boundsAlignV: 'top',
-    }, this)
-    this.add(label)
-    return label
+  createLbl (x, y, text, big) {
+    return new Label(this.game, x, y, text || '', big ? styles.endGameLabelXl : styles.endGameLabel, this)
   }
 
-  createDLbl (x, y, size) {
-    const label = this.game.add.bitmapText(x, y, 'font', '0', size || 18, this)
+  createDLbl (x, y, big) {
+    const label = new Label(this.game, x, y, '0', big ? styles.endGameValueXl : styles.endGameValue, this)
     label.align = 'right'
     label.anchor.set(1, 0)
     return label
