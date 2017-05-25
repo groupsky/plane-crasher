@@ -8,14 +8,14 @@ class Label extends Phaser.Group {
 
     if (style.bitmap) {
       this._label = this.game.add.bitmapText(0, 0, style.font, text, size, this)
-      this._label.align = 'center'
+      this._label.align = style.align || 'center'
     } else {
       this._label = this.game.add.text(0, 0, text, {
         font: size + 'px ' + style.font,
         fill: style.color || '#333',
-        align: 'center',
-        boundsAlignH: 'center',
-        boundsAlignV: 'center',
+        align: style.align || 'center',
+        boundsAlignH: style.boundsAlignH || 'center',
+        boundsAlignV: style.boundsAlignV || 'center',
       }, this)
     }
 

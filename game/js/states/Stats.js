@@ -2,9 +2,10 @@
 
 const formatNumber = require('../utils').formatNumber
 const formatDuration = require('../utils').formatDuration
-const ButtonFont = require('../ui/ButtonFont')
-const moment = require('moment')
+const Button = require('../ui/Button')
+const Label = require('../ui/Label')
 const TopBar = require('../actors/TopBar')
+const styles = require('../ui/styles')
 
 class Stats extends Phaser.State {
   create () {
@@ -23,33 +24,12 @@ class Stats extends Phaser.State {
     panelLeft.width = panelRightTop.width = panelRightBottom.width = this.world.centerX - 24
     panelRightTop.height = panelRightBottom.height = (this.world.height - topBar.height - 32 - 16) / 2
 
-    const statStyle = {
-      font: '16px kenvector_future_thin',
-      fill: '#333',
-      align: 'left',
-      boundsAlignH: 'left',
-      boundsAlignV: 'top',
-    }
-    const titleStyle = {
-      font: '26px kenvector_future',
-      fill: '#333',
-      align: 'center',
-      boundsAlignH: 'center',
-      boundsAlignV: 'top',
-    }
-    const dangerStyle = {
-      font: '14px kenvector_future_thin',
-      fill: '#c33',
-      align: 'center',
-      boundsAlignH: 'center',
-      boundsAlignV: 'top',
-    }
-
     const idle = this.game.idle.idleEngine
     const stats = idle.stats
-    const totalsTitle = this.add.text(panelLeft.x + panelLeft.width * 0.5, panelLeft.y + 6, 'Totals', titleStyle)
+    const totalsTitle = new Label(this.game, panelLeft.x + panelLeft.width * 0.5, panelLeft.y + 6,
+      'Totals', styles.titleStyle)
     totalsTitle.anchor.set(0.5, 0)
-    this.add.text(panelLeft.x + 16, panelLeft.y + 8 + totalsTitle.height, [
+    const totalsLabel = new Label(this.game, panelLeft.x + 16, panelLeft.y + 8 + totalsTitle.height, [
       'plays: ' + formatNumber(stats.totals.plays),
       'total time: ' + formatDuration(stats.totals.stats.time * 1000),
       'obstacles: ' + formatNumber(stats.totals.stats.obstacles),
@@ -65,24 +45,24 @@ class Stats extends Phaser.State {
       'gold earned: ' + formatNumber(stats.totals.gold.earned, formatNumber.gold),
       'bots earned: ' + formatNumber(stats.totals.gold.bots, formatNumber.gold),
       'total gold: ' + formatNumber(Math.floor(stats.totals.gold.earned) + Math.floor(stats.totals.gold.bots), formatNumber.gold),
-    ].join('\n'), statStyle)
+    ].join('\n'), styles.statStyle)
 
-    const highscoreTitle = this.add.text(panelRightTop.x + panelRightTop.width * 0.5, panelRightTop.y + 8, 'Highscore', titleStyle)
+    const highscoreTitle = new Label(this.game, panelRightTop.x + panelRightTop.width * 0.5, panelRightTop.y + 8, 'Highscore', styles.titleStyle)
     highscoreTitle.anchor.set(0.5, 0)
-    this.add.text(panelRightTop.x + 16, panelRightTop.y + 12 + highscoreTitle.height, [
+    const highscoreLabel = new Label(this.game, panelRightTop.x + 16, panelRightTop.y + 12 + highscoreTitle.height, [
       'score: ' + formatNumber(stats.best.score, formatNumber.gold),
       'time: ' + formatDuration(stats.best.time * 1000),
       'distance: ' + formatNumber(stats.best.distance, formatNumber.distance),
       'obstacles: ' + formatNumber(stats.best.obstacles)
-    ].join('\n'), statStyle)
+    ].join('\n'), styles.statStyle)
 
-    const resetTitle = this.add.text(panelRightBottom.x + panelRightBottom.width * 0.5, panelRightBottom.y + 8, 'Reset', titleStyle)
+    const resetTitle = new Label(this.game, panelRightBottom.x + panelRightBottom.width * 0.5, panelRightBottom.y + 8, 'Reset', styles.titleStyle)
     resetTitle.anchor.set(0.5, 0)
-    const resetLabel = this.add.text(panelRightBottom.x + panelRightBottom.width * 0.5, panelRightBottom.y + 12 + resetTitle.height, [
+    const resetLabel = new Label(this.game, panelRightBottom.x + panelRightBottom.width * 0.5, panelRightBottom.y + 12 + resetTitle.height, [
       'this will clear all progress,\nachievements and upgrades!'
-    ].join('\n'), dangerStyle)
+    ].join('\n'), styles.dangerStyle)
     resetLabel.anchor.set(0.5, 0)
-    this.resetBtn = new ButtonFont(this.game, panelRightBottom.x + panelRightBottom.width * 0.5, (panelRightBottom.y + panelRightBottom.height + resetLabel.y + resetLabel.height) * 0.5 - 4, 'buttonSmall', 'reset', 22)
+    this.resetBtn = new Button(this.game, panelRightBottom.x + panelRightBottom.width * 0.5, (panelRightBottom.y + panelRightBottom.height + resetLabel.y + resetLabel.height) * 0.5 - 4, 'reset', styles.btnLarge)
     this.resetBtn.onInputUp.addOnce(this.confirmReset, this)
 
     this.add.existing(topBar)
