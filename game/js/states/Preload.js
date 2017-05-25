@@ -21,6 +21,7 @@ class Preload extends Phaser.State {
     this.load.image('barBlueLeft', 'img/barHorizontal_blue_left.png')
     this.load.image('barBlueMid', 'img/barHorizontal_blue_mid.png')
     this.load.image('barBlueRight', 'img/barHorizontal_blue_right.png')
+    this.load.bitmapFont('kenvector', 'assets/font.png', 'assets/font.fnt');
 
     // load web fonts
     this.webfontsReady = false
