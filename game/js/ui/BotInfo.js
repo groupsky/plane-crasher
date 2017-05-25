@@ -1,9 +1,11 @@
 /* global Phaser */
 
+const Button = require('./Button')
 const formatNumber = require('../utils').formatNumber
 const formatDuration = require('../utils').formatDuration
-const Button = require('./ButtonFont')
+const Label = require('./Label')
 const ProgressBar = require('../ui/ProgressBar')
+const styles = require('./styles')
 
 class BotInfo extends Phaser.Group {
   constructor (game, x, y, width, bot) {
@@ -12,33 +14,19 @@ class BotInfo extends Phaser.Group {
     this._width = width
     this.bot = bot
 
-    this.upBtn = new Button(this.game, width, 13, 'buttonSmall', 'UP', 32, this)
+    this.upBtn = new Button(this.game, width, 13, 'UP', styles.btnBotUpg, this)
     this.upBtn.scale.set(26 / this.upBtn.height)
     this.upBtn.x -= this.upBtn.width / 2
     this.upBtn.visible = false
-
-    // width -= this.upBtn.width + 4
 
     this.progressBarShadow = new ProgressBar(this.game, 0, 0, width, 'Shadow', this)
     this.progressBarShadow.progress = 1
     this.progressBar = new ProgressBar(this.game, 0, 0, width, 'Blue', this)
     this.progressBar.progress = 0
 
-    this.profitLabel = this.game.add.text(width * 0.5, 0, formatNumber(bot.profit, formatNumber.gold), {
-      font: '12px kenvector_future_thin',
-      fill: '#333',
-      align: 'center',
-      boundsAlignH: 'center',
-      boundsAlignV: 'top',
-    }, this)
+    this.profitLabel = new Label(this.game, width * 0.5, 0, formatNumber(bot.profit, formatNumber.gold), styles.botInfoLabel, this)
     this.profitLabel.anchor.set(0.5, 0)
-    this.remainingLabel = this.game.add.text(width * 0.5, 12, '', {
-      font: '12px kenvector_future_thin',
-      fill: '#333',
-      align: 'center',
-      boundsAlignH: 'center',
-      boundsAlignV: 'top',
-    }, this)
+    this.remainingLabel = new Label(this.game, width * 0.5, 12, '', styles.botInfoLabel, this)
     this.remainingLabel.anchor.set(0.5, 0)
 
     this.x = x
