@@ -1,5 +1,7 @@
 /* global Phaser */
 
+const formatNumber = require('../utils').formatNumber
+const formatDuration = require('../utils').formatDuration
 const ButtonFont = require('../ui/ButtonFont')
 const moment = require('moment')
 const TopBar = require('../actors/TopBar')
@@ -22,7 +24,7 @@ class Stats extends Phaser.State {
     panelRightTop.height = panelRightBottom.height = (this.world.height - topBar.height - 32 - 16) / 2
 
     const statStyle = {
-      font: '18px kenvector_future_thin',
+      font: '16px kenvector_future_thin',
       fill: '#333',
       align: 'left',
       boundsAlignH: 'left',
@@ -36,7 +38,7 @@ class Stats extends Phaser.State {
       boundsAlignV: 'top',
     }
     const dangerStyle = {
-      font: '18px kenvector_future_thin',
+      font: '14px kenvector_future_thin',
       fill: '#c33',
       align: 'center',
       boundsAlignH: 'center',
@@ -47,31 +49,31 @@ class Stats extends Phaser.State {
     const stats = idle.stats
     const totalsTitle = this.add.text(panelLeft.x + panelLeft.width * 0.5, panelLeft.y + 6, 'Totals', titleStyle)
     totalsTitle.anchor.set(0.5, 0)
-    this.add.text(panelLeft.x + 16, panelLeft.y + 2 + totalsTitle.height, [
-      'plays: ' + Math.floor(stats.totals.plays),
-      'total time: ' + moment.duration(stats.totals.stats.time * 1000).humanize(),
-      'obstacles: ' + Math.floor(stats.totals.stats.obstacles),
-      'distance: ' + Math.floor(stats.totals.stats.distance) + 'm',
-      'turbo used: ' + Math.floor(stats.totals.stats.turbo),
-      'turbo time:' + moment.duration(stats.totals.stats.turboTime * 1000).humanize(),
-      'jumps: ' + Math.floor(stats.totals.stats.jumps),
+    this.add.text(panelLeft.x + 16, panelLeft.y + 8 + totalsTitle.height, [
+      'plays: ' + formatNumber(stats.totals.plays),
+      'total time: ' + formatDuration(stats.totals.stats.time * 1000),
+      'obstacles: ' + formatNumber(stats.totals.stats.obstacles),
+      'distance: ' + formatNumber(stats.totals.stats.distance, formatNumber.distance),
+      'turbo used: ' + formatNumber(stats.totals.stats.turbo),
+      'turbo time: ' + formatDuration(stats.totals.stats.turboTime * 1000, 'N/A'),
+      'jumps: ' + formatNumber(stats.totals.stats.jumps),
       '',
-      'obstacle score: ' + Math.floor(stats.totals.scores.obstacles),
-      'distance score: ' + Math.floor(stats.totals.scores.distance),
-      'total score: ' + Math.floor(stats.totals.scores.total),
+      'obstacle score: ' + formatNumber(stats.totals.scores.obstacles, formatNumber.gold),
+      'distance score: ' + formatNumber(stats.totals.scores.distance, formatNumber.gold),
+      'total score: ' + formatNumber(stats.totals.scores.total, formatNumber.gold),
       '',
-      'gold earned: ' + Math.floor(stats.totals.gold.earned),
-      'bots earned: ' + Math.floor(stats.totals.gold.bots),
-      'total gold: ' + (Math.floor(stats.totals.gold.earned) + Math.floor(stats.totals.gold.bots)),
+      'gold earned: ' + formatNumber(stats.totals.gold.earned, formatNumber.gold),
+      'bots earned: ' + formatNumber(stats.totals.gold.bots, formatNumber.gold),
+      'total gold: ' + formatNumber(Math.floor(stats.totals.gold.earned) + Math.floor(stats.totals.gold.bots), formatNumber.gold),
     ].join('\n'), statStyle)
 
     const highscoreTitle = this.add.text(panelRightTop.x + panelRightTop.width * 0.5, panelRightTop.y + 8, 'Highscore', titleStyle)
     highscoreTitle.anchor.set(0.5, 0)
     this.add.text(panelRightTop.x + 16, panelRightTop.y + 12 + highscoreTitle.height, [
-      'score: ' + Math.floor(stats.best.score),
-      'time: ' + moment.duration(stats.best.time * 1000).humanize(),
-      'distance: ' + Math.floor(stats.best.distance),
-      'obstacles: ' + Math.floor(stats.best.obstacles)
+      'score: ' + formatNumber(stats.best.score, formatNumber.gold),
+      'time: ' + formatDuration(stats.best.time * 1000),
+      'distance: ' + formatNumber(stats.best.distance, formatNumber.distance),
+      'obstacles: ' + formatNumber(stats.best.obstacles)
     ].join('\n'), statStyle)
 
     const resetTitle = this.add.text(panelRightBottom.x + panelRightBottom.width * 0.5, panelRightBottom.y + 8, 'Reset', titleStyle)

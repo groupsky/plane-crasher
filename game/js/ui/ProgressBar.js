@@ -17,10 +17,18 @@ class ProgressBar extends Phaser.Group {
   get progress () { return this._progress }
 
   set progress (value) {
-    this._mid.width = this._midWidth * value
+    this._progress = value
+    this._mid.width = this._midWidth * this._progress
     this._right.left = this._mid.x + this._mid.width
   }
 
+  get maxWidth () { return this._maxWidth }
+
+  set maxWidth (value) {
+    this._maxWidth = value
+    this._midWidth = this._maxWidth - this._left.width - this._right.width
+    this.progress = this._progress
+  }
 }
 
 module.exports = ProgressBar

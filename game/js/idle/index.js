@@ -190,21 +190,37 @@ class Idle {
   }
 
   botCost (count) {
+    if (count === undefined) count = 1
     return Math.ceil(Idle.calcCost(this.defs.bot, this.bots.items.length, count))
   }
 
+  initBot (bot) {
+    bot.init({ profit: this.stats.best.score, interval: this.stats.best.time * 10000 })
+  }
+
   buyBot (count) {
+    if (count === undefined) count = 1
     const cost = this.botCost(count)
     if (this.inventory.gold < cost) return false
     this.inventory.gold -= cost
-    this.bots.add(Bot, { profit: this.stats.best.score, interval: this.stats.best.time * 10000 })
+    const bot = this.bots.add(Bot)
+    this.initBot(bot)
+  }
+
+  upBot (bot) {
+    const cost = -this.botCost(-1)
+    if (this.inventory.gold < cost) return false
+    this.inventory.gold -= cost
+    this.initBot(bot)
   }
 
   rocketCost (count) {
+    if (count === undefined) count = 1
     return Math.ceil(Idle.calcCost(this.defs.rocket, this.stats.bought.rocket, count))
   }
 
   buyRocket (count) {
+    if (count === undefined) count = 1
     const cost = this.rocketCost(count)
     if (this.inventory.gold < cost) return false
     this.inventory.gold -= cost
@@ -213,10 +229,12 @@ class Idle {
   }
 
   distancePointsCost (count) {
+    if (count === undefined) count = 1
     return Math.ceil(Idle.calcCost(this.defs.distancePoints, this.inventory.distancePoints, count))
   }
 
   buyDistancePoints (count) {
+    if (count === undefined) count = 1
     const cost = this.distancePointsCost(count)
     if (this.inventory.gold < cost) return false
     this.inventory.gold -= cost
@@ -228,10 +246,12 @@ class Idle {
   }
 
   obstaclePointsCost (count) {
+    if (count === undefined) count = 1
     return Math.ceil(Idle.calcCost(this.defs.obstaclePoints, this.inventory.obstaclePoints, count))
   }
 
   buyObstaclePoints (count) {
+    if (count === undefined) count = 1
     const cost = this.obstaclePointsCost(count)
     if (this.inventory.gold < cost) return false
     this.inventory.gold -= cost
@@ -243,10 +263,12 @@ class Idle {
   }
 
   jumpPrecisionCost (count) {
+    if (count === undefined) count = 1
     return Math.ceil(Idle.calcCost(this.defs.jumpPrecision, this.inventory.jumpPrecision, count))
   }
 
   buyJumpPrecision (count) {
+    if (count === undefined) count = 1
     const cost = this.jumpPrecisionCost(count)
     if (this.inventory.gold < cost) return false
     this.inventory.gold -= cost
@@ -258,10 +280,12 @@ class Idle {
   }
 
   speedCost (count) {
+    if (count === undefined) count = 1
     return Math.ceil(Idle.calcCost(this.defs.speed, this.inventory.speed, count))
   }
 
   buySpeed (count) {
+    if (count === undefined) count = 1
     const cost = this.speedCost(count)
     if (this.inventory.gold < cost) return false
     this.inventory.gold -= cost

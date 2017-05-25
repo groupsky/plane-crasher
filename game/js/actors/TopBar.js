@@ -1,4 +1,5 @@
 /* global Phaser */
+const formatNumber = require('../utils').formatNumber
 const Button = require('../ui/ButtonFont')
 
 class TopBar extends Phaser.Group {
@@ -56,7 +57,7 @@ class TopBar extends Phaser.Group {
   }
 
   update () {
-    this.goldLabel.text = this.game.idle.idleEngine.inventory.gold.toString()
+    this.goldLabel.text = formatNumber(this.game.idle.idleEngine.inventory.gold, formatNumber.gold)
     this.goldLabel.position.x = this.game.width - this.goldLabel.width - 8 - 24 - 4
     this.rocketsLabel.text = this.game.idle.idleEngine.inventory.rocket.toString()
     this.rocketsLabel.position.x = this.game.width - this.rocketsLabel.width - 108 - 24 - 4
