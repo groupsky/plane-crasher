@@ -8,7 +8,7 @@ class Button extends Phaser.Group {
 
     const frame = (style && style.frame) || 'buttonLarge'
     const sheet = (style && style.sheet) || 'sheet'
-    const customButton = frame.startsWith('button')
+    const customButton = frame.indexOf('button') === 0
 
     this.background = this.game.add.button(0, 0, sheet, null, null, frame + (customButton ? '': '_button04'), frame + (customButton ? '' : '_button02'), frame + (customButton ? '' : '_button05'), frame + (customButton ? '' : '_button04'), this)
     this.background.anchor.set(0.5)
