@@ -28,12 +28,9 @@ class Game extends Phaser.Game {
       console.log('no cocoon')
     }
 
-    const scale = 480 / window.innerHeight
-    console.log('scaling at', scale)
-
     super({
-      width: window.innerWidth * scale,
-      height: window.innerHeight * scale,
+      width: Math.max(640, 480 * window.innerWidth / window.innerHeight),
+      height: 480,
       renderer: engine,
       antialias: false,
       enableDebug: process.env.NODE_ENV !== 'production'
@@ -49,13 +46,35 @@ class Game extends Phaser.Game {
 
     this.stage.backgroundColor = 0x000000
 
+    this.scale.forceOrientation(true)
     this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
     this.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL
 
-    // this.scale.setMinMax(800, 600)
+    // this.scale.setMinMax(640, 480, undefined, 480)
 
     this.scale.pageAlignVertically = true
     this.scale.pageAlignHorizontally = true
+
+    // this.scale.onSizeChange.add(() => {
+    //   console.log('onSizeChange', window.innerWidth, window.innerHeight)
+    //   this.scale.setGameSize(Math.max(640, 480 * window.innerWidth / window.innerHeight), 480)
+    //   this.renderer.resize(Math.max(640, 480 * window.innerWidth / window.innerHeight), 480)
+    //   const targetWidth = Math.max(640, window.innerWidth * 480 / window.innerHeight)
+    //   const targetHeight = 480
+    //   const scale = Math.min(window.innerWidth / targetWidth, window.innerHeight / targetHeight)
+    //   this.scale.setGameSize(targetWidth, targetHeight)
+    //   this.scale.setUserScale(scale, scale)
+    //   // scale.parentScaleFactor.set()
+    // })
+    // window.onresize = () => {
+    //   console.log('onresize', window.innerWidth, window.innerHeight)
+    //   this.scale.setGameSize(Math.max(640, 480 * window.innerWidth / window.innerHeight), 480)
+    //   this.renderer.resize(Math.max(640, 480 * window.innerWidth / window.innerHeight), 480)
+    // }
+    // this.scale.onFullScreenInit.add(() => {
+    //   console.log('onFullScreenInit', window.innerHeight)
+    //   this.scale.setGameSize(window.innerWidth * 480 / window.innerHeight, 480)
+    // })
 
     this.state.add('Boot', Boot, false)
     this.state.add('Preload', Preload, false)
