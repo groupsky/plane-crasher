@@ -10,7 +10,7 @@ class Button extends Phaser.Group {
     const sheet = (style && style.sheet) || 'sheet'
     const customButton = frame.indexOf('button') === 0
 
-    this.background = this.game.add.button(0, 0, sheet, null, null, frame + (customButton ? '': '_button04'), frame + (customButton ? '' : '_button02'), frame + (customButton ? '' : '_button05'), frame + (customButton ? '' : '_button04'), this)
+    this.background = this.game.add.button(0, 0, sheet, null, null, frame + (customButton ? '': '_over'), frame + (customButton ? '' : '_out'), frame + (customButton ? '' : '_down'), frame + (customButton ? '' : '_over'), this)
     this.background.anchor.set(0.5)
 
     if (style.size === undefined) style.size = this.background.height / 2
