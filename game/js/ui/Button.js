@@ -6,11 +6,15 @@ class Button extends Phaser.Group {
   constructor (game, x, y, text, style, parent) {
     super(game, parent, 'button')
 
-    const frame = (style && style.frame) || 'buttonLarge'
-    const sheet = (style && style.sheet) || 'sheet'
-    const customButton = frame.indexOf('button') === 0
+    this.frame = (style && style.frame) || 'buttonLarge'
+    this.sheet = (style && style.sheet) || 'sheet'
+    this.customButton = this.frame.indexOf('button') === 0
 
-    this.background = this.game.add.button(0, 0, sheet, null, null, frame + (customButton ? '': '_over'), frame + (customButton ? '' : '_out'), frame + (customButton ? '' : '_down'), frame + (customButton ? '' : '_over'), this)
+    this.frameOver = this.frame + (this.customButton ? '': '_over')
+    this.frameOut = this.frame + (this.customButton ? '': '_out')
+    this.frameDown = this.frame + (this.customButton ? '': '_down') 
+
+    this.background = this.game.add.button(0, 0, this.sheet, null, null, this.frameOver, this.frameOut, this.frameDown, this.frameOver, this)
     this.background.anchor.set(0.5)
 
     if (style.size === undefined) style.size = this.background.height / 2
@@ -37,6 +41,14 @@ class Button extends Phaser.Group {
 
   playSound () {
     this.clickSound.play()
+  }
+
+  set disabled (isDisabled) {
+    if(isDisabled) {
+      this.background.setFrames('grey_out','grey_out','grey_out','grey_out')
+    } else {
+      this.background.setFrames(this.frameOver, this.frameOut, this.frameDown, this.frameOver)
+    }
   }
 }
 
