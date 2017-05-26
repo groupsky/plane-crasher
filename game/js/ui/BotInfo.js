@@ -51,6 +51,7 @@ class BotInfo extends Phaser.Group {
   update () {
     this.progressBar.progress = this.bot.progress
     this.remainingLabel.text = formatDuration(this.bot.remaining)
+    this.upBtn.disabled = this.game.idle.idleEngine.inventory.gold < -this.game.idle.idleEngine.botCost(-1)
   }
 }
 

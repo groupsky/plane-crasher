@@ -97,6 +97,10 @@ class Bots extends Phaser.Stage {
     this.add.existing(botInfo)
     this.lastBotY += botInfo.height
   }
+
+  update () {
+    this.buyBtn.disabled = this.game.idle.idleEngine.inventory.gold < this.game.idle.idleEngine.botCost(1)
+  }
 }
 
 module.exports = Bots

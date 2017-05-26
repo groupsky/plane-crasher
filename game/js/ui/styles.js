@@ -108,7 +108,7 @@ module.exports = {
   endGameLabel: {
     size: 18,
     bitmap: true,
-    font: 'kenvector72',
+    font: 'kenvectorthin18',
     color: '#ccc',
     align: 'left',
     boundsAlignH: 'left',
@@ -120,8 +120,7 @@ module.exports = {
   endGameLabelXl: {
     size: 24,
     bitmap: true,
-    font: 'kenvector72',
-    color: '#ccc',
+    font: 'kenvectorthin24',
     align: 'left',
     boundsAlignH: 'left',
     boundsAlignV: 'top',
@@ -132,8 +131,8 @@ module.exports = {
   endGameValue: {
     size: 18,
     bitmap: true,
-    font: 'font',
-    align: 'left',
+    font: 'kenvectorthin18',
+    align: 'right',
   },
   /**
    * endgame normal label
@@ -141,7 +140,7 @@ module.exports = {
   endGameValueXl: {
     size: 24,
     bitmap: true,
-    font: 'font',
+    font: 'kenvectorthin24',
     align: 'right',
   },
   /**
@@ -151,15 +150,15 @@ module.exports = {
     frame: 'buttonSmall',
     size: 28,
     bitmap: true,
-    font: 'kenvector72',
+    font: 'kenvector28',
   },
   /**
    * used for upgrade title
    */
   upgradeTitle: {
-    size: 32,
+    size: 28,
     bitmap: true,
-    font: 'kenvector72',
+    font: 'kenvectorthin28',
     fill: '#333',
     align: 'center',
     boundsAlignH: 'center',
@@ -169,9 +168,9 @@ module.exports = {
    * used for upgrade description
    */
   upgradeDesc: {
-    size: 16,
-    bitmap: false,
-    font: 'italic',
+    size: 12,
+    bitmap: true,
+    font: 'kenvectorthin12',
     fill: '#333',
     align: 'left',
     boundsAlignH: 'left',
