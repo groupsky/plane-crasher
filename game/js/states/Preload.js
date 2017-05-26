@@ -21,9 +21,14 @@ class Preload extends Phaser.State {
     this.load.image('barBlueLeft', 'img/barHorizontal_blue_left.png')
     this.load.image('barBlueMid', 'img/barHorizontal_blue_mid.png')
     this.load.image('barBlueRight', 'img/barHorizontal_blue_right.png')
-    this.load.bitmapFont('kenvector', 'assets/font.png', 'assets/font.fnt')
-    this.load.bitmapFont('kenvector72', 'assets/kenvector-72.png', 'assets/kenvector-72.fnt')
+    this.load.bitmapFont('kenvector12', 'assets/kenvector-12.png', 'assets/kenvector-12.fnt')
+    this.load.bitmapFont('kenvector14red', 'assets/kenvector-14-red.png', 'assets/kenvector-14.fnt')
+    this.load.bitmapFont('kenvectorthin12', 'assets/kenvector-thin-12.png', 'assets/kenvector-thin-12.fnt')
+    this.load.bitmapFont('kenvectorthin14', 'assets/kenvector-thin-14.png', 'assets/kenvector-thin-14.fnt')
+    this.load.bitmapFont('kenvectorthin14red', 'assets/kenvector-thin-14-red.png', 'assets/kenvector-thin-14.fnt')
+    this.load.bitmapFont('kenvector16', 'assets/kenvector-16.png', 'assets/kenvector-16.fnt')
     this.load.bitmapFont('kenvector28', 'assets/kenvector-28.png', 'assets/kenvector-28.fnt')
+    this.load.bitmapFont('kenvector72', 'assets/kenvector-72.png', 'assets/kenvector-72.fnt')
     this.load.atlas('ui', 'img/ui.png', 'img/ui.json')
 
     //load audio assets

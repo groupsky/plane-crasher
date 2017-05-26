@@ -27,7 +27,9 @@ class Bots extends Phaser.Stage {
 
     const idle = this.game.idle.idleEngine
     const stats = idle.stats
-    const botsTitle = new Label(this.game, this.panelLeft.x + this.panelLeft.width * 0.5, this.panelLeft.y + 6, 'Bots', styles.titleStyle)
+    const botsTitle = new Label(this.game,
+      this.panelLeft.x + this.panelLeft.width * 0.5,
+      this.panelLeft.y + 12, 'Bots', styles.titleStyle)
     botsTitle.anchor.set(0.5, 0)
     const botsTotalLabel = new Label(this.game, this.panelLeft.x + this.panelLeft.width - 8, this.panelLeft.y + this.panelLeft.height - 8,
       'Bots: ' + Math.floor(idle.bots.items.length), styles.statStyle)
@@ -41,22 +43,33 @@ class Bots extends Phaser.Stage {
       this.addBot(idle.bots.items[ i ])
     }
 
-    const highscoreTitle = new Label(this.game, panelRightTop.x + panelRightTop.width * 0.5, panelRightTop.y + 8, 'Highscore', styles.titleStyle)
+    const highscoreTitle = new Label(this.game,
+      panelRightTop.x + panelRightTop.width * 0.5,
+      panelRightTop.y + 12, 'Highscore', styles.titleStyle)
     highscoreTitle.anchor.set(0.5, 0)
-    const highscoreLabel = new Label(this.game, panelRightTop.x + 16, panelRightTop.y + 12 + highscoreTitle.height, [
-      'score: ' + formatNumber(stats.best.score, formatNumber.gold),
-      'time: ' + formatDuration(stats.best.time * 1000),
-      'distance: ' + formatNumber(stats.best.distance, formatNumber.distance),
-      'obstacles: ' + formatNumber(stats.best.obstacles)
-    ].join('\n'), styles.statStyle)
+    const highscoreLabel = new Label(this.game,
+      panelRightTop.x + 16,
+      panelRightTop.y + 24 + highscoreTitle.height, [
+        'score: ' + formatNumber(stats.best.score, formatNumber.gold),
+        'time: ' + formatDuration(stats.best.time * 1000),
+        'distance: ' + formatNumber(stats.best.distance, formatNumber.distance),
+        'obstacles: ' + formatNumber(stats.best.obstacles)
+      ].join('\n'), styles.statStyle)
 
-    const buyBotTitle = new Label(this.game, panelRightBottom.x + panelRightBottom.width * 0.5, panelRightBottom.y + 8, 'Buy Bot', styles.titleStyle)
+    const buyBotTitle = new Label(this.game,
+      panelRightBottom.x + panelRightBottom.width * 0.5,
+      panelRightBottom.y + 12, 'Buy Bot', styles.titleStyle)
     buyBotTitle.anchor.set(0.5, 0)
-    const buyBotLabel = new Label(this.game, panelRightBottom.x + 16, panelRightBottom.y + 12 + buyBotTitle.height, [
-      'Bots are automated units that\noperate a plane earning the same',
-      'gold as you, but 10 times slower.'
-    ].join('\n'), styles.statSmStyle)
-    this.buyBtn = new Button(this.game, panelRightBottom.x + panelRightBottom.width * 0.5,
+    const buyBotLabel = new Label(this.game,
+      panelRightBottom.x + 16,
+      panelRightBottom.y + 24 + buyBotTitle.height, [
+        'Bots are automated units that',
+        'operate a plane earning',
+        'the same gold as you,',
+        'but 10 times slower.'
+      ].join('\n'), styles.statSmStyle)
+    this.buyBtn = new Button(this.game,
+      panelRightBottom.x + panelRightBottom.width * 0.5,
       (panelRightBottom.y + panelRightBottom.height + buyBotLabel.y + buyBotLabel.height) * 0.5 - 4,
       formatNumber(idle.botCost(1), formatNumber.gold),
       styles.btnLarge)
