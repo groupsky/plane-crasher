@@ -16,23 +16,15 @@ class MainMenu extends Phaser.State {
     this.background = this.add.tileSprite(0, 0, this.world.width, this.world.height, 'sheet', 'background')
     this.background.autoScroll(-100, 0)
 
-    this.logo = new Plane(this.game, this.world.centerX, 80, 'planeGreen')
-    this.logo.anchor.set(0.5)
-    this.logo.position.y += this.logo.height / 2
-    this.logo.angle = -20
-    this.add.tween(this.logo).to({ angle: 20 }, 1000, Phaser.Easing.Linear.NONE, true, 0, 1000, true)
-    this.add.existing(this.logo)
+    this.plane = new Plane(this.game, this.world.centerX, 50, 'planeGreen')
+    this.plane.anchor.set(0.5)
+    this.plane.position.y += this.plane.height / 2
+    this.plane.angle = -20
+    this.add.tween(this.plane).to({ angle: 20 }, 1000, Phaser.Easing.Linear.NONE, true, 0, 1000, true)
+    this.add.existing(this.plane)
 
-    let titleText = this.add.text(this.world.centerX, 200, 'Crashy Plane', {
-      font: '65px kenvector_future_thin',
-      fill: '#333',
-      align: 'center',
-      boundsAlignH: 'center',
-      boundsAlignV: 'top',
-    })
-    titleText.anchor.set(0.5)
-    titleText.font = 'kenvector_future_thin'
-    titleText.fontSize = 65
+    let logo = this.add.image(this.world.centerX, 200, 'sheet', 'logo')
+    logo.anchor.set(0.5)
 
     this.startBtn = new Button(this.game, this.world.width / 4, 300, 'Play', styles.btnLargeMain)
     this.startBtn.onInputUp.add(this.startGame, this)
@@ -84,7 +76,7 @@ class MainMenu extends Phaser.State {
   render () { }
 
   shutdown () {
-    this.logo.destroy()
+    this.plane.destroy()
     this.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR)
   }
 
