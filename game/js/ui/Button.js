@@ -15,7 +15,7 @@ class Button extends Phaser.Group {
 
     if (style.size === undefined) style.size = this.background.height / 2
 
-    this.label = new Label(this.game, 0, 0, text, style, this)
+    this.label = new Label(this.game, 0, 4, text, style, this)
     this.label.anchor.set(0.5)
 
     this.x = x

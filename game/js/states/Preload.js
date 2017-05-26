@@ -22,6 +22,8 @@ class Preload extends Phaser.State {
     this.load.image('barBlueMid', 'img/barHorizontal_blue_mid.png')
     this.load.image('barBlueRight', 'img/barHorizontal_blue_right.png')
     this.load.bitmapFont('kenvector', 'assets/font.png', 'assets/font.fnt')
+    this.load.bitmapFont('kenvector72', 'assets/kenvector-72.png', 'assets/kenvector-72.fnt')
+    this.load.bitmapFont('kenvector28', 'assets/kenvector-28.png', 'assets/kenvector-28.fnt')
     this.load.atlas('ui', 'img/ui.png', 'img/ui.json')
 
     //load audio assets

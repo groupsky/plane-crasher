@@ -34,7 +34,7 @@ class MainMenu extends Phaser.State {
     titleText.font = 'kenvector_future_thin'
     titleText.fontSize = 65
 
-    this.startBtn = new Button(this.game, this.world.width / 4, 300, 'Play', styles.btnLarge)
+    this.startBtn = new Button(this.game, this.world.width / 4, 300, 'Play', styles.btnLargeMain)
     this.startBtn.onInputUp.add(this.startGame, this)
 
     this.upgradesBtn = new Button(this.game, this.world.width / 4, 400, 'Upgrade', styles.btnLarge)

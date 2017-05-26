@@ -9,6 +9,21 @@ class Label extends Phaser.Group {
     if (style.bitmap) {
       this._label = this.game.add.bitmapText(0, 0, style.font, text, size, this)
       this._label.align = style.align || 'center'
+
+      if (style.color) {
+        let color = style.color.substr(1)
+        switch (color.length) {
+          case 3:
+            color = color[ 0 ] + color[ 0 ] + color[ 1 ] + color[ 1 ] + color[ 2 ] + color[ 2 ]
+            break
+          case 6:
+            break
+          default:
+            throw new Error('unhandled color: ' + style.color)
+        }
+
+        this._label.tint = parseInt(color, 16)
+      }
     } else {
       this._label = this.game.add.text(0, 0, text, {
         font: size + 'px ' + style.font,

@@ -62,7 +62,7 @@ class Stats extends Phaser.State {
       'this will clear all progress,\nachievements and upgrades!'
     ].join('\n'), styles.dangerStyle)
     resetLabel.anchor.set(0.5, 0)
-    this.resetBtn = new Button(this.game, panelRightBottom.x + panelRightBottom.width * 0.5, (panelRightBottom.y + panelRightBottom.height + resetLabel.y + resetLabel.height) * 0.5 - 4, 'reset', styles.btnLarge)
+    this.resetBtn = new Button(this.game, panelRightBottom.x + panelRightBottom.width * 0.5, (panelRightBottom.y + panelRightBottom.height + resetLabel.y + resetLabel.height) * 0.5 - 4, 'reset', styles.btnLargeDanger)
     this.resetBtn.onInputUp.addOnce(this.confirmReset, this)
 
     this.add.existing(topBar)

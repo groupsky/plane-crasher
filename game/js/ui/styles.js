@@ -9,13 +9,26 @@ module.exports = {
   /**
    * standard style for buttons
    */
-  btnLarge: {
+  btnLargeMain: {
     frame: 'green',
     sheet: 'ui',
     bitmap: true,
-    font: 'kenvector',
+    font: 'kenvector28',
     size: 28,
-    color: '#333'
+  },
+  btnLarge: {
+    frame: 'yellow',
+    sheet: 'ui',
+    bitmap: true,
+    font: 'kenvector28',
+    size: 28,
+  },
+  btnLargeDanger: {
+    frame: 'red',
+    sheet: 'ui',
+    bitmap: true,
+    font: 'kenvector28',
+    size: 28,
   },
   /**
    * button for upgrading bot
