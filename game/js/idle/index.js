@@ -189,9 +189,13 @@ class Idle {
     return def.price * Math.pow(def.factor, have) * (Math.pow(def.factor, want) - 1) / (def.factor - 1)
   }
 
+  botLevel () {
+    return this.bots.items.length
+  }
+
   botCost (count) {
     if (count === undefined) count = 1
-    return Math.ceil(Idle.calcCost(this.defs.bot, this.bots.items.length, count))
+    return Math.ceil(Idle.calcCost(this.defs.bot, this.botLevel(), count))
   }
 
   initBot (bot) {
@@ -229,9 +233,13 @@ class Idle {
     this.stats.bought.rocket += count
   }
 
+  distancePointsLevel () {
+    return this.inventory.distancePoints
+  }
+
   distancePointsCost (count) {
     if (count === undefined) count = 1
-    return Math.ceil(Idle.calcCost(this.defs.distancePoints, this.inventory.distancePoints, count))
+    return Math.ceil(Idle.calcCost(this.defs.distancePoints, this.distancePointsLevel(), count))
   }
 
   buyDistancePoints (count) {
@@ -246,9 +254,13 @@ class Idle {
     return this.defs.distancePoints.val * this.inventory.distancePoints
   }
 
+  obstaclePointsLevel () {
+    return this.inventory.obstaclePoints
+  }
+
   obstaclePointsCost (count) {
     if (count === undefined) count = 1
-    return Math.ceil(Idle.calcCost(this.defs.obstaclePoints, this.inventory.obstaclePoints, count))
+    return Math.ceil(Idle.calcCost(this.defs.obstaclePoints, this.obstaclePointsLevel(), count))
   }
 
   buyObstaclePoints (count) {
@@ -263,9 +275,13 @@ class Idle {
     return this.defs.obstaclePoints.val * this.inventory.obstaclePoints
   }
 
+  jumpPrecisionLevel () {
+    return this.inventory.jumpPrecision
+  }
+
   jumpPrecisionCost (count) {
     if (count === undefined) count = 1
-    return Math.ceil(Idle.calcCost(this.defs.jumpPrecision, this.inventory.jumpPrecision, count))
+    return Math.ceil(Idle.calcCost(this.defs.jumpPrecision, this.jumpPrecisionLevel(), count))
   }
 
   buyJumpPrecision (count) {
@@ -280,9 +296,13 @@ class Idle {
     return (this.inventory.jumpPrecision + this.defs.jumpPrecision.val) / (2 * this.inventory.jumpPrecision + this.defs.jumpPrecision.val)
   }
 
+  speedLevel () {
+    return this.inventory.speed
+  }
+
   speedCost (count) {
     if (count === undefined) count = 1
-    return Math.ceil(Idle.calcCost(this.defs.speed, this.inventory.speed, count))
+    return Math.ceil(Idle.calcCost(this.defs.speed, this.speedLevel(), count))
   }
 
   buySpeed (count) {
