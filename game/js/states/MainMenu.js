@@ -33,7 +33,12 @@ class MainMenu extends Phaser.State {
     this.upgradesBtn.onInputUp.add(() => this.game.state.start('Upgrades'))
 
     this.botsBtn = new Button(this.game, this.world.width * 3 / 4, 300, 'Bots', styles.btnLarge)
-    this.botsBtn.onInputUp.add(() => this.game.state.start('Bots'))
+    this.botsBtn.onInputUp.add(() => {
+      if (this.game.idle.idleEngine.botLevel() > 0) {
+        this.game.state.start('Bots')
+      }
+    })
+    this.botsBtn.disabled = this.game.idle.idleEngine.botLevel() === 0
 
     this.statsBtn = new Button(this.game, this.world.width * 3 / 4, 400, 'Stats', styles.btnLarge)
     this.statsBtn.onInputUp.add(() => this.game.state.start('Stats'))
