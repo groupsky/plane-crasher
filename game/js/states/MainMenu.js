@@ -44,7 +44,7 @@ class MainMenu extends Phaser.State {
     this.statsBtn.onInputUp.add(() => this.game.state.start('Stats'))
 
     if (this.game.isBrowser) {
-      const fullBtn = new (require('../ui/ButtonFont'))(this.game, this.world.width, this.world.height, 'buttonSmall', 'F', 40)
+      const fullBtn = new Button(this.game, this.world.width, this.world.height, 'F', styles.btnSmall)
       fullBtn.onInputUp.add(() => {
         if (this.game.scale.isFullScreen) {
           this.game.scale.stopFullScreen()
@@ -52,9 +52,9 @@ class MainMenu extends Phaser.State {
           this.game.scale.startFullScreen(false)
         }
       })
-      fullBtn.scale.set(0.15, 0.25)
-      fullBtn.x -= fullBtn.width - 8
-      fullBtn.y -= fullBtn.height - 8
+      // fullBtn.scale.set(0.15, 0.25)
+      fullBtn.x -= fullBtn.width * 0.5
+      fullBtn.y -= fullBtn.height * 0.5
     }
 
     if (this.game.idle.idleEngine.idleGain) {

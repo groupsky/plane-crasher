@@ -1,6 +1,9 @@
 /* global Phaser */
+
+const Label = require('../ui/Label')
 const formatNumber = require('../utils').formatNumber
-const Button = require('../ui/ButtonFont')
+const Button = require('../ui/Button')
+const styles = require('../ui/styles')
 
 class TopBar extends Phaser.Group {
 
@@ -17,17 +20,10 @@ class TopBar extends Phaser.Group {
     this._background.visible = false
     this.add(this._background)
 
-    this._title = this.game.add.text(this.game.world.centerX, 8, '', {
-      font: '32px kenvector_future',
-      fill: '#333',
-      align: 'center',
-      boundsAlignH: 'center',
-      boundsAlignV: 'top',
-    })
-    this._title.anchor.set(0.5, 0)
+    this._title = new Label(this.game, this.game.world.centerX, this._height * 0.5, '', styles.titleStyle)
+    this._title.anchor.set(0.5, 0.5)
 
-    this._backBtn = new Button(this.game, 0, 0, 'buttonSmall', 'back', 14, this)
-    this._backBtn.scale.set(0.6)
+    this._backBtn = new Button(this.game, 0, 0, 'B', styles.btnSmall, this)
     this._backBtn.position.x = this._backBtn.width / 2
     this._backBtn.position.y = this._backBtn.height / 2
     this._backBtn.visible = false

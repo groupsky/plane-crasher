@@ -1,10 +1,12 @@
 /* global Phaser */
 
+const Button = require('../ui/Button')
 const Ground = require('../actors/Ground')
 const Plane = require('../actors/Plane')
 const ObstacleGroup = require('../actors/ObstacleGroup')
 const TopBar = require('../actors/TopBar')
 const EndGame = require('../actors/EndGame')
+const styles = require('../ui/styles')
 
 class Main extends Phaser.State {
   preload () { }
@@ -71,10 +73,12 @@ class Main extends Phaser.State {
     this.game.input.keyboard.addKeyCapture([ Phaser.Keyboard.ENTER ])
     this.action2Key = this.input.keyboard.addKey(Phaser.Keyboard.ENTER)
     this.action2Key.onDown.add(this.turbo, this)
-    this.turboBtn = this.game.add.button(10, this.world.height - 10, 'sheet', this.turbo, this, 'buttonSmall', 'buttonSmall', 'buttonSmall', 'buttonSmall')
+    this.turboBtn = new Button(this.game, 0, this.world.height, 'T', styles.btnSmall)
+    this.turboBtn.onInputDown.add(this.turbo, this)
     this.turboBtn.useHandCursor = true
-    this.turboBtn.anchor.set(0, 1)
-    this.turboBtn.scale.set(0.5)
+    this.turboBtn.x += this.turboBtn.width * 0.5
+    this.turboBtn.y -= this.turboBtn.height * 0.5
+    this.turboBtn.disabled = this.game.idle.idleEngine.inventory.rocket === 0
 
     this.instructionGroup = this.add.group()
     this.instructionGroup.add(this.add.sprite(this.world.width / 2, 100, 'sheet', 'textGetReady'))
@@ -252,12 +256,13 @@ class Main extends Phaser.State {
     if (this.game.idle.idleEngine.inventory.rocket <= 0) return
 
     this.game.idle.idleEngine.inventory.rocket--
+    this.turboBtn.disabled = this.game.idle.idleEngine.inventory.rocket === 0
     this.enterState('turbo')
   }
-  
+
   jump () {
     if ([ 'start', 'end' ].indexOf(this.sceneState) !== -1) return
-    
+
     this.stats.jumps++
     this.plane.jump()
   }

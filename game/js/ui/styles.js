@@ -2,6 +2,14 @@ module.exports = {
   /**
    * standard style for buttons
    */
+  btnSmall: {
+    frame: 'small_green',
+    sheet: 'ui',
+    bitmap: true,
+    font: 'kenvector28',
+    size: 28,
+    disabledSheet: 'small_grey_out'
+  },
   btnLargeMain: {
     frame: 'green',
     sheet: 'ui',
@@ -30,7 +38,7 @@ module.exports = {
     frame: 'buttonSmall',
     bitmap: true,
     font: 'kenvector28',
-    size: 32,
+    size: 28,
     color: '#333'
   },
   /**
