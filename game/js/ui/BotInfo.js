@@ -8,8 +8,8 @@ const ProgressBar = require('../ui/ProgressBar')
 const styles = require('./styles')
 
 class BotInfo extends Phaser.Group {
-  constructor (game, x, y, width, bot) {
-    super(game, null, 'botInfo')
+  constructor (game, x, y, width, bot, parent) {
+    super(game, parent, 'botInfo')
 
     this._width = width
     this.bot = bot
@@ -24,9 +24,9 @@ class BotInfo extends Phaser.Group {
     this.progressBar = new ProgressBar(this.game, 0, 0, width, 'Blue', this)
     this.progressBar.progress = 0
 
-    this.profitLabel = new Label(this.game, width * 0.5, 0, formatNumber(bot.profit, formatNumber.gold), styles.botInfoLabel, this)
+    this.profitLabel = new Label(this.game, width * 0.5, 3, formatNumber(bot.profit, formatNumber.gold), styles.botInfoLabel, this)
     this.profitLabel.anchor.set(0.5, 0)
-    this.remainingLabel = new Label(this.game, width * 0.5, 12, '', styles.botInfoLabel, this)
+    this.remainingLabel = new Label(this.game, width * 0.5, 14, '', styles.botInfoLabel, this)
     this.remainingLabel.anchor.set(0.5, 0)
 
     this.x = x

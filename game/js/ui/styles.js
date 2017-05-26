@@ -1,11 +1,4 @@
 module.exports = {
-  small: {
-    font: '24px kenvector_future_thin',
-    fill: '#ffffff',
-    align: 'right',
-    boundsAlignH: 'right',
-    boundsAlignV: 'top',
-  },
   /**
    * standard style for buttons
    */
@@ -36,7 +29,7 @@ module.exports = {
   btnBotUpg: {
     frame: 'buttonSmall',
     bitmap: true,
-    font: 'kenvector',
+    font: 'kenvector28',
     size: 32,
     color: '#333'
   },
@@ -46,7 +39,7 @@ module.exports = {
   statSmStyle: {
     size: 12,
     bitmap: true,
-    font: 'kenvector',
+    font: 'kenvectorthin12',
     fill: '#333',
     align: 'left',
     boundsAlignH: 'left',
@@ -56,9 +49,9 @@ module.exports = {
    * used in stats and bots screen for main content
    */
   statStyle: {
-    size: 16,
+    size: 14,
     bitmap: true,
-    font: 'kenvector',
+    font: 'kenvectorthin14',
     fill: '#333',
     align: 'left',
     boundsAlignH: 'left',
@@ -68,9 +61,9 @@ module.exports = {
    * used in stats and bots screen for titles to sections
    */
   titleStyle: {
-    size: 26,
+    size: 28,
     bitmap: true,
-    font: 'kenvector',
+    font: 'kenvector28',
     fill: '#333',
     align: 'center',
     boundsAlignH: 'center',
@@ -82,7 +75,7 @@ module.exports = {
   dangerStyle: {
     size: 14,
     bitmap: true,
-    font: 'kenvector',
+    font: 'kenvectorthin14red',
     fill: '#c33',
     align: 'center',
     boundsAlignH: 'center',
@@ -94,7 +87,7 @@ module.exports = {
   botInfoLabel: {
     size: 12,
     bitmap: true,
-    font: 'kenvector',
+    font: 'kenvectorthin12',
     fill: '#333',
     align: 'center',
     boundsAlignH: 'center',
@@ -115,7 +108,7 @@ module.exports = {
   endGameLabel: {
     size: 18,
     bitmap: true,
-    font: 'kenvector',
+    font: 'kenvector72',
     color: '#ccc',
     align: 'left',
     boundsAlignH: 'left',
@@ -127,7 +120,7 @@ module.exports = {
   endGameLabelXl: {
     size: 24,
     bitmap: true,
-    font: 'kenvector',
+    font: 'kenvector72',
     color: '#ccc',
     align: 'left',
     boundsAlignH: 'left',
@@ -158,7 +151,7 @@ module.exports = {
     frame: 'buttonSmall',
     size: 28,
     bitmap: true,
-    font: 'kenvector',
+    font: 'kenvector72',
   },
   /**
    * used for upgrade title
@@ -166,7 +159,7 @@ module.exports = {
   upgradeTitle: {
     size: 32,
     bitmap: true,
-    font: 'kenvector',
+    font: 'kenvector72',
     fill: '#333',
     align: 'center',
     boundsAlignH: 'center',
