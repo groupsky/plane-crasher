@@ -176,4 +176,9 @@ module.exports = {
     boundsAlignH: 'left',
     boundsAlignV: 'top',
   },
+  level: {
+    size: 16,
+    bitmap: true,
+    font: 'font'
+  }
 }
