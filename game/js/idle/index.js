@@ -205,6 +205,7 @@ class Idle {
     this.inventory.gold -= cost
     const bot = this.bots.add(Bot)
     this.initBot(bot)
+    return bot
   }
 
   upBot (bot) {

@@ -8,8 +8,8 @@ const ProgressBar = require('../ui/ProgressBar')
 const styles = require('./styles')
 
 class BotInfo extends Phaser.Group {
-  constructor (game, x, y, width, bot) {
-    super(game, null, 'botInfo')
+  constructor (game, x, y, width, bot, parent) {
+    super(game, parent, 'botInfo')
 
     this._width = width
     this.bot = bot
