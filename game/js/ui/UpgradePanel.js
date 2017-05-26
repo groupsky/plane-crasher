@@ -22,8 +22,14 @@ class UpgradePanel extends Phaser.Group {
     this.buyBtn.position.x = this.panelWidth - 10 - this.buyBtn.width / 2
     this.buyBtn.position.y = this.buyBtn.height / 2 + 10
 
+    this._price = 0
     this._title = new Label(this.game, 10, 10, '', styles.upgradeTitle, this)
     this._description = new Label(this.game, 10, 45, '', styles.upgradeDesc, this)
+    this.updateDisabled()
+  }
+
+  updateDisabled () {
+    this.buyBtn.disabled = this.game.idle.idleEngine.inventory.gold < this.price
   }
 
   set icon (frame) {
@@ -34,8 +40,12 @@ class UpgradePanel extends Phaser.Group {
     this._description.text = description
   }
 
+  get price () { return this._price }
+
   set price (price) {
+    this._price = price
     this.buyBtn.text = formatNumber(price, formatNumber.gold)
+    this.updateDisabled()
   }
 
   set title (title) {
