@@ -20,7 +20,7 @@ class TopBar extends Phaser.Group {
     this._background.visible = false
     this.add(this._background)
 
-    this._title = new Label(this.game, this.game.world.centerX, this._height * 0.5, '', styles.titleStyle)
+    this._title = new Label(this.game, this.game.world.centerX, this._height * 0.5+5, '', styles.titleStyle)
     this._title.anchor.set(0.5, 0.5)
 
     this._backBtn = new Button(this.game, 0, 0, 'B', styles.btnSmall, this)
@@ -29,34 +29,24 @@ class TopBar extends Phaser.Group {
     this._backBtn.visible = false
     this._backBtn.onInputUp.add(() => this.game.state.start('MainMenu'))
 
-    this.goldLabel = this.game.add.text(this.game.width - 8, 15, '0', {
-      font: '18px kenvector_future_thin',
-      fill: '#333',
-      align: 'right',
-      boundsAlignH: 'right',
-      boundsAlignV: 'top',
-    }, this)
-    const goldIcon = this.game.add.sprite(this.game.width - 8, this.goldLabel.position.y + this.goldLabel.height * 0.5, 'sheet', 'coin', this)
-    goldIcon.anchor.set(1, 0.5)
-    goldIcon.scale.set(this.goldLabel.height / goldIcon.height * 0.8)
+    this.goldLabel = new Label(this.game, this.game.width - 8, 15, '0', styles.topBarLabel, this)
+    this.goldLabel.anchor.set(1, 0)
+    this.goldIcon = this.game.add.sprite(this.game.width - 8, this.goldLabel.position.y + this.goldLabel.height * 0.5, 'sheet', 'coin', this)
+    this.goldIcon.anchor.set(1, 0.5)
+    this.goldIcon.scale.set(this.goldLabel.height / this.goldIcon.height)
 
-    this.rocketsLabel = this.game.add.text(this.game.width - 108, 15, '0', {
-      font: '18px kenvector_future_thin',
-      fill: '#333',
-      align: 'right',
-      boundsAlignH: 'right',
-      boundsAlignV: 'top',
-    }, this)
-    const rocketsIcon = this.game.add.sprite(this.game.width - 130, this.rocketsLabel.position.y + this.rocketsLabel.height * 0.5, 'sheet', 'rocket', this)
-    rocketsIcon.anchor.set(0.5)
-    rocketsIcon.scale.set(this.rocketsLabel.height / rocketsIcon.height * 0.8)
+    this.rocketsLabel = new Label(this.game, this.game.width - 108, 15, '0', styles.topBarLabel, this)
+    this.rocketsLabel.anchor.set(1, 0)
+    this.rocketsIcon = this.game.add.sprite(this.game.width - 130, this.rocketsLabel.position.y + this.rocketsLabel.height * 0.5, 'sheet', 'rocket', this)
+    this.rocketsIcon.anchor.set(0.5)
+    this.rocketsIcon.scale.set(this.rocketsLabel.height / this.rocketsIcon.height)
   }
 
   update () {
     this.goldLabel.text = formatNumber(this.game.idle.idleEngine.inventory.gold)
-    this.goldLabel.position.x = this.game.width - this.goldLabel.width - 8 - 24 - 4
+    this.goldLabel.position.x = this.goldIcon.x - this.goldIcon.width - 4
     this.rocketsLabel.text = this.game.idle.idleEngine.inventory.rocket.toString()
-    this.rocketsLabel.position.x = this.game.width - this.rocketsLabel.width - 108 - 24 - 4
+    this.rocketsLabel.position.x = this.rocketsIcon.x - this.rocketsIcon.width - 4
   }
 
   set title (title) {

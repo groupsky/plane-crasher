@@ -188,5 +188,13 @@ module.exports = {
     size: 16,
     bitmap: true,
     font: 'font'
+  },
+  topBarLabel: {
+    size: 18,
+    bitmap: true,
+    font: 'kenvectorthin18',
+    align: 'right',
+    boundsAlignH: 'right',
+    boundsAlignV: 'top',
   }
 }
