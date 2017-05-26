@@ -3,7 +3,7 @@ module.exports = {
    * standard style for buttons
    */
   btnSmall: {
-    frame: 'small_green',
+    frame: 'small_yellow',
     sheet: 'ui',
     bitmap: true,
     font: 'kenvector28',

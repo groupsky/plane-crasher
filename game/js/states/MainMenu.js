@@ -1,6 +1,7 @@
 /* global Phaser, SlickUI */
 
 const Button = require('../ui/Button')
+const ImageButton = require('../ui/ImageButton')
 const Plane = require('../actors/Plane')
 const TopBar = require('../actors/TopBar')
 const IdleGains = require('../actors/IdleGains')
@@ -52,7 +53,7 @@ class MainMenu extends Phaser.State {
     this.statsBtn.position.y = this.botsBtn.position.y + this.statsBtn.height + 30
 
     if (this.game.isBrowser) {
-      const fullBtn = new Button(this.game, this.world.width, this.world.height, 'F', styles.btnSmall)
+      const fullBtn = new ImageButton(this.game, this.world.width, this.world.height, 'ui', 'larger', styles.btnSmall)
       fullBtn.onInputUp.add(() => {
         if (this.game.scale.isFullScreen) {
           this.game.scale.stopFullScreen()
