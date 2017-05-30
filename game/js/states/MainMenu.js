@@ -57,8 +57,10 @@ class MainMenu extends Phaser.State {
       fullBtn.onInputUp.add(() => {
         if (this.game.scale.isFullScreen) {
           this.game.scale.stopFullScreen()
+          fullBtn.setImage('ui', 'larger')
         } else {
           this.game.scale.startFullScreen(false)
+          fullBtn.setImage('ui', 'smaller')
         }
       })
       // fullBtn.scale.set(0.15, 0.25)

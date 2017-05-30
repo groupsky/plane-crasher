@@ -11,6 +11,13 @@ class ImageButton extends AbstractButton {
 
   }
 
+  setImage(sheet, frame) {
+    this.removeChild(this.icon)
+    this.icon.destroy()
+    this.icon = this.game.add.image(-1,-2,sheet, frame, this)
+    this.icon.anchor.set(0.5)
+  }
+
 }
 
 module.exports = ImageButton
