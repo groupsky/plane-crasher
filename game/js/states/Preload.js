@@ -143,6 +143,7 @@ class Preload extends Phaser.State {
 
   update () {
     if (this.webfontsReady) {
+      this.game.submitLoaded()
       this.state.start('MainMenu')
     }
   }

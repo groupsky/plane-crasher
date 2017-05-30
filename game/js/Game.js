@@ -37,11 +37,15 @@ class Game extends Phaser.Game {
     })
 
     this.isBrowser = !window.Cocoon || !window.Cocoon.nativeAvailable()
+    this.isKongregate = /\bkongregate\b/.test(window.location.search)
 
     this.idle = this.plugins.add(IdlePlugin.configure(), 'crashyplane')
     if (this.isBrowser) {
       this.saveCpu = this.plugins.add(Phaser.Plugin.SaveCPU)
       this.saveCpu.renderOnFPS = 15
+    }
+    if (this.isKongregate) {
+      this.kongregate = this.plugins.add(require('./KongregatePlugin').configure())
     }
 
     this.stage.backgroundColor = 0x000000
@@ -84,6 +88,33 @@ class Game extends Phaser.Game {
     this.state.add('Upgrades', Upgrades, false)
     this.state.add('Stats', Stats, false)
     this.state.add('Bots', Bots, false)
+
+    this.device.whenReady(this.submitStats, this)
+  }
+
+  submitLoaded () {
+    if (this.isKongregate) {
+      this.kongregate.submitStat('initialized', 1)
+    }
+  }
+
+  submitStats () {
+    const idle = this.idle.idleEngine
+    if (this.isKongregate) {
+      this.kongregate.submitStats({
+        bots: idle.bots.items.length,
+        bestScore: Math.floor(idle.stats.best.score),
+        bestTime: Math.floor(idle.stats.best.time * 1000),
+        bestDistance: Math.floor(idle.stats.best.distance),
+        bestObstacles: Math.floor(idle.stats.best.obstacles),
+        totalPlays: idle.stats.totals.plays,
+        totalPlayTime: Math.floor(idle.stats.totals.stats.time / 60),
+        totalObstacles: idle.stats.totals.stats.obstacles,
+        totalDistance: Math.floor(idle.stats.totals.stats.distance / 1000),
+        totalTurbo: idle.stats.totals.stats.turbo,
+        totalJumps: idle.stats.totals.stats.jumps,
+      })
+    }
   }
 }
 

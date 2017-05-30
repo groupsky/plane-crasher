@@ -201,6 +201,7 @@ class Main extends Phaser.State {
 
         this.game.idle.idleEngine.recordPlay(this.score, this.stats, this.coefs)
         this.game.idle.save()
+        this.game.submitStats()
 
         // this.game.state.start('MainMenu')
         // return
@@ -240,7 +241,7 @@ class Main extends Phaser.State {
     this.game.input.keyboard.removeKey(Phaser.Keyboard.ENTER)
     this.plane.destroy()
     this.obstacles.destroy()
-    if (this.endgame)    this.endgame.destroy()
+    if (this.endgame) this.endgame.destroy()
 
     if (this.game.saveCpu) {
       this.game.saveCpu.renderOnFPS = this.oldFps
