@@ -3,6 +3,10 @@
 const webFontLoader = require('webfontloader')
 
 class Preload extends Phaser.State {
+  init () {
+    this.stage.disableVisibilityChange = true
+  }
+
   preload () {
     this.preloadBar = this.game.add.sprite(
       this.world.centerX,
@@ -149,6 +153,10 @@ class Preload extends Phaser.State {
   }
 
   render () { }
+
+  shutdown () {
+    this.stage.disableVisibilityChange = false
+  }
 }
 
 module.exports = Preload

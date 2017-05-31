@@ -8,6 +8,10 @@ const IdleGains = require('../actors/IdleGains')
 const styles = require('../ui/styles')
 
 class MainMenu extends Phaser.State {
+  init () {
+    this.stage.disableVisibilityChange = true
+  }
+
   preload () { }
 
   create () {
@@ -98,6 +102,10 @@ class MainMenu extends Phaser.State {
 
   startGame () {
     this.game.state.start('Main')
+  }
+
+  shutdown () {
+    this.stage.disableVisibilityChange = false
   }
 }
 

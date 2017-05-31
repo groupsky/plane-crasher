@@ -1,6 +1,10 @@
 /* global Phaser */
 
 class Boot extends Phaser.State {
+  init () {
+    this.stage.disableVisibilityChange = true
+  }
+
   preload () {
     this.load.image('preload', 'img/preload.png')
   }
@@ -13,6 +17,10 @@ class Boot extends Phaser.State {
   update () { }
 
   render () { }
+
+  shutdown () {
+    this.stage.disableVisibilityChange = false
+  }
 }
 
 module.exports = Boot
