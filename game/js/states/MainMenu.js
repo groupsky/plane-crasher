@@ -56,8 +56,25 @@ class MainMenu extends Phaser.State {
     this.statsBtn.position.x = this.world.width/2 + logo.width/2 -+ this.statsBtn.width/2
     this.statsBtn.position.y = this.botsBtn.position.y + this.statsBtn.height + 30
 
+    this.soundBtn = new ImageButton(this.game, this.world.width - 10, this.world.height - 10, 'ui', 'audioOn', styles.btnSmall)
+    this.soundBtn.x -= this.soundBtn.width * 0.5
+    this.soundBtn.y -= this.soundBtn.height * 0.5
+    this.soundBtn.onInputUp.add(()=> {
+      if(this.game.sound.mute) {
+        this.game.sound.mute = false
+        this.soundBtn.setImage('ui', 'audioOn')
+      } else {
+        this.game.sound.mute = true
+        this.soundBtn.setImage('ui', 'audioOff')
+      }
+    })
+
+    if(this.game.sound.mute) {
+      this.soundBtn.setImage('ui', 'audioOff')
+    }
+
     if (this.game.isBrowser) {
-      const fullBtn = new ImageButton(this.game, this.world.width, this.world.height, 'ui', 'larger', styles.btnSmall)
+      const fullBtn = new ImageButton(this.game, this.world.width - this.soundBtn.width - 20, this.world.height - 10, 'ui', 'larger', styles.btnSmall)
       fullBtn.onInputUp.add(() => {
         if (this.game.scale.isFullScreen) {
           this.game.scale.stopFullScreen()
