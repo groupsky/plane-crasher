@@ -205,6 +205,12 @@ module.exports = {
     font: 'font',
     bitmap: true,
   },
-  
-
+  idleGainLabel: {
+    size: 18,
+    bitmap: true,
+    font: 'kenvectorthin18',
+    align: 'center',
+    boundsAlignH: 'center',
+    boundsAlignV: 'center',
+  }
 }

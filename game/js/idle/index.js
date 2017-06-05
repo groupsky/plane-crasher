@@ -1,3 +1,5 @@
+/* global ga */
+
 const Manager = require('./Manager')
 const Bot = require('./Bot')
 const clone = require('../utils').clone
@@ -145,7 +147,7 @@ class Idle {
     this.time.realElapsed = now - this.time.lastUpdate
     this.time.lastUpdate = now
 
-    let old
+    let old = false
     if (this.recordIdleGain) {
       this.recordIdleGain = false
       this.time.idleElapsed = this.time.realElapsed
@@ -156,7 +158,7 @@ class Idle {
     this.bots.update()
 
     // finalize offline gain calc
-    if (this.recordIdleGain) {
+    if (old) {
       this.idleGain = subtract(this.inventory, old)
     }
   }
@@ -184,9 +186,38 @@ class Idle {
     if (this.stats.best.score < scores.total) {
       this.stats.best.score = scores.total
       this.stats.best.time = stats.time
+      ga('send', 'event', {
+        eventCategory: 'Highscore',
+        eventAction: 'score',
+        eventValue: scores.total
+      })
+      ga('send', 'event', {
+        eventCategory: 'Highscore',
+        eventAction: 'time',
+        eventValue: stats.time
+      })
+      ga('send', 'event', {
+        eventCategory: 'Highscore',
+        eventAction: 'gps',
+        eventValue: scores.total / stats.time
+      })
     }
-    if (this.stats.best.distance < stats.distance) this.stats.best.distance = stats.distance
-    if (this.stats.best.obstacles < stats.obstacles) this.stats.best.obstacles = stats.obstacles
+    if (this.stats.best.distance < stats.distance) {
+      this.stats.best.distance = stats.distance
+      ga('send', 'event', {
+        eventCategory: 'Highscore',
+        eventAction: 'distance',
+        eventValue: stats.distance
+      })
+    }
+    if (this.stats.best.obstacles < stats.obstacles) {
+      this.stats.best.obstacles = stats.obstacles
+      ga('send', 'event', {
+        eventCategory: 'Highscore',
+        eventAction: 'obstacles',
+        eventValue: stats.obstacles
+      })
+    }
   }
 
   static calcCost (def, have, want) {
@@ -209,33 +240,61 @@ class Idle {
 
   buyBot (count) {
     if (count === undefined) count = 1
+    const lvl = this.botLevel()
     const cost = this.botCost(count)
     if (this.inventory.gold < cost) return false
     this.inventory.gold -= cost
     const bot = this.bots.add(Bot)
     this.initBot(bot)
+    ga('send', {
+      hitType: 'event',
+      eventCategory: 'Bot',
+      eventAction: 'buy',
+      eventLabel: 'lvl' + lvl,
+      eventValue: count
+    })
     return bot
   }
 
   upBot (bot) {
+    const lvl = this.botLevel()
     const cost = -this.botCost(-1)
     if (this.inventory.gold < cost) return false
     this.inventory.gold -= cost
     this.initBot(bot)
+    ga('send', {
+      hitType: 'event',
+      eventCategory: 'Bot',
+      eventAction: 'upgrade',
+      eventLabel: 'lvl' + lvl,
+      eventValue: 1
+    })
+  }
+
+  rocketLvl () {
+    return this.stats.bought.rocket
   }
 
   rocketCost (count) {
     if (count === undefined) count = 1
-    return Math.ceil(Idle.calcCost(this.defs.rocket, this.stats.bought.rocket, count))
+    return Math.ceil(Idle.calcCost(this.defs.rocket, this.rocketLvl(), count))
   }
 
   buyRocket (count) {
     if (count === undefined) count = 1
+    const lvl = this.rocketLvl()
     const cost = this.rocketCost(count)
     if (this.inventory.gold < cost) return false
     this.inventory.gold -= cost
     this.inventory.rocket += count
     this.stats.bought.rocket += count
+    ga('send', {
+      hitType: 'event',
+      eventCategory: 'Rocket',
+      eventAction: 'buy',
+      eventLabel: 'lvl' + lvl,
+      eventValue: count
+    })
   }
 
   distancePointsLevel () {
@@ -249,10 +308,18 @@ class Idle {
 
   buyDistancePoints (count) {
     if (count === undefined) count = 1
+    const lvl = this.distancePointsLevel()
     const cost = this.distancePointsCost(count)
     if (this.inventory.gold < cost) return false
     this.inventory.gold -= cost
     this.inventory.distancePoints += count
+    ga('send', {
+      hitType: 'event',
+      eventCategory: 'Distance',
+      eventAction: 'buy',
+      eventLabel: 'lvl' + lvl,
+      eventValue: count
+    })
   }
 
   calcDistancePoints () {
@@ -270,10 +337,18 @@ class Idle {
 
   buyObstaclePoints (count) {
     if (count === undefined) count = 1
+    const lvl = this.obstaclePointsLevel()
     const cost = this.obstaclePointsCost(count)
     if (this.inventory.gold < cost) return false
     this.inventory.gold -= cost
     this.inventory.obstaclePoints += count
+    ga('send', {
+      hitType: 'event',
+      eventCategory: 'Obstacle',
+      eventAction: 'buy',
+      eventLabel: 'lvl' + lvl,
+      eventValue: count
+    })
   }
 
   calcObstaclePoints () {
@@ -291,10 +366,18 @@ class Idle {
 
   buyJumpPrecision (count) {
     if (count === undefined) count = 1
+    const lvl = this.jumpPrecisionLevel()
     const cost = this.jumpPrecisionCost(count)
     if (this.inventory.gold < cost) return false
     this.inventory.gold -= cost
     this.inventory.jumpPrecision += count
+    ga('send', {
+      hitType: 'event',
+      eventCategory: 'Jump',
+      eventAction: 'buy',
+      eventLabel: 'lvl' + lvl,
+      eventValue: count
+    })
   }
 
   calcJumpPrecision () {
@@ -312,10 +395,18 @@ class Idle {
 
   buySpeed (count) {
     if (count === undefined) count = 1
+    const lvl = this.speedLevel()
     const cost = this.speedCost(count)
     if (this.inventory.gold < cost) return false
     this.inventory.gold -= cost
     this.inventory.speed += count
+    ga('send', {
+      hitType: 'event',
+      eventCategory: 'Speed',
+      eventAction: 'buy',
+      eventLabel: 'lvl' + lvl,
+      eventValue: count
+    })
   }
 
   calcSpeed () {
