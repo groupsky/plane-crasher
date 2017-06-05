@@ -73,9 +73,11 @@ class Main extends Phaser.State {
     this.background.events.onInputDown.addOnce(this.startGame, this)
     this.background.events.onInputDown.add(this.jump, this)
 
-    this.game.input.keyboard.addKeyCapture([ Phaser.Keyboard.ENTER ])
+    this.game.input.keyboard.addKeyCapture([ Phaser.Keyboard.ENTER, Phaser.Keyboard.T ])
     this.action2Key = this.input.keyboard.addKey(Phaser.Keyboard.ENTER)
     this.action2Key.onDown.add(this.turbo, this)
+    this.turboKey = this.input.keyboard.addKey(Phaser.Keyboard.T)
+    this.turboKey.onDown.add(this.turbo, this)
     this.turboBtn = new Button(this.game, 0, this.world.height, 'T', styles.btnSmall)
     this.turboBtn.onInputDown.add(this.turbo, this)
     this.turboBtn.useHandCursor = true
@@ -113,7 +115,6 @@ class Main extends Phaser.State {
     this.add.existing(topBar)
     this.world.bringToTop(topBar)
 
-    
     this.pauseMenu = new PauseMenu(this.game)
 
     this.game.onBlur.add(() => {
@@ -123,7 +124,6 @@ class Main extends Phaser.State {
       this.pauseMenu.show()
       this.needPause = true
     })
-    
   }
 
   update () {

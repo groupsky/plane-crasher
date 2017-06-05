@@ -27,7 +27,10 @@ class TopBar extends Phaser.Group {
     this._backBtn.position.x = this._backBtn.width / 2
     this._backBtn.position.y = this._backBtn.height / 2
     this._backBtn.visible = false
-    this._backBtn.onInputUp.add(() => this.game.state.start('MainMenu'))
+    this._backBtn.onInputUp.add(this.goBack, this)
+    this.game.input.keyboard.addKeyCapture([ Phaser.Keyboard.B ])
+    this.backKey = this.game.input.keyboard.addKey(Phaser.Keyboard.B)
+    this.backKey.onDown.add(this.goBack, this)
 
     this.goldLabel = new Label(this.game, this.game.width - 8, 15, '0', styles.topBarLabel, this)
     this.goldLabel.anchor.set(1, 0)
@@ -42,11 +45,19 @@ class TopBar extends Phaser.Group {
     this.rocketsIcon.scale.set(this.rocketsLabel.height / this.rocketsIcon.height)
   }
 
+  goBack () {
+    this.game.state.start('MainMenu')
+  }
+
   update () {
     this.goldLabel.text = formatNumber(this.game.idle.idleEngine.inventory.gold)
     this.goldLabel.position.x = this.goldIcon.x - this.goldIcon.width - 4
     this.rocketsLabel.text = this.game.idle.idleEngine.inventory.rocket.toString()
     this.rocketsLabel.position.x = this.rocketsIcon.x - this.rocketsIcon.width - 4
+  }
+
+  shutdown () {
+    this.game.input.keyboard.removeKey(Phaser.Keyboard.B)
   }
 
   set title (title) {
