@@ -78,19 +78,19 @@ class MainMenu extends Phaser.State {
     }
 
     if (this.game.isBrowser) {
-      const fullBtn = new ImageButton(this.game, this.world.width - this.soundBtn.width - 20, this.world.height - 10, 'ui', 'larger', styles.btnSmall)
-      fullBtn.onInputUp.add(() => {
+      this.fullBtn = new ImageButton(this.game, this.world.width - this.soundBtn.width - 20, this.world.height - 10, 'ui', 'larger', styles.btnSmall)
+      this.fullBtn.onInputUp.add(() => {
         if (this.game.scale.isFullScreen) {
           this.game.scale.stopFullScreen()
-          fullBtn.setImage('ui', 'larger')
+          this.fullBtn.setImage('ui', 'larger')
         } else {
           this.game.scale.startFullScreen(false)
-          fullBtn.setImage('ui', 'smaller')
+          this.fullBtn.setImage('ui', 'smaller')
         }
       })
       // fullBtn.scale.set(0.15, 0.25)
-      fullBtn.x -= fullBtn.width * 0.5
-      fullBtn.y -= fullBtn.height * 0.5
+      this.fullBtn.x -= this.fullBtn.width * 0.5
+      this.fullBtn.y -= this.fullBtn.height * 0.5
     }
 
     if (this.game.idle.idleEngine.idleGain) {
@@ -127,6 +127,14 @@ class MainMenu extends Phaser.State {
 
   shutdown () {
     this.stage.disableVisibilityChange = false
+  }
+
+  update() {
+    if (this.game.scale.isFullScreen) {
+      this.fullBtn.setImage('ui', 'smaller')
+    } else {
+      this.fullBtn.setImage('ui', 'larger')
+    }
   }
 }
 
