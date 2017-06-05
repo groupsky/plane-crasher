@@ -1,4 +1,4 @@
-/* global Phaser */
+/* global Phaser,ga */
 
 const IdlePlugin = require('./IdlePlugin')
 const Boot = require('./states/Boot')
@@ -96,6 +96,7 @@ class Game extends Phaser.Game {
     if (this.isKongregate) {
       this.kongregate.submitStat('initialized', 1)
     }
+    ga('send', 'pageview')
   }
 
   submitStats () {
