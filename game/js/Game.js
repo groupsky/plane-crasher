@@ -42,7 +42,7 @@ class Game extends Phaser.Game {
     this.idle = this.plugins.add(IdlePlugin.configure(), 'crashyplane')
     if (this.isBrowser) {
       this.saveCpu = this.plugins.add(Phaser.Plugin.SaveCPU)
-      this.saveCpu.renderOnFPS = 15
+      this.saveCpu.renderOnFPS = 30
     }
     if (this.isKongregate) {
       this.kongregate = this.plugins.add(require('./KongregatePlugin').configure())
