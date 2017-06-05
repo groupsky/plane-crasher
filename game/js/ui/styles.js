@@ -196,5 +196,15 @@ module.exports = {
     align: 'right',
     boundsAlignH: 'right',
     boundsAlignV: 'top',
-  }
+  },
+  /**
+   * used in pause menu
+   */
+  labelPaused: {
+    size: 42,
+    font: 'font',
+    bitmap: true,
+  },
+  
+
 }

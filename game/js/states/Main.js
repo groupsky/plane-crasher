@@ -7,11 +7,14 @@ const ObstacleGroup = require('../actors/ObstacleGroup')
 const TopBar = require('../actors/TopBar')
 const EndGame = require('../actors/EndGame')
 const styles = require('../ui/styles')
+const PauseMenu = require('../ui/PauseMenu')
 
 class Main extends Phaser.State {
   preload () { }
 
   create () {
+    this.game.stage.disableVisibilityChange = true
+
     if (this.game.saveCpu) {
       this.oldFps = this.game.saveCpu.renderOnFPS
       this.game.saveCpu.renderOnFPS = 120
@@ -109,9 +112,27 @@ class Main extends Phaser.State {
     this.enterState('start')
     this.add.existing(topBar)
     this.world.bringToTop(topBar)
+
+    
+    this.pauseMenu = new PauseMenu(this.game)
+
+    this.game.onBlur.add(() => {
+      if ([ 'start', 'end' ].indexOf(this.sceneState) !== -1) {
+        return
+      }
+      this.pauseMenu.show()
+      this.needPause = true
+    })
+    
   }
 
   update () {
+    if (this.needPause) {
+      this.game.paused = true
+      this.needPause = false
+      return
+    }
+
     if ([ 'start', 'end' ].indexOf(this.sceneState) !== -1) return
 
     this.game.physics.arcade.collide(this.plane, this.ground, this.deathHandler, null, this)
