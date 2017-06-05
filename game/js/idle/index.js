@@ -145,7 +145,7 @@ class Idle {
     this.time.realElapsed = now - this.time.lastUpdate
     this.time.lastUpdate = now
 
-    let old
+    let old = false
     if (this.recordIdleGain) {
       this.recordIdleGain = false
       this.time.idleElapsed = this.time.realElapsed
@@ -156,7 +156,7 @@ class Idle {
     this.bots.update()
 
     // finalize offline gain calc
-    if (this.recordIdleGain) {
+    if (old) {
       this.idleGain = subtract(this.inventory, old)
     }
   }
