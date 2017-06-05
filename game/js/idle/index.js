@@ -107,6 +107,9 @@ class Idle {
       realElapsed: 0,
       idleElapsed: 0,
     }
+    this.settings = {
+      mute: false
+    }
     this.idleGain = false
     this.recordIdleGain = false
   }
@@ -116,6 +119,7 @@ class Idle {
     this.inventory = merge(this.inventory, state.inventory)
     this.stats = merge(this.stats, state.stats)
     this.time = merge(this.time, state.time)
+    this.settings = merge(this.settings, state.settings || {})
 
     this.recordIdleGain = true
   }
@@ -126,6 +130,7 @@ class Idle {
       inventory: clone(this.inventory),
       stats: clone(this.stats),
       time: clone(this.time),
+      settings: clone(this.settings)
     }
   }
 

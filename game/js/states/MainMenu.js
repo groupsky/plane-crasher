@@ -33,12 +33,12 @@ class MainMenu extends Phaser.State {
 
     this.startBtn = new Button(this.game, this.world.width / 4, this.world.centerY, 'Play', styles.btnLargeMain)
     this.startBtn.onInputUp.add(this.startGame, this)
-    this.startBtn.position.x = this.world.width/2 - logo.width/2 + this.startBtn.width/2
-    this.startBtn.position.y = this.world.centerY + this.startBtn.height/2
+    this.startBtn.position.x = this.world.width / 2 - logo.width / 2 + this.startBtn.width / 2
+    this.startBtn.position.y = this.world.centerY + this.startBtn.height / 2
 
     this.upgradesBtn = new Button(this.game, this.world.width / 4, 400, 'Upgrade', styles.btnLarge)
     this.upgradesBtn.onInputUp.add(() => this.game.state.start('Upgrades'))
-    this.upgradesBtn.position.x = this.world.width/2 - logo.width/2 + this.upgradesBtn.width/2
+    this.upgradesBtn.position.x = this.world.width / 2 - logo.width / 2 + this.upgradesBtn.width / 2
     this.upgradesBtn.position.y = this.startBtn.position.y + this.upgradesBtn.height + 30
 
     this.botsBtn = new Button(this.game, this.world.width * 3 / 4, 300, 'Bots', styles.btnLarge)
@@ -48,28 +48,32 @@ class MainMenu extends Phaser.State {
       }
     })
     this.botsBtn.disabled = this.game.idle.idleEngine.botLevel() === 0
-    this.botsBtn.position.x = this.world.width/2 + logo.width/2 - this.botsBtn.width/2
-    this.botsBtn.position.y = this.world.centerY + this.botsBtn.height/2
+    this.botsBtn.position.x = this.world.width / 2 + logo.width / 2 - this.botsBtn.width / 2
+    this.botsBtn.position.y = this.world.centerY + this.botsBtn.height / 2
 
     this.statsBtn = new Button(this.game, this.world.width * 3 / 4, 400, 'Stats', styles.btnLarge)
     this.statsBtn.onInputUp.add(() => this.game.state.start('Stats'))
-    this.statsBtn.position.x = this.world.width/2 + logo.width/2 -+ this.statsBtn.width/2
+    this.statsBtn.position.x = this.world.width / 2 + logo.width / 2 - +this.statsBtn.width / 2
     this.statsBtn.position.y = this.botsBtn.position.y + this.statsBtn.height + 30
 
     this.soundBtn = new ImageButton(this.game, this.world.width - 10, this.world.height - 10, 'ui', 'audioOn', styles.btnSmall)
     this.soundBtn.x -= this.soundBtn.width * 0.5
     this.soundBtn.y -= this.soundBtn.height * 0.5
-    this.soundBtn.onInputUp.add(()=> {
-      if(this.game.sound.mute) {
+    this.soundBtn.onInputUp.add(() => {
+      if (this.game.sound.mute) {
         this.game.sound.mute = false
+        this.game.idle.idleEngine.settings.mute = false
         this.soundBtn.setImage('ui', 'audioOn')
       } else {
         this.game.sound.mute = true
+        this.game.idle.idleEngine.settings.mute = true
         this.soundBtn.setImage('ui', 'audioOff')
       }
+      this.game.idle.save()
     })
 
-    if(this.game.sound.mute) {
+    this.game.sound.mute = this.game.idle.idleEngine.settings.mute
+    if (this.game.sound.mute) {
       this.soundBtn.setImage('ui', 'audioOff')
     }
 
