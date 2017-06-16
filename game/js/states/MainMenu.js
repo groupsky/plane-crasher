@@ -130,10 +130,12 @@ class MainMenu extends Phaser.State {
   }
 
   update() {
-    if (this.game.scale.isFullScreen) {
-      this.fullBtn.setImage('ui', 'smaller')
-    } else {
-      this.fullBtn.setImage('ui', 'larger')
+    if(this.game.isBrowser) {
+      if (this.game.scale.isFullScreen) {
+        this.fullBtn.setImage('ui', 'smaller')
+      } else {
+        this.fullBtn.setImage('ui', 'larger')
+      }
     }
   }
 }

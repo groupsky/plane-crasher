@@ -36,6 +36,7 @@ class Game extends Phaser.Game {
       enableDebug: process.env.NODE_ENV !== 'production'
     })
 
+    this.isCocoon = window.Cocoon
     this.isBrowser = !window.Cocoon || !window.Cocoon.nativeAvailable()
     this.isKongregate = /\bkongregate\b/.test(window.location.search)
 

@@ -1,4 +1,5 @@
 /* global Phaser */
+/* global Cocoon */
 
 const debounce = require('lodash/debounce')
 const LZstring = require('lz-string')
@@ -87,8 +88,15 @@ class IdlePlugin extends Phaser.Plugin {
 
   reset () {
     this._isReset = true
-    delete window.localStorage[ this.savekey ]
-    window.location.reload()
+    window.localStorage.clear(this.savekey)
+    
+    if(this.game.isBrowser) {
+      window.location.reload()  
+    }
+    if(this.game.isCocoon) {
+      Cocoon.App.reload()
+    }
+    
   }
 
   destroy () {
