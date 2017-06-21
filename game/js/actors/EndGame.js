@@ -36,18 +36,14 @@ class EndGame extends Phaser.Group {
     const retryBtn = new Button(this.game, -75, 100, 'retry', styles.btnEndGame)
     this.add(retryBtn)
     retryBtn.onInputUp.add(() => {
-      if(this.game.isCocoon) {
-        this.game.ads.hideBanner()  
-      }
+      this.game.ads.hideBanner()
       this.game.state.start('Main')
     })
 
     const menuBtn = new Button(this.game, 75, 100, 'menu', styles.btnEndGame)
     this.add(menuBtn)
     menuBtn.onInputUp.add(() => {
-      if(this.game.isCocoon) {
-        this.game.ads.hideBanner()  
-      }
+      this.game.ads.hideBanner()  
       this.game.state.start('MainMenu')
     })
 
@@ -66,9 +62,7 @@ class EndGame extends Phaser.Group {
   }
 
   show (score, stats, coefs) {
-    if(this.game.isCocoon) {
-      this.game.ads.showBanner()  
-    }
+    this.game.ads.showBanner()  
         
     this.vals = {
       time: 0,

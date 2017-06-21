@@ -49,10 +49,8 @@ class Game extends Phaser.Game {
       this.kongregate = this.plugins.add(require('./KongregatePlugin').configure())
     }
     
-    if(this.isCocoon) {
-      this.ads = this.plugins.add(require('./AdMobPlugin').configure())
-    }
-
+    this.ads = this.plugins.add(require('./AdMobPlugin').configure())
+    
     this.stage.backgroundColor = 0x000000
 
     this.scale.forceOrientation(true)
