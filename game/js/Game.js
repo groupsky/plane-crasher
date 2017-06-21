@@ -36,7 +36,7 @@ class Game extends Phaser.Game {
       enableDebug: process.env.NODE_ENV !== 'production'
     })
 
-    this.isCocoon = window.Cocoon
+    this.isCocoon = window.Cocoon && window.Cocoon.nativeAvailable()
     this.isBrowser = !window.Cocoon || !window.Cocoon.nativeAvailable()
     this.isKongregate = /\bkongregate\b/.test(window.location.search)
 
@@ -47,6 +47,10 @@ class Game extends Phaser.Game {
     }
     if (this.isKongregate) {
       this.kongregate = this.plugins.add(require('./KongregatePlugin').configure())
+    }
+    
+    if(this.isCocoon) {
+      this.ads = this.plugins.add(require('./AdMobPlugin').configure())
     }
 
     this.stage.backgroundColor = 0x000000
