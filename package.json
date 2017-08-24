@@ -2,9 +2,23 @@
   "name": "crashy-plane",
   "version": "1.0.0",
   "description": "",
-  "keywords": [],
+  "homepage": "https://groupsky.github.io/plane-crasher/",
+  "keywords": [
+    "game",
+    "flappy-bird-game",
+    "idle-game",
+    "phaser-game",
+    "html5-game"
+  ],
   "author": "Geno Roupsky <geno@roupsky.name> (https://github.com/groupsky)",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/groupsky/plane-crasher.git"
+  },
+  "bugs": {
+    "url": "https://github.com/groupsky/plane-crasher/issues"
+  },
   "standard": {
     "ignore": [
       "/build/",
